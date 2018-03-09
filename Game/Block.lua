@@ -6,6 +6,7 @@ function Block:initialize(t)
       defaults = {
         x = 0,
         y = 0,
+        isCollidingWithOtherBlock = false,
         width = Global.BLOCK_SIZE,
         height = Global.BLOCK_SIZE,
         color = Util.randomColor(),
@@ -18,8 +19,7 @@ function Block:initialize(t)
     self.y,
     self.width-self.colliderPadding,
     self.height-self.colliderPadding)
-  self.collider.parentBlock = self
-
+  self:initCollider()
   self:updateCollider()
 end
 
@@ -33,9 +33,16 @@ function Block:update(dt)
 end
 
 function Block:checkForCollisions()
+  self.isCollidingWithOtherBlock = false
   for shape, delta in pairs(HCollider:collisions(self.collider)) do
-    --self.color = Util.randomColor()
+    if shape.parentBlock.class.name == "Block" then
+      self.isCollidingWithOtherBlock = true
+    end
   end
+end
+
+function Block:isPlaceable()
+  return not self.isCollidingWithOtherBlock
 end
 
 function Block:updateCollider()
@@ -43,7 +50,6 @@ function Block:updateCollider()
 end
 
 function Block:draw()
-  love.graphics.setColor(self.color)
   self.collider:draw("fill")
 
   -- debug

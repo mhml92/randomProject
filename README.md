@@ -1,12 +1,9 @@
 # Readme
 
 ## todo
-1. Inputmanager
-  * decouple input and actions 
-
-## backlog
-* blockGroup grid snap
-* clickstick blockGroup
-* BlockGroup overlap
+* use canvas for layers
+* add/remove blockGroups
+* fix blockGroup movement
 * generic neighbor finder
 * rotate blockGroup
+* remove the alt color nonsense

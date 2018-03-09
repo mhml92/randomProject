@@ -6,6 +6,8 @@ function BlockGroup:initialize(t)
       defaults = {
         x = 0,
         y = 0,
+        color = Util.randomColor(),
+        altColor = false,
         blocks = {
           Block:new(),
           Block:new(),
@@ -34,14 +36,9 @@ function BlockGroup:setPosition(x,y)
   self.x,self.y = x,y
 end
 
-function BlockGroup:getPosition()
-  return self.x,self.y
-end
 function BlockGroup:getPositionVec()
   return Vec(self.x,self.y)
 end
-
-
 
 function BlockGroup:update(dt)
   self:setBlockPositions()
@@ -65,10 +62,30 @@ function BlockGroup:updateBlocks(dt)
   end
 end
 
+function BlockGroup:setAltColor(c)
+  self.altColor = c
+end
+
+function BlockGroup:isPlaceable()
+  for _,v in ipairs(self.blocks) do
+    if not v:isPlaceable() then
+      return false
+    end
+  end
+  return true
+end
+
 function BlockGroup:draw()
+
   for k,v in ipairs(self.blocks) do
+    if self.altColor then
+      love.graphics.setColor(self.altColor)
+    else
+      love.graphics.setColor(self.color)
+    end
     v:draw()
   end
+  self.altColor = false
 end
 
 return BlockGroup

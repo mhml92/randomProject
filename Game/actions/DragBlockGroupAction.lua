@@ -8,6 +8,8 @@ function DragBlockGroupAction:initialize(t)
     }
   )
   self.collider = HCollider:circle(0,0,0.5)
+  self:initCollider()
+
   self.mouseDelta = Vec(0,0)
   self.mousePos = Vec(0,0)
 
@@ -30,9 +32,20 @@ function DragBlockGroupAction:update(dt)
 
 
   if self.currentBlockGroup then
-    if inputManager:isMouseReleased(1) then
+    local isPlaceable = self.currentBlockGroup:isPlaceable()
+    if inputManager:isMouseReleased(1) and isPlaceable then
       self.currentBlockGroup = nil
     else
+      if not isPlaceable then
+        local c = self.currentBlockGroup.color
+        local nc = {}
+        nc[1] = c[1]
+        nc[2] = c[2]
+        nc[3] = c[3]
+        nc[4] = 127
+        love.graphics.setBlendMode("alpha")
+        self.currentBlockGroup:setAltColor(nc)
+      end
       local blockGroupPos = self.mousePos + self.offset
       blockGroupPos = Vec(Util.round(blockGroupPos.x/Global.BLOCK_SIZE),Util.round(blockGroupPos.y/Global.BLOCK_SIZE))*Global.BLOCK_SIZE
       self.currentBlockGroup:setPosition(blockGroupPos.x, blockGroupPos.y)

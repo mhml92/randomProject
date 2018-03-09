@@ -15,6 +15,11 @@ function Entity:setActive(isActive)
   self.__isActive = isActive
 end
 
+function Entity:initCollider()
+  self.collider.parentBlock = self
+end
+
+
 function Entity:setDefaults(t)
   for k,v in pairs(t) do
     if self[k] == nil then
