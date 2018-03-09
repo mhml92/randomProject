@@ -1,4 +1,4 @@
-DragBlockGroupAction = require "actions/DragBlockGroupAction"
+DragBlockGroupAction = require "Game/actions/DragBlockGroupAction"
 
 ActionManager = Class("ActionManager", Entity)
 

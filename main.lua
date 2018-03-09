@@ -1,62 +1,35 @@
-Class         = require "middleclass/middleclass"
-I             = require "inspect/inspect"
-Windfield     = require "windfield/windfield"
-HC            = require "HC"
-Vec           = require "hump/vector"
-Entity        = require "Entity"
-BlockGroup    = require "BlockGroup"
-Block         = require "Block"
-Util          = require "Util"
-Global        = require "Global"
-ActionManager = require "ActionManager"
+Util   = require "Util"
+Class  = require "middleclass/middleclass"
+Entity = require "Entity"
+I      = require "inspect/inspect"
+Game   = require "Game/game"
+
 
 
 function love.load()
-  HCollider = HC.new(100)
-  actionManager = ActionManager:new()
-
-  blocks = {
-    -- T
-    BlockGroup:new({x = 100, y = 100}),
-    -- Z
-    BlockGroup:new({
-      x = 200,
-      y = 200,
-      relativePositions = {
-        Vec(-1,0),
-        Vec(0,0),
-        Vec(0,1),
-        Vec(1,1)
-      }
-    }),
-    -- I
-    BlockGroup:new({
-      x = 300,
-      y = 300,
-      positionOffset = Vec(0.5,0.5),
-      relativePositions = {
-        Vec(0,-2),
-        Vec(0,-1),
-        Vec(0,0),
-        Vec(0,1)
-      }
-    })
-  }
+  game = Game:new()
 end
 
 function love.update(dt)
-  actionManager:update(dt)
-  for k,v in ipairs(blocks) do
-    if v:isActive() then
-      v:update(dt)
-    end
-  end
+  game:update(dt)
 end
 
 function love.draw()
   love.window.setTitle("FPS: ".. love.timer.getFPS())
-  for k,v in ipairs(blocks) do
-    v:draw(dt)
-  end
-  actionManager:draw()
+  game:draw()
+end
+
+function love.keypressed( key, scancode, isrepeat )
+  game:keypressed(key,scancode,isrepeat)
+end
+
+function love.keyreleased(key,scancode)
+  game:keypressed(key,scancode)
+end
+
+function love.mousepressed(x, y, button, isTouch)
+  game:mousepressed(x,y,button,isTouch)
+end
+function love.mousereleased(x, y, button, isTouch)
+  game:mousereleased(x,y,button,isTouch)
 end
