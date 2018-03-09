@@ -2,8 +2,6 @@
 
 ## todo
 1. Inputmanager
-  * Common input interface
-  * capture callbacks
   * decouple input and actions 
 
 ## backlog

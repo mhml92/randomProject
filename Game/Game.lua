@@ -1,5 +1,3 @@
-Windfield     = require "windfield/windfield"
-HC            = require "HC"
 Vec           = require "hump/vector"
 BlockGroup    = require "Game/BlockGroup"
 Block         = require "Game/Block"
@@ -12,13 +10,15 @@ Game = Class("Game", Entity)
 function Game:initialize(t)
   Entity.initialize(self,{
       args = t,
-      defaults = {}
+      defaults = {
+        actionManager = ActionManager:new()
+      }
     }
   )
-  HCollider = HC.new(100)
-  self.inputManager = InputManager:new()
-  self.actionManager = ActionManager:new()
 
+end
+
+function Game:load()
   self.blocks = {
     -- T
     BlockGroup:new({x = 100, y = 100}),
@@ -37,7 +37,7 @@ function Game:initialize(t)
     BlockGroup:new({
       x = 300,
       y = 300,
-      positionOffset = Vec(0.5,0.5),
+      positionOffset = Vec(0,0),
       relativePositions = {
         Vec(0,-2),
         Vec(0,-1),
@@ -56,7 +56,6 @@ function Game:update(dt)
     end
   end
 
-  self.inputManager:reset()
 end
 
 function Game:draw()
@@ -67,18 +66,18 @@ function Game:draw()
 end
 
 function Game:keypressed( key, scancode, isrepeat )
-  self.inputManager:keypressed(key,scancode,isrepeat)
+  inputManager:keypressed(key,scancode,isrepeat)
 end
 
 function Game:keyreleased(key,scancode)
-  self.inputManager:keypressed(key,scancode)
+  inputManager:keyreleased(key,scancode)
 end
 
 function Game:mousepressed(x, y, button, isTouch)
-  self.inputManager:mousepressed(x,y,button,isTouch)
+  inputManager:mousepressed(x,y,button,isTouch)
 end
 function Game:mousereleased(x, y, button, isTouch)
-  self.inputManager:mousereleased(x,y,button,isTouch)
+  inputManager:mousereleased(x,y,button,isTouch)
 end
 
 return Game

@@ -18,26 +18,27 @@ function DragBlockGroupAction:initialize(t)
 end
 
 function DragBlockGroupAction:updateMouse()
-  local pos = Vec(0,0)
-  pos.x,pos.y = love.mouse.getPosition()
-
+  local pos = inputManager:getMousePosition()
   self.mouseDelta = pos - self.mousePos
   self.mousePos = pos
 end
 
 function DragBlockGroupAction:update(dt)
   self:updateMouse()
+  -- update collider
   self.collider:moveTo(self.mousePos.x,self.mousePos.y)
 
+
   if self.currentBlockGroup then
-    if love.mouse.isDown(1) then
-      local blockGroupPos = self.mousePos + self.offset
-      self.currentBlockGroup:setPosition(blockGroupPos.x, blockGroupPos.y)
-    else
+    if inputManager:isMouseReleased(1) then
       self.currentBlockGroup = nil
+    else
+      local blockGroupPos = self.mousePos + self.offset
+      blockGroupPos = Vec(Util.round(blockGroupPos.x/Global.BLOCK_SIZE),Util.round(blockGroupPos.y/Global.BLOCK_SIZE))*Global.BLOCK_SIZE
+      self.currentBlockGroup:setPosition(blockGroupPos.x, blockGroupPos.y)
     end
   else
-    if love.mouse.isDown(1) then
+    if inputManager:isMouseReleased(1) then
       self.currentBlockGroup = self:getBlockGroup()
       if self.currentBlockGroup then
         self.offset = self.currentBlockGroup:getPositionVec() - self.mousePos

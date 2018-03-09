@@ -1,4 +1,6 @@
 Util   = require "Util"
+Windfield     = require "windfield/windfield"
+HC            = require "HC"
 Class  = require "middleclass/middleclass"
 Entity = require "Entity"
 I      = require "inspect/inspect"
@@ -7,11 +9,15 @@ Game   = require "Game/game"
 
 
 function love.load()
+  HCollider = HC.new(100)
+  inputManager = InputManager:new()
   game = Game:new()
+  game:load()
 end
 
 function love.update(dt)
   game:update(dt)
+  inputManager:reset()
 end
 
 function love.draw()
@@ -24,7 +30,7 @@ function love.keypressed( key, scancode, isrepeat )
 end
 
 function love.keyreleased(key,scancode)
-  game:keypressed(key,scancode)
+  game:keyreleased(key,scancode)
 end
 
 function love.mousepressed(x, y, button, isTouch)
