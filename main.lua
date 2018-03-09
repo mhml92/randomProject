@@ -1,13 +1,13 @@
--- globag Class
-Class        = require "middleclass/middleclass"
-I            = require "inspect/inspect"
-Windfield    = require "windfield/windfield"
-HC           = require "HC"
-Vec          = require "hump/vector"
-Entity       = require "Entity"
-BlockGroup   = require "BlockGroup"
-Block        = require "Block"
-Util         = require "Util"
+Class         = require "middleclass/middleclass"
+I             = require "inspect/inspect"
+Windfield     = require "windfield/windfield"
+HC            = require "HC"
+Vec           = require "hump/vector"
+Entity        = require "Entity"
+BlockGroup    = require "BlockGroup"
+Block         = require "Block"
+Util          = require "Util"
+Global        = require "Global"
 ActionManager = require "ActionManager"
 
 
@@ -47,7 +47,9 @@ end
 function love.update(dt)
   actionManager:update(dt)
   for k,v in ipairs(blocks) do
-    v:update(dt)
+    if v:isActive() then
+      v:update(dt)
+    end
   end
 end
 

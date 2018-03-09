@@ -6,10 +6,10 @@ function Block:initialize(t)
       defaults = {
         x = 0,
         y = 0,
-        width = 50,
-        height = 50,
+        width = Global.BLOCK_SIZE,
+        height = Global.BLOCK_SIZE,
         color = Util.randomColor(),
-        colliderPadding = 1
+        colliderPadding = Global.COLLIDER_PADDING
       }
     })
 

@@ -1,7 +1,8 @@
 # Readme
 
 ## todo
-* globals table
+* top level game container
+* Inputmanager/common input interface + callbacks
 * blockGroup grid snap
 * clickstick blockGroup
 * BlockGroup overlap
