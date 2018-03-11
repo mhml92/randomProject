@@ -27,6 +27,11 @@ function BlockGroup:initialize(t)
       }
     }
   )
+  -- correct relativePositions with respect to rotation center
+  for k,v in ipairs(self.relativePositions) do
+    self.relativePositions[k] = v - self.rotationCenter
+  end
+
   for k,v in ipairs(self.blocks) do
     v.parent = self
   end

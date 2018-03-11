@@ -26,11 +26,11 @@ function Game:load()
     BlockGroup:new({
       x = 200,
       y = 200,
-      relativePositions = {
-        Vec(-1,0),
+      relativePositions ={
+        Vec(-1,-1),
+        Vec(0,-1),
         Vec(0,0),
-        Vec(0,1),
-        Vec(1,1)
+        Vec(1,0)
       }
     }),
     -- I
