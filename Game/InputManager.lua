@@ -1,5 +1,8 @@
 InputManager = Class("InputManager",Entity)
 
+--[[
+  Handels 
+]]
 function InputManager:initialize(t)
   Entity.initialize(self,{
       args = t,
