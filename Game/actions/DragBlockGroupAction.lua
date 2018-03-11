@@ -13,7 +13,7 @@ function DragBlockGroupAction:initialize(t)
   self.mouseDelta = Vec(0,0)
   self.mousePos = Vec(0,0)
 
-  self.currentBlockGroup = nil
+  self.activeBlockGroup = nil
   self.offset = Vec(0,0)
 
   self:updateMouse()
@@ -31,10 +31,11 @@ function DragBlockGroupAction:update(dt)
   self.collider:moveTo(self.mousePos.x,self.mousePos.y)
 
 
-  if self.currentBlockGroup then
-    local isPlaceable = self.currentBlockGroup:isPlaceable()
-    if inputManager:isMouseReleased(1) and isPlaceable then
-      self.currentBlockGroup = nil
+  if self.activeBlockGroup then
+    self:rotateBlockGroup(dt)
+    local isPlaceable = self.activeBlockGroup:isPlaceable()
+    if inputManager:isMouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
+      self.activeBlockGroup = nil
     else
       if not isPlaceable then
         --
@@ -42,15 +43,25 @@ function DragBlockGroupAction:update(dt)
       end
       local blockGroupPos = self.mousePos + self.offset
       blockGroupPos = Vec(Util.round(blockGroupPos.x/Global.BLOCK_SIZE),Util.round(blockGroupPos.y/Global.BLOCK_SIZE))*Global.BLOCK_SIZE
-      self.currentBlockGroup:setPosition(blockGroupPos.x, blockGroupPos.y)
+      self.activeBlockGroup:setPosition(blockGroupPos.x, blockGroupPos.y)
     end
   else
-    if inputManager:isMouseReleased(1) then
-      self.currentBlockGroup = self:getBlockGroup()
-      if self.currentBlockGroup then
-        self.offset = self.currentBlockGroup:getPositionVec() - self.mousePos
+    if inputManager:isMouseReleased(Global.DRAG_BLOCKGROUP) then
+      self.activeBlockGroup = self:getBlockGroup()
+      if self.activeBlockGroup then
+        self.offset = self.activeBlockGroup:getPositionVec() - self.mousePos
       end
     end
+  end
+end
+
+function DragBlockGroupAction:rotateBlockGroup(dt)
+  if inputManager:isKeyReleased(Global.ROTATE_BLOCKGROUP_RIGHT) then
+      self.activeBlockGroup:rotateRight()
+  end
+
+  if inputManager:isKeyReleased(Global.ROTATE_BLOCKGROUP_LEFT) then
+      self.activeBlockGroup:rotateLeft()
   end
 end
 

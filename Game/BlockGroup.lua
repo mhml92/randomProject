@@ -14,10 +14,10 @@ function BlockGroup:initialize(t)
           Block:new(),
           Block:new()
         },
-        -- Relative positions in block units from origo 0,0 + 'positionOffset'
+        -- Relative positions in block units from rotation center 0,0 + 'rotationCenter'
         -- https://tetris.wiki/SRS
         -- default is 'T' tetromino
-        positionOffset = Vec(0,0),
+        rotationCenter = Vec(0,0),
         relativePositions = {
           Vec(-1,0),
           Vec(0,0),
@@ -30,7 +30,23 @@ function BlockGroup:initialize(t)
   for k,v in ipairs(self.blocks) do
     v.parent = self
   end
-  self.canvas = love.graphics.newCanvas()
+end
+
+function BlockGroup:update(dt)
+  self:setBlockPositions()
+  self:updateBlocks(dt)
+end
+
+function BlockGroup:rotateRight()
+  for _,v in ipairs(self.relativePositions) do
+    v:rotateInplace(-math.pi/2)
+  end
+end
+
+function BlockGroup:rotateLeft()
+  for _,v in ipairs(self.relativePositions) do
+    v:rotateInplace(math.pi/2)
+  end
 end
 
 function BlockGroup:setPosition(x,y)
@@ -41,15 +57,10 @@ function BlockGroup:getPositionVec()
   return Vec(self.x,self.y)
 end
 
-function BlockGroup:update(dt)
-  self:setBlockPositions()
-  self:updateBlocks(dt)
-end
-
 function BlockGroup:setBlockPositions()
-  local blockSize = self.blocks[1].width
+  local blockSize = Global.BLOCK_SIZE
   for k,v in ipairs(self.blocks) do
-    local relPos = blockSize * (self.relativePositions[k] + self.positionOffset)
+    local relPos = blockSize * (self.relativePositions[k] + self.rotationCenter)
     v:setPosition(self.x + relPos.x, self.y + relPos.y)
   end
 end
