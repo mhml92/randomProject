@@ -53,7 +53,7 @@ function Block:draw()
   self.collider:draw("fill")
 
   -- debug
-  love.graphics.setColor({255,255,255})
+  love.graphics.setColor(Global.BLOCK_LINE_COLOR)
   love.graphics.circle("fill", self.x, self.y, 2, 8)
   love.graphics.rectangle("line", self.x-(self.width/2), self.y-(self.height/2), self.width, self.height)
 

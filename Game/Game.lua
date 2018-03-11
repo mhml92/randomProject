@@ -15,7 +15,7 @@ function Game:initialize(t)
       }
     }
   )
-
+  love.graphics.setBackgroundColor(Global.BACKGROUD_COLOR)
 end
 
 function Game:load()
@@ -50,12 +50,15 @@ end
 
 function Game:update(dt)
   self.actionManager:update(dt)
+  self:updateActiveBlocks(dt)
+end
+
+function Game:updateActiveBlocks(dt)
   for k,v in ipairs(self.blocks) do
     if v:isActive() then
       v:update(dt)
     end
   end
-
 end
 
 function Game:draw()
