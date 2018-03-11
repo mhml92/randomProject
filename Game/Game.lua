@@ -11,7 +11,11 @@ function Game:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
-        actionManager = ActionManager:new()
+        actionManager = ActionManager:new(),
+        canvas = {
+          shadow = love.graphics.newCanvas(),
+          foreground = love.graphics.newCanvas(),
+        }
       }
     }
   )
@@ -26,7 +30,7 @@ function Game:load()
     BlockGroup:new({
       x = 200,
       y = 200,
-      relativePositions ={
+      relativePositions = {
         Vec(-1,-1),
         Vec(0,-1),
         Vec(0,0),
@@ -62,10 +66,21 @@ function Game:updateActiveBlocks(dt)
 end
 
 function Game:draw()
+    love.graphics.setCanvas(self.canvas.shadow)
+    love.graphics.clear()
+    love.graphics.setCanvas(self.canvas.foreground)
+    love.graphics.clear()
   for k,v in ipairs(self.blocks) do
     v:draw(dt)
   end
+  love.graphics.setCanvas(self.canvas.foreground)
   self.actionManager:draw()
+  love.graphics.setCanvas()
+    love.graphics.setBlendMode("alpha", "premultiplied")
+  love.graphics.draw(self.canvas.shadow)
+  love.graphics.draw(self.canvas.foreground)
+
+
 end
 
 function Game:keypressed( key, scancode, isrepeat )

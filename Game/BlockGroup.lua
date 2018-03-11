@@ -7,7 +7,6 @@ function BlockGroup:initialize(t)
         x = 0,
         y = 0,
         color = Util.randomColor(),
-        altColor = false,
         blocks = {
           Block:new(),
           Block:new(),
@@ -27,6 +26,7 @@ function BlockGroup:initialize(t)
       }
     }
   )
+
   -- correct relativePositions with respect to rotation center
   for k,v in ipairs(self.relativePositions) do
     self.relativePositions[k] = v - self.rotationCenter
@@ -34,6 +34,7 @@ function BlockGroup:initialize(t)
 
   for k,v in ipairs(self.blocks) do
     v.parent = self
+    v:setColor(self.color)
   end
 end
 
@@ -91,7 +92,6 @@ end
 function BlockGroup:draw()
 
   for k,v in ipairs(self.blocks) do
-    love.graphics.setColor(self.color)
     v:draw()
   end
   self.altColor = false
