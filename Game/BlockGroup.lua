@@ -30,6 +30,7 @@ function BlockGroup:initialize(t)
   for k,v in ipairs(self.blocks) do
     v.parent = self
   end
+  self.canvas = love.graphics.newCanvas()
 end
 
 function BlockGroup:setPosition(x,y)
@@ -62,10 +63,6 @@ function BlockGroup:updateBlocks(dt)
   end
 end
 
-function BlockGroup:setAltColor(c)
-  self.altColor = c
-end
-
 function BlockGroup:isPlaceable()
   for _,v in ipairs(self.blocks) do
     if not v:isPlaceable() then
@@ -78,11 +75,7 @@ end
 function BlockGroup:draw()
 
   for k,v in ipairs(self.blocks) do
-    if self.altColor then
-      love.graphics.setColor(self.altColor)
-    else
-      love.graphics.setColor(self.color)
-    end
+    love.graphics.setColor(self.color)
     v:draw()
   end
   self.altColor = false
