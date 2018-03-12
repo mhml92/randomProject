@@ -35,7 +35,7 @@ function DragBlockGroupAction:update(dt)
     self:rotateBlockGroup(dt)
     local isPlaceable = self.activeBlockGroup:isPlaceable()
     if inputManager:isMouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
-      self.activeBlockGroup = nil
+      self:releaseBlockGroup()
     else
       if not isPlaceable then
         --
@@ -70,6 +70,13 @@ function DragBlockGroupAction:getBlockGroup()
     return shape.parentBlock.parent
   end
   return nil
+end
+
+function DragBlockGroupAction:grapBlockGroup(blockGroup)
+  self.activeBlockGroup = blockGroup
+end
+function DragBlockGroupAction:releaseBlockGroup()
+  self.activeBlockGroup = nil
 end
 
 function DragBlockGroupAction:draw()

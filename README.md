@@ -1,6 +1,7 @@
 # Readme
 
 ## Current Task
+* cleanup DragBlockGroupAction + set activeBlockGroup 
 ## TODO
 * Render Manager
   * use canvas for layers (https://love2d.org/wiki/Canvas:renderTo)
