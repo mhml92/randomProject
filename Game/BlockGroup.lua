@@ -90,11 +90,22 @@ function BlockGroup:isPlaceable()
 end
 
 function BlockGroup:draw()
+  for k,v in ipairs(self.blocks) do
+    game.canvas.foreground:renderTo( function() v:draw() end)
+    --game.canvas.shadow:renderTo(function() v:drawShadowLayer() end)
+  end
+  self.altColor = false
+end
 
+function BlockGroup:drawForeground()
   for k,v in ipairs(self.blocks) do
     v:draw()
   end
-  self.altColor = false
+end
+function BlockGroup:drawShadowLayer()
+  for k,v in ipairs(self.blocks) do
+    v:drawShadowLayer()
+  end
 end
 
 return BlockGroup

@@ -15,6 +15,7 @@ function Game:initialize(t)
         canvas = {
           shadow = love.graphics.newCanvas(),
           foreground = love.graphics.newCanvas(),
+          selection = love.graphics.newCanvas(),
         }
       }
     }
@@ -37,16 +38,64 @@ function Game:load()
         Vec(1,0)
       }
     }),
+      -- I
+      BlockGroup:new({
+        x = 300,
+        y = 300,
+        rotationCenter = Vec(-0.5,-0.5),
+        relativePositions = {
+          Vec(0,-2),
+          Vec(0,-1),
+          Vec(0,0),
+          Vec(0,1)
+        }
+      }),
+    -- S
+    BlockGroup:new({
+      x = 200,
+      y = 400,
+      rotationCenter = Vec(-0.5,-0.5),
+      relativePositions = {
+        Vec(1,-1),
+        Vec(0,-1),
+        Vec(0,0),
+        Vec(-1,0)
+      }
+    }),
+    -- L
+    BlockGroup:new({
+      x = 400,
+      y = 300,
+      rotationCenter = Vec(-0.5,-0.5),
+      relativePositions = {
+        Vec(0,-1),
+        Vec(0,0),
+        Vec(0,1),
+        Vec(1,1)
+      }
+    }),
+    -- J
+    BlockGroup:new({
+      x = 400,
+      y = 500,
+      rotationCenter = Vec(-0.5,-0.5),
+      relativePositions = {
+        Vec(0,-1),
+        Vec(0,0),
+        Vec(0,1),
+        Vec(-1,1)
+      }
+    }),
     -- I
     BlockGroup:new({
       x = 300,
       y = 300,
       rotationCenter = Vec(-0.5,-0.5),
       relativePositions = {
-        Vec(0,-2),
         Vec(0,-1),
         Vec(0,0),
-        Vec(0,1)
+        Vec(-1,-1),
+        Vec(-1,0)
       }
     })
   }
@@ -70,15 +119,20 @@ function Game:draw()
     love.graphics.clear()
     love.graphics.setCanvas(self.canvas.foreground)
     love.graphics.clear()
+    love.graphics.setCanvas(self.canvas.selection)
+    love.graphics.clear()
   for k,v in ipairs(self.blocks) do
     v:draw(dt)
   end
   love.graphics.setCanvas(self.canvas.foreground)
   self.actionManager:draw()
   love.graphics.setCanvas()
-    love.graphics.setBlendMode("alpha", "premultiplied")
+  love.graphics.setBlendMode("alpha", "premultiplied")
+  love.graphics.setColor(255, 255, 255, 80)
   love.graphics.draw(self.canvas.shadow)
+  love.graphics.setColor(255, 255, 255)
   love.graphics.draw(self.canvas.foreground)
+  love.graphics.draw(self.canvas.selection)
 
 
 end

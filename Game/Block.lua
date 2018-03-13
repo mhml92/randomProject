@@ -54,11 +54,6 @@ function Block:updateCollider()
 end
 
 function Block:draw()
-  love.graphics.setCanvas(game.canvas.shadow)
-  love.graphics.setColor(Global.SHADOW_COLOR)
-  love.graphics.rectangle("fill", self.x-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.y-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.width, self.height)
-
-  love.graphics.setCanvas(game.canvas.foreground)
   love.graphics.setColor(self.color)
   self.collider:draw("fill")
 
@@ -66,8 +61,13 @@ function Block:draw()
   love.graphics.setColor(Global.BLOCK_LINE_COLOR)
   love.graphics.circle("fill", self.x, self.y, 2, 8)
   love.graphics.rectangle("line", self.x-(self.width/2), self.y-(self.height/2), self.width, self.height)
-
 end
+
+function Block:drawShadowLayer()
+  love.graphics.setColor(Global.SHADOW_COLOR)
+  love.graphics.rectangle("fill", self.x-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.y-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.width, self.height)
+end
+
 
 function Block:setPosition(x,y)
   self.x, self.y = x,y

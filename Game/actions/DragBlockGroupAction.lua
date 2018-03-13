@@ -32,22 +32,29 @@ function DragBlockGroupAction:update(dt)
 
 
   if self.activeBlockGroup then
+    ----------------------------------------------------------------------------
+    -- IS HOLDING BLOCKGROUP
     self:rotateBlockGroup(dt)
+
     local isPlaceable = self.activeBlockGroup:isPlaceable()
-    if inputManager:isMouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
+
+    if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
       self:releaseBlockGroup()
     else
-      if not isPlaceable then
-        --
-        --
-      end
       local blockGroupPos = self.mousePos + self.offset
-      blockGroupPos = Vec(Util.round(blockGroupPos.x/Global.BLOCK_SIZE),Util.round(blockGroupPos.y/Global.BLOCK_SIZE))*Global.BLOCK_SIZE
+      blockGroupPos = Vec(
+        Util.round(blockGroupPos.x/Global.BLOCK_SIZE),
+        Util.round(blockGroupPos.y/Global.BLOCK_SIZE)
+      ) * Global.BLOCK_SIZE
+
       self.activeBlockGroup:setPosition(blockGroupPos.x, blockGroupPos.y)
     end
   else
-    if inputManager:isMouseReleased(Global.DRAG_BLOCKGROUP) then
-      self.activeBlockGroup = self:getBlockGroup()
+    ----------------------------------------------------------------------------
+    -- IS NOT HOLDING BLOCKGROUP
+    if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) then
+      self.activeBlockGroup = self:getBlockGroupUnderCursor()
+
       if self.activeBlockGroup then
         self.offset = self.activeBlockGroup:getPositionVec() - self.mousePos
       end
@@ -56,16 +63,16 @@ function DragBlockGroupAction:update(dt)
 end
 
 function DragBlockGroupAction:rotateBlockGroup(dt)
-  if inputManager:isKeyReleased(Global.ROTATE_BLOCKGROUP_RIGHT) then
+  if inputManager:keyReleased(Global.ROTATE_BLOCKGROUP_RIGHT) then
       self.activeBlockGroup:rotateRight()
   end
 
-  if inputManager:isKeyReleased(Global.ROTATE_BLOCKGROUP_LEFT) then
+  if inputManager:keyReleased(Global.ROTATE_BLOCKGROUP_LEFT) then
       self.activeBlockGroup:rotateLeft()
   end
 end
 
-function DragBlockGroupAction:getBlockGroup()
+function DragBlockGroupAction:getBlockGroupUnderCursor()
   for shape, delta in pairs(HCollider:collisions(self.collider)) do
     return shape.parentBlock.parent
   end
@@ -84,6 +91,11 @@ function DragBlockGroupAction:draw()
   love.graphics.circle("fill", self.mousePos.x, self.mousePos.y, 5, 16)
   love.graphics.setColor(255, 255, 255)
   self.collider:draw()
+
+  if self.activeBlockGroup then
+    game.canvas.selection:renderTo(function() self.activeBlockGroup:drawShadowLayer() end)
+    game.canvas.selection:renderTo(function() self.activeBlockGroup:drawForeground() end)
+  end
 end
 
 return DragBlockGroupAction
