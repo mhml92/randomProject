@@ -109,6 +109,9 @@ function Game:load()
 end
 
 function Game:update(dt)
+  if inputManager:keyPressed("q") then
+    love.event.quit()
+  end
   self.actionManager:update(dt)
   self:updateActiveBlocks(dt)
 end
