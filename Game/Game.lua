@@ -26,11 +26,20 @@ end
 function Game:load()
   self.blocks = {
     -- T
-    BlockGroup:new({x = 100, y = 100}),
+    BlockGroup:new({
+      x = 100,
+      y = 100,
+      relativePositions = {
+        Vec(-1,0),
+        Vec(0,0),
+        Vec(1,0),
+        Vec(0,1)
+      }
+    }),
     -- Z
     BlockGroup:new({
-      x = 200,
-      y = 200,
+      x = 300,
+      y = 100,
       relativePositions = {
         Vec(-1,-1),
         Vec(0,-1),
@@ -40,7 +49,7 @@ function Game:load()
     }),
       -- I
       BlockGroup:new({
-        x = 300,
+        x = 500,
         y = 300,
         rotationCenter = Vec(-0.5,-0.5),
         relativePositions = {
@@ -52,8 +61,8 @@ function Game:load()
       }),
     -- S
     BlockGroup:new({
-      x = 200,
-      y = 400,
+      x = 500,
+      y = 100,
       rotationCenter = Vec(-0.5,-0.5),
       relativePositions = {
         Vec(1,-1),
@@ -64,9 +73,8 @@ function Game:load()
     }),
     -- L
     BlockGroup:new({
-      x = 400,
-      y = 300,
-      rotationCenter = Vec(-0.5,-0.5),
+      x = 700,
+      y = 100,
       relativePositions = {
         Vec(0,-1),
         Vec(0,0),
@@ -76,9 +84,8 @@ function Game:load()
     }),
     -- J
     BlockGroup:new({
-      x = 400,
-      y = 500,
-      rotationCenter = Vec(-0.5,-0.5),
+      x = 100,
+      y = 300,
       relativePositions = {
         Vec(0,-1),
         Vec(0,0),
