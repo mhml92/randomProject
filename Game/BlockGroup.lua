@@ -108,4 +108,10 @@ function BlockGroup:drawShadowLayer()
   end
 end
 
+function BlockGroup:drawFootprint()
+  for k,v in ipairs(self.blocks) do
+    v:drawFootprint()
+  end
+end
+
 return BlockGroup

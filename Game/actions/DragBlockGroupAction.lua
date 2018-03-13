@@ -31,9 +31,8 @@ function DragBlockGroupAction:update(dt)
   self.collider:moveTo(self.mousePos.x,self.mousePos.y)
 
 
-  if self.activeBlockGroup then
-    ----------------------------------------------------------------------------
-    -- IS HOLDING BLOCKGROUP
+  if self:isHoldingBlockGroup() then
+
     self:rotateBlockGroup(dt)
 
     local isPlaceable = self.activeBlockGroup:isPlaceable()
@@ -42,10 +41,7 @@ function DragBlockGroupAction:update(dt)
       self:releaseBlockGroup()
     else
       local blockGroupPos = self.mousePos + self.offset
-      blockGroupPos = Vec(
-        Util.round(blockGroupPos.x/Global.BLOCK_SIZE),
-        Util.round(blockGroupPos.y/Global.BLOCK_SIZE)
-      ) * Global.BLOCK_SIZE
+      blockGroupPos = Util.toGridCoords(blockGroupPos)
 
       self.activeBlockGroup:setPosition(blockGroupPos.x, blockGroupPos.y)
     end
@@ -56,11 +52,12 @@ function DragBlockGroupAction:update(dt)
       self.activeBlockGroup = self:getBlockGroupUnderCursor()
 
       if self.activeBlockGroup then
-        self.offset = self.activeBlockGroup:getPositionVec() - self.mousePos
+        self.offset = self.activeBlockGroup:getPositionVec() - self.mousePos + (self.mousePos - Util.toGridCoords(self.mousePos))
       end
     end
   end
 end
+
 
 function DragBlockGroupAction:rotateBlockGroup(dt)
   if inputManager:keyReleased(Global.ROTATE_BLOCKGROUP_RIGHT) then
@@ -79,6 +76,10 @@ function DragBlockGroupAction:getBlockGroupUnderCursor()
   return nil
 end
 
+function DragBlockGroupAction:isHoldingBlockGroup()
+  return self.activeBlockGroup ~= nil
+end
+
 function DragBlockGroupAction:grapBlockGroup(blockGroup)
   self.activeBlockGroup = blockGroup
 end
@@ -87,15 +88,23 @@ function DragBlockGroupAction:releaseBlockGroup()
 end
 
 function DragBlockGroupAction:draw()
-  love.graphics.setColor(255, 0, 0)
-  love.graphics.circle("fill", self.mousePos.x, self.mousePos.y, 5, 16)
-  love.graphics.setColor(255, 255, 255)
-  self.collider:draw()
-
-  if self.activeBlockGroup then
+  if self:isHoldingBlockGroup() then
     game.canvas.selection:renderTo(function() self.activeBlockGroup:drawShadowLayer() end)
     game.canvas.selection:renderTo(function() self.activeBlockGroup:drawForeground() end)
+    if not self.activeBlockGroup:isPlaceable() then
+      game.canvas.selection:renderTo(function()
+        love.graphics.setColor(Global.DISABLED_COLOR)
+        self.activeBlockGroup:drawFootprint()
+      end)
+    end
   end
+
+  game.canvas.selection:renderTo(function()
+    love.graphics.setColor(255, 0, 0)
+    love.graphics.circle("fill", self.mousePos.x, self.mousePos.y, 5, 16)
+    love.graphics.setColor(255, 255, 255)
+    self.collider:draw()
+  end)
 end
 
 return DragBlockGroupAction

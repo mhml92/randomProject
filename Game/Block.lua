@@ -68,6 +68,10 @@ function Block:drawShadowLayer()
   love.graphics.rectangle("fill", self.x-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.y-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.width, self.height)
 end
 
+function Block:drawFootprint()
+  love.graphics.rectangle("fill", self.x-(Global.BLOCK_SIZE/2), self.y-(Global.BLOCK_SIZE/2), self.width, self.height)
+end
+
 
 function Block:setPosition(x,y)
   self.x, self.y = x,y

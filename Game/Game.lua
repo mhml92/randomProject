@@ -109,7 +109,7 @@ function Game:load()
 end
 
 function Game:update(dt)
-  if inputManager:keyPressed("q") then
+  if inputManager:keyPressed("escape") then
     love.event.quit()
   end
   self.actionManager:update(dt)
@@ -141,6 +141,7 @@ function Game:draw()
   love.graphics.setColor(255, 255, 255, 80)
   love.graphics.draw(self.canvas.shadow)
   love.graphics.setColor(255, 255, 255)
+  love.graphics.setBlendMode("alpha", "premultiplied")
   love.graphics.draw(self.canvas.foreground)
   love.graphics.draw(self.canvas.selection)
 
