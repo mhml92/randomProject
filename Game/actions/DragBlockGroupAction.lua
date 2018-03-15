@@ -95,13 +95,14 @@ function DragBlockGroupAction:draw()
 
     game.canvas.selection:renderTo(function() self.activeBlockGroup:drawShadowLayer() end)
     game.canvas.selection:renderTo(function() self.activeBlockGroup:drawForeground() end)
+
     if not self.activeBlockGroup:isPlaceable() then
       game.canvas.selection:renderTo(function()
         love.graphics.setColor(Global.DISABLED_COLOR)
         self.activeBlockGroup:drawSilhouette()
       end)
     end
-    
+
     self.activeBlockGroup:disableDraw()
   end
 

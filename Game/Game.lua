@@ -27,8 +27,8 @@ function Game:load()
   self.blocks = {
     -- T
     BlockGroup:new({
-      x = 100,
-      y = 100,
+      x = 3 * Global.BLOCK_SIZE,
+      y = 3 * Global.BLOCK_SIZE,
       relativePositions = {
         Vec(-1,0),
         Vec(0,0),
@@ -38,8 +38,8 @@ function Game:load()
     }),
     -- Z
     BlockGroup:new({
-      x = 300,
-      y = 100,
+      x = 13 * Global.BLOCK_SIZE,
+      y = 3 * Global.BLOCK_SIZE,
       relativePositions = {
         Vec(-1,-1),
         Vec(0,-1),
@@ -49,8 +49,8 @@ function Game:load()
     }),
       -- I
       BlockGroup:new({
-        x = 500,
-        y = 300,
+      x = 23 * Global.BLOCK_SIZE,
+      y = 3 * Global.BLOCK_SIZE,
         rotationCenter = Vec(-0.5,-0.5),
         relativePositions = {
           Vec(0,-2),
@@ -61,8 +61,8 @@ function Game:load()
       }),
     -- S
     BlockGroup:new({
-      x = 500,
-      y = 100,
+      x = 3 * Global.BLOCK_SIZE,
+      y = 13 * Global.BLOCK_SIZE,
       rotationCenter = Vec(-0.5,-0.5),
       relativePositions = {
         Vec(1,-1),
@@ -73,8 +73,8 @@ function Game:load()
     }),
     -- L
     BlockGroup:new({
-      x = 700,
-      y = 100,
+      x = 13 * Global.BLOCK_SIZE,
+      y = 13 * Global.BLOCK_SIZE,
       relativePositions = {
         Vec(0,-1),
         Vec(0,0),
@@ -84,8 +84,8 @@ function Game:load()
     }),
     -- J
     BlockGroup:new({
-      x = 100,
-      y = 300,
+      x = 23 * Global.BLOCK_SIZE,
+      y = 13 * Global.BLOCK_SIZE,
       relativePositions = {
         Vec(0,-1),
         Vec(0,0),
@@ -95,8 +95,8 @@ function Game:load()
     }),
     -- I
     BlockGroup:new({
-      x = 300,
-      y = 300,
+      x = 33 * Global.BLOCK_SIZE,
+      y = 13 * Global.BLOCK_SIZE,
       rotationCenter = Vec(-0.5,-0.5),
       relativePositions = {
         Vec(0,-1),
