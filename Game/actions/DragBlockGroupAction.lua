@@ -82,21 +82,27 @@ end
 
 function DragBlockGroupAction:grapBlockGroup(blockGroup)
   self.activeBlockGroup = blockGroup
+  self.activeBlockGroup:disableDraw()
 end
 function DragBlockGroupAction:releaseBlockGroup()
+  self.activeBlockGroup:endableDraw()
   self.activeBlockGroup = nil
 end
 
 function DragBlockGroupAction:draw()
   if self:isHoldingBlockGroup() then
+    self.activeBlockGroup:endableDraw()
+
     game.canvas.selection:renderTo(function() self.activeBlockGroup:drawShadowLayer() end)
     game.canvas.selection:renderTo(function() self.activeBlockGroup:drawForeground() end)
     if not self.activeBlockGroup:isPlaceable() then
       game.canvas.selection:renderTo(function()
         love.graphics.setColor(Global.DISABLED_COLOR)
-        self.activeBlockGroup:drawFootprint()
+        self.activeBlockGroup:drawSilhouette()
       end)
     end
+    
+    self.activeBlockGroup:disableDraw()
   end
 
   game.canvas.selection:renderTo(function()

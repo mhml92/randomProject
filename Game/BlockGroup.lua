@@ -6,6 +6,7 @@ function BlockGroup:initialize(t)
       defaults = {
         x = 0,
         y = 0,
+        drawActive = true,
         color = Util.randomColor(),
         blocks = {
           Block:new(),
@@ -45,13 +46,13 @@ end
 
 function BlockGroup:rotateRight()
   for _,v in ipairs(self.relativePositions) do
-    v:rotateInplace(-math.pi/2)
+    v:rotateInplace(math.pi/2)
   end
 end
 
 function BlockGroup:rotateLeft()
   for _,v in ipairs(self.relativePositions) do
-    v:rotateInplace(math.pi/2)
+    v:rotateInplace(-math.pi/2)
   end
 end
 
@@ -90,28 +91,43 @@ function BlockGroup:isPlaceable()
 end
 
 function BlockGroup:draw()
-  for k,v in ipairs(self.blocks) do
-    game.canvas.foreground:renderTo( function() v:draw() end)
-    --game.canvas.shadow:renderTo(function() v:drawShadowLayer() end)
+  if self.drawActive then
+    for k,v in ipairs(self.blocks) do
+      game.canvas.foreground:renderTo( function() v:draw() end)
+      --game.canvas.shadow:renderTo(function() v:drawShadowLayer() end)
+    end
   end
-  self.altColor = false
 end
 
 function BlockGroup:drawForeground()
-  for k,v in ipairs(self.blocks) do
-    v:draw()
+  if self.drawActive then
+    for k,v in ipairs(self.blocks) do
+      v:draw()
+    end
   end
 end
 function BlockGroup:drawShadowLayer()
-  for k,v in ipairs(self.blocks) do
-    v:drawShadowLayer()
+  if self.drawActive then
+    for k,v in ipairs(self.blocks) do
+      v:drawShadowLayer()
+    end
   end
 end
 
-function BlockGroup:drawFootprint()
-  for k,v in ipairs(self.blocks) do
-    v:drawFootprint()
+function BlockGroup:drawSilhouette()
+  if self.drawActive then
+    for k,v in ipairs(self.blocks) do
+      v:drawSilhouette()
+    end
   end
+end
+
+function BlockGroup:disableDraw()
+  self.drawActive = false
+end
+
+function BlockGroup:endableDraw()
+  self.drawActive = true
 end
 
 return BlockGroup
