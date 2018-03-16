@@ -7,7 +7,11 @@ I         = require "inspect/inspect"
 Game      = require "Game/game"
 
 function love.load()
+<<<<<<< HEAD
   math.randomseed( os.time() )
+=======
+  math.randomseed(os.time())
+>>>>>>> 36e7b04785498bc270f9c1fd8fe4c783950f4560
   HCollider = HC.new(100)
 
   inputManager = InputManager:new()
