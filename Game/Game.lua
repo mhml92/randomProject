@@ -1,12 +1,13 @@
-Vec           = require "hump/vector"
-Timer         = require "hump/timer"
+Vec               = require "hump/vector"
+Timer             = require "hump/timer"
 
-BlockGroup    = require "Game/BlockGroup"
-Block         = require "Game/Block"
-Global        = require "Game/Global"
-Inputmanager  = require "Game/InputManager"
-ActionManager = require "Game/ActionManager"
-CameraManager = require "Game/CameraManager"
+Global            = require "Game/Global"
+Block             = require "Game/Block"
+BlockGroup        = require "Game/BlockGroup"
+blockGroupFactory = require "Game/blockGroupFactory"
+Inputmanager      = require "Game/InputManager"
+ActionManager     = require "Game/ActionManager"
+CameraManager     = require "Game/CameraManager"
 
 Game = Class("Game", Entity)
 
@@ -31,6 +32,10 @@ end
 
 function Game:load()
   self.blocks = {
+    blockGroupFactory.getT(),
+    blockGroupFactory.getT(),
+    blockGroupFactory.getT(),
+    blockGroupFactory.getT(),
     -- T
     BlockGroup:new({
       pos = Vec(

@@ -14,7 +14,6 @@ function CameraManager:initialize(t)
 end
 
 function CameraManager:update(dt)
-
 end
 
 function CameraManager:worldCoords(v)
