@@ -4,8 +4,7 @@ function BlockGroup:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
-        x = 0,
-        y = 0,
+        pos = Vec(0,0),
         drawActive = true,
         color = Util.randomColor(),
         blocks = {
@@ -56,19 +55,19 @@ function BlockGroup:rotateLeft()
   end
 end
 
-function BlockGroup:setPosition(x,y)
-  self.x,self.y = x,y
+function BlockGroup:setPosition(v)
+  self.pos = v:clone()
 end
 
 function BlockGroup:getPositionVec()
-  return Vec(self.x,self.y)
+  return self.pos:clone()
 end
 
 function BlockGroup:setBlockPositions()
   local blockSize = Global.BLOCK_SIZE
   for k,v in ipairs(self.blocks) do
     local relPos = blockSize * (self.relativePositions[k] + self.rotationCenter)
-    v:setPosition(self.x + relPos.x, self.y + relPos.y)
+    v:setPosition(self.pos + relPos)
   end
 end
 

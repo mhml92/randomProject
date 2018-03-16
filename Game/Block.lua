@@ -4,8 +4,7 @@ function Block:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
-        x = 0,
-        y = 0,
+        pos = Vec(0,0),
         isCollidingWithOtherBlock = false,
         width = Global.BLOCK_SIZE,
         height = Global.BLOCK_SIZE,
@@ -15,8 +14,8 @@ function Block:initialize(t)
     })
 
   self.collider = HCollider:rectangle(
-    self.x,
-    self.y,
+    self.pos.x,
+    self.pos.y,
     self.width-self.colliderPadding,
     self.height-self.colliderPadding)
   self:initCollider()
@@ -27,8 +26,8 @@ function Block:setColor(color)
   self.color = color
 end
 
-function Block:setPosition(x,y)
-  self.x, self.y = x,y
+function Block:setPosition(v)
+  self.pos = v
   self:updateCollider()
 end
 
@@ -50,7 +49,7 @@ function Block:isPlaceable()
 end
 
 function Block:updateCollider()
-  self.collider:moveTo(self.x,self.y)
+  self.collider:moveTo(self.pos.x,self.pos.y)
 end
 
 function Block:draw()
@@ -60,22 +59,17 @@ function Block:draw()
   -- debug
   love.graphics.setColor(Global.BLOCK_LINE_COLOR)
   love.graphics.setLineWidth(2)
-  love.graphics.circle("fill", self.x, self.y, 2, 4)
-  love.graphics.rectangle("line", self.x-(self.width/2), self.y-(self.height/2), self.width, self.height)
+  love.graphics.circle("fill", self.pos.x, self.pos.y, 2, 4)
+  love.graphics.rectangle("line", self.pos.x-(self.width/2), self.pos.y-(self.height/2), self.width, self.height)
 end
 
 function Block:drawShadowLayer()
   love.graphics.setColor(Global.SHADOW_COLOR)
-  love.graphics.rectangle("fill", self.x-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.y-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.width, self.height)
+  love.graphics.rectangle("fill", self.pos.x-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.pos.y-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.width, self.height)
 end
 
 function Block:drawSilhouette()
-  love.graphics.rectangle("fill", self.x-(Global.BLOCK_SIZE/2), self.y-(Global.BLOCK_SIZE/2), self.width, self.height)
-end
-
-
-function Block:setPosition(x,y)
-  self.x, self.y = x,y
+  love.graphics.rectangle("fill", self.pos.x-(Global.BLOCK_SIZE/2), self.pos.y-(Global.BLOCK_SIZE/2), self.width, self.height)
 end
 
 

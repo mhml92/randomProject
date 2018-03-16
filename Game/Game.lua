@@ -33,8 +33,9 @@ function Game:load()
   self.blocks = {
     -- T
     BlockGroup:new({
-      x = 3 * Global.BLOCK_SIZE,
-      y = 3 * Global.BLOCK_SIZE,
+      pos = Vec(
+        3 * Global.BLOCK_SIZE,
+        3 * Global.BLOCK_SIZE),
       relativePositions = {
         Vec(-1,0),
         Vec(0,0),
@@ -44,8 +45,9 @@ function Game:load()
     }),
     -- Z
     BlockGroup:new({
-      x = 7 * Global.BLOCK_SIZE,
-      y = 3 * Global.BLOCK_SIZE,
+      pos = Vec(
+        7 * Global.BLOCK_SIZE,
+        3 * Global.BLOCK_SIZE),
       relativePositions = {
         Vec(-1,-1),
         Vec(0,-1),
@@ -55,8 +57,9 @@ function Game:load()
     }),
       -- I
       BlockGroup:new({
-      x = 11 * Global.BLOCK_SIZE,
-      y = 3 * Global.BLOCK_SIZE,
+      pos = Vec(
+        11 * Global.BLOCK_SIZE,
+        3 * Global.BLOCK_SIZE),
         rotationCenter = Vec(-0.5,-0.5),
         relativePositions = {
           Vec(0,-2),
@@ -67,8 +70,9 @@ function Game:load()
       }),
     -- S
     BlockGroup:new({
-      x = 3 * Global.BLOCK_SIZE,
-      y = 7 * Global.BLOCK_SIZE,
+      pos = Vec(
+        3 * Global.BLOCK_SIZE,
+        7 * Global.BLOCK_SIZE),
       rotationCenter = Vec(-0.5,-0.5),
       relativePositions = {
         Vec(1,-1),
@@ -79,8 +83,9 @@ function Game:load()
     }),
     -- L
     BlockGroup:new({
-      x = 7 * Global.BLOCK_SIZE,
-      y = 7 * Global.BLOCK_SIZE,
+      pos = Vec(
+        7 * Global.BLOCK_SIZE,
+        7 * Global.BLOCK_SIZE),
       relativePositions = {
         Vec(0,-1),
         Vec(0,0),
@@ -90,8 +95,9 @@ function Game:load()
     }),
     -- J
     BlockGroup:new({
-      x = 11 * Global.BLOCK_SIZE,
-      y = 7 * Global.BLOCK_SIZE,
+      pos = Vec(
+        11 * Global.BLOCK_SIZE,
+        7 * Global.BLOCK_SIZE),
       relativePositions = {
         Vec(0,-1),
         Vec(0,0),
@@ -101,8 +107,9 @@ function Game:load()
     }),
     -- I
     BlockGroup:new({
-      x = 14 * Global.BLOCK_SIZE,
-      y = 7 * Global.BLOCK_SIZE,
+      pos = Vec(
+        14 * Global.BLOCK_SIZE,
+        7 * Global.BLOCK_SIZE),
       rotationCenter = Vec(-0.5,-0.5),
       relativePositions = {
         Vec(0,-1),

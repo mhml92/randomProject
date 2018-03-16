@@ -33,7 +33,7 @@ function DragBlockGroupAction:update(dt)
     if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) then
       self:grapBlockGroup(self:getBlockGroupUnderCursor())
       if self.activeBlockGroup then
-        self.offset = self.activeBlockGroup:getPositionVec() - self.mousePos + (self.mousePos - Util.toGridCoords(self.mousePos))
+        self.offset = self.activeBlockGroup:getPositionVec() - self.mousePos --+ (self.mousePos - Util.toGridCoords(self.mousePos))
       end
     end
   end
@@ -49,8 +49,7 @@ function DragBlockGroupAction:updateActiveBlockGroup()
   else
     local blockGroupPos = self.mousePos + self.offset
     blockGroupPos = Util.toGridCoords(blockGroupPos)
-
-    self.activeBlockGroup:setPosition(blockGroupPos.x, blockGroupPos.y)
+    self.activeBlockGroup:setPosition(blockGroupPos)
   end
 end
 
