@@ -4,23 +4,19 @@ function DragBlockGroupAction:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
+        collider = HCollider:circle(0,0,0.5),
+        mouseDelta = Vec(0,0),
+        mousePos = Vec(0,0),
+        activeBlockGroup = nil,
+        offset = Vec(0,0)
       }
     }
   )
-  self.collider = HCollider:circle(0,0,0.5)
   self:initCollider()
-
-  self.mouseDelta = Vec(0,0)
-  self.mousePos = Vec(0,0)
-
-  self.activeBlockGroup = nil
-  self.offset = Vec(0,0)
-
-  self:updateMouse()
 end
 
 function DragBlockGroupAction:updateMouse()
-  local pos = inputManager:getMousePosition()
+  local pos = game.cameraManager:worldCoords(inputManager:getMousePosition())
   self.mouseDelta = pos - self.mousePos
   self.mousePos = pos
 end

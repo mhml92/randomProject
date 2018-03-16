@@ -1,4 +1,5 @@
 DragBlockGroupAction = require "Game/actions/DragBlockGroupAction"
+DragCameraAction = require "Game/actions/DragCameraAction"
 
 ActionManager = Class("ActionManager", Entity)
 
@@ -6,7 +7,10 @@ function ActionManager:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
-        actions = {DragBlockGroupAction:new()}
+        actions = {
+          DragBlockGroupAction:new(),
+          DragCameraAction:new()
+        }
       }
     }
   )

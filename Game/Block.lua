@@ -59,7 +59,8 @@ function Block:draw()
 
   -- debug
   love.graphics.setColor(Global.BLOCK_LINE_COLOR)
-  love.graphics.circle("fill", self.x, self.y, 2, 8)
+  love.graphics.setLineWidth(2)
+  love.graphics.circle("fill", self.x, self.y, 2, 4)
   love.graphics.rectangle("line", self.x-(self.width/2), self.y-(self.height/2), self.width, self.height)
 end
 

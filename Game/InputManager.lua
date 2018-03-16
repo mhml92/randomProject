@@ -37,7 +37,7 @@ function InputManager:keyReleased(key)
 end
 
 function InputManager:mouseDown(button)
-  love.mouse.isDown(button)
+  return love.mouse.isDown(button)
 end
 
 function InputManager:mousePressed(button)
