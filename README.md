@@ -1,7 +1,7 @@
 # Readme
 
 ## Current Task
-* camera manager
+* SCREEN SHAKE ON BLOCKGROUP RELEASE!!!!!
 ## TODO
 * Render Manager - clean up drawing... uhh
 * BlockGroup Factory (prototypes done.. in Game)
@@ -9,3 +9,4 @@
   * add/remove blockGroups
 * generic neighbor finder
 * fancy rotate animation
+* a game
