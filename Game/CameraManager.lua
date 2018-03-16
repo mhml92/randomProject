@@ -6,9 +6,11 @@ function CameraManager:initialize(t)
   Entity.initialize(self,{
     args = t,
     defaults = {
-        camera = HumpCamera(0,0)
+      camera = HumpCamera(0,0),
+      pos = Vec(0,0)
     }
   })
+  self.camera:lookAt(self.pos.x,self.pos.y)
 end
 
 function CameraManager:update(dt)
@@ -21,11 +23,30 @@ function CameraManager:worldCoords(v)
 end
 
 function CameraManager:move(v)
-  self.camera:move(v.x,v.y)
+  self.pos = self.pos + v
+  self.camera:lookAt(self.pos.x,self.pos.y)
 end
 
 function CameraManager:attach()
   self.camera:attach()
+end
+
+function CameraManager:shake(t)
+  assert(t.duration)
+  assert(t.min)
+  assert(t.max)
+
+  game.timer:during(
+    t.duration,
+    function()
+      local offset = Vec.randomDirection(t.min,t.max)
+      self.camera:lookAt(
+        self.pos.x + offset.x,
+        self.pos.y + offset.y)
+    end,
+    function()
+      self.camera:lookAt(self.pos.x, self.pos.y)
+    end)
 end
 
 function CameraManager:detach()

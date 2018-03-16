@@ -1,4 +1,5 @@
 Vec           = require "hump/vector"
+Timer         = require "hump/timer"
 
 BlockGroup    = require "Game/BlockGroup"
 Block         = require "Game/Block"
@@ -13,6 +14,7 @@ function Game:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
+        timer = Timer:new(),
         actionManager = ActionManager:new(),
         cameraManager = CameraManager:new(),
         canvas = {
@@ -23,6 +25,7 @@ function Game:initialize(t)
       }
     }
   )
+  love.mouse.setVisible(false)
   love.graphics.setBackgroundColor(Global.BACKGROUD_COLOR)
 end
 
@@ -112,6 +115,7 @@ function Game:load()
 end
 
 function Game:update(dt)
+  self.timer:update(dt)
   if inputManager:keyPressed("escape") then
     love.event.quit()
   end

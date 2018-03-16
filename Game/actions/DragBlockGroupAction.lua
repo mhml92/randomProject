@@ -28,29 +28,29 @@ function DragBlockGroupAction:update(dt)
 
 
   if self:isHoldingBlockGroup() then
-
-    self:rotateBlockGroup(dt)
-
-    local isPlaceable = self.activeBlockGroup:isPlaceable()
-
-    if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
-      self:releaseBlockGroup()
-    else
-      local blockGroupPos = self.mousePos + self.offset
-      blockGroupPos = Util.toGridCoords(blockGroupPos)
-
-      self.activeBlockGroup:setPosition(blockGroupPos.x, blockGroupPos.y)
-    end
+    self:updateActiveBlockGroup(dt)
   else
-    ----------------------------------------------------------------------------
-    -- IS NOT HOLDING BLOCKGROUP
     if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) then
-      self.activeBlockGroup = self:getBlockGroupUnderCursor()
-
+      self:grapBlockGroup(self:getBlockGroupUnderCursor())
       if self.activeBlockGroup then
         self.offset = self.activeBlockGroup:getPositionVec() - self.mousePos + (self.mousePos - Util.toGridCoords(self.mousePos))
       end
     end
+  end
+end
+
+function DragBlockGroupAction:updateActiveBlockGroup()
+  self:rotateBlockGroup(dt)
+
+  local isPlaceable = self.activeBlockGroup:isPlaceable()
+
+  if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
+    self:releaseBlockGroup()
+  else
+    local blockGroupPos = self.mousePos + self.offset
+    blockGroupPos = Util.toGridCoords(blockGroupPos)
+
+    self.activeBlockGroup:setPosition(blockGroupPos.x, blockGroupPos.y)
   end
 end
 
@@ -77,12 +77,19 @@ function DragBlockGroupAction:isHoldingBlockGroup()
 end
 
 function DragBlockGroupAction:grapBlockGroup(blockGroup)
-  self.activeBlockGroup = blockGroup
-  self.activeBlockGroup:disableDraw()
+  if blockGroup then
+    print("hallo")
+    game.cameraManager:shake({duration = 0.1, min = 0, max = 3})
+    self.activeBlockGroup = blockGroup
+    self.activeBlockGroup:disableDraw()
+  end
 end
+
 function DragBlockGroupAction:releaseBlockGroup()
   self.activeBlockGroup:endableDraw()
   self.activeBlockGroup = nil
+
+  game.cameraManager:shake({duration = 0.1, min = 0, max = 3})
 end
 
 function DragBlockGroupAction:draw()
@@ -100,14 +107,14 @@ function DragBlockGroupAction:draw()
     end
 
     self.activeBlockGroup:disableDraw()
+  else
+    game.canvas.selection:renderTo(function()
+      love.graphics.setColor(255, 0, 0)
+      love.graphics.circle("fill", self.mousePos.x, self.mousePos.y, 5, 16)
+      love.graphics.setColor(255, 255, 255)
+      self.collider:draw()
+    end)
   end
-
-  game.canvas.selection:renderTo(function()
-    love.graphics.setColor(255, 0, 0)
-    love.graphics.circle("fill", self.mousePos.x, self.mousePos.y, 5, 16)
-    love.graphics.setColor(255, 255, 255)
-    self.collider:draw()
-  end)
 end
 
 return DragBlockGroupAction
