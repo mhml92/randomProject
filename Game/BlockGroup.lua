@@ -27,10 +27,19 @@ function BlockGroup:initialize(t)
     }
   )
 
+
   -- correct relativePositions with respect to rotation center
   for k,v in ipairs(self.relativePositions) do
     self.relativePositions[k] = v - self.rotationCenter
   end
+  self:setBlockPositions()
+
+  self.joints = {}
+  for i = 2, #self.blocks do
+    local b1,b2 = self.blocks[i-1],self.blocks[i]
+    table.insert(self.joints,game.physicsWorld:addJoint('WeldJoint', b1.physics, b2.physics, b1.pos.x, b1.pos.y, false))
+  end
+  print(#self.joints)
 
   for k,v in ipairs(self.blocks) do
     v.parent = self
@@ -39,7 +48,6 @@ function BlockGroup:initialize(t)
 end
 
 function BlockGroup:update(dt)
-  self:setBlockPositions()
   self:updateBlocks(dt)
 end
 
@@ -57,6 +65,7 @@ end
 
 function BlockGroup:setPosition(v)
   self.pos = v:clone()
+  self:setBlockPositions()
 end
 
 function BlockGroup:getPositionVec()

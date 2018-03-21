@@ -1,7 +1,10 @@
 # Readme
 
 ## Current Task
-* SCREEN SHAKE ON BLOCKGROUP RELEASE!!!!!
+* replace HCollider with Windfield
+* change rotateLeft/Right to use Windfield
+* Command module BlockGroup <- grid origin˛
+* use windfield get/set object
 ## TODO
 * Render Manager - clean up drawing... uhh
 * BlockGroup Factory (prototypes done.. in Game)

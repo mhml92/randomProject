@@ -16,10 +16,16 @@ function Block:initialize(t)
   self.collider = HCollider:rectangle(
     self.pos.x,
     self.pos.y,
-    self.width-self.colliderPadding,
-    self.height-self.colliderPadding)
+    self.width - self.colliderPadding,
+    self.height - self.colliderPadding)
   self:initCollider()
-  self:updateCollider()
+
+  self.physics = game.physicsWorld:newRectangleCollider(
+    self.pos.x,
+    self.pos.y,
+    Global.BLOCK_SIZE-2,
+    Global.BLOCK_SIZE-2)
+  self.physics:setSensor(true)
 end
 
 function Block:setColor(color)
@@ -29,6 +35,7 @@ end
 function Block:setPosition(v)
   self.pos = v
   self:updateCollider()
+  self:updatePhysics()
 end
 
 function Block:update(dt)
@@ -50,6 +57,13 @@ end
 
 function Block:updateCollider()
   self.collider:moveTo(self.pos.x,self.pos.y)
+end
+
+function Block:updatePhysics()
+  self.physics:setPosition(
+    self.pos.x,-- - (Global.BLOCK_SIZE-2)/2,
+    self.pos.y-- - (Global.BLOCK_SIZE-2)/2
+  )
 end
 
 function Block:draw()

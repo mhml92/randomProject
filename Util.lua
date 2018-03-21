@@ -11,7 +11,6 @@ local function isTable(t) return type(t) == 'table' end
 
 local function round(x) return math.floor(x+0.5) end
 
-
 local function toGridCoords(pos)
   return Vec(
   Util.round(pos.x/Global.BLOCK_SIZE),

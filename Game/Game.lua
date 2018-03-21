@@ -15,6 +15,7 @@ function Game:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
+        physicsWorld = Windfield.newWorld(0,0,true),
         timer = Timer:new(),
         actionManager = ActionManager:new(),
         cameraManager = CameraManager:new(),
@@ -26,16 +27,13 @@ function Game:initialize(t)
       }
     }
   )
-  love.mouse.setVisible(false)
+
+  love.mouse.setVisible(true)
   love.graphics.setBackgroundColor(Global.BACKGROUD_COLOR)
 end
 
 function Game:load()
   self.blocks = {
-    blockGroupFactory.getT(),
-    blockGroupFactory.getT(),
-    blockGroupFactory.getT(),
-    blockGroupFactory.getT(),
     -- T
     BlockGroup:new({
       pos = Vec(
@@ -127,6 +125,7 @@ function Game:load()
 end
 
 function Game:update(dt)
+  self.physicsWorld:update(dt)
   self.timer:update(dt)
   if inputManager:keyPressed("escape") then
     love.event.quit()
@@ -159,6 +158,7 @@ function Game:draw()
   end
   love.graphics.setCanvas(self.canvas.foreground)
   self.actionManager:draw()
+  self.physicsWorld:draw()
   self.cameraManager:detach()
   love.graphics.setCanvas()
   love.graphics.setBlendMode("alpha")
@@ -166,7 +166,6 @@ function Game:draw()
   love.graphics.draw(self.canvas.shadow)
   love.graphics.draw(self.canvas.foreground)
   love.graphics.draw(self.canvas.selection)
-
 
 end
 
