@@ -8,7 +8,6 @@ Game      = require "Game/game"
 function love.load()
   math.randomseed(os.time())
   inputManager = InputManager:new()
-
   game = Game:new()
   game:load()
 end
