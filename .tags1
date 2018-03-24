@@ -4,13 +4,16 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-DragBlockGroupAction:initialize	C:\Repository\randomProject\Game\actions\DragBlockGroupAction.lua	/^function DragBlockGroupAction:initialize(t)$/;"	function	line:3
-DragBlockGroupAction:update	C:\Repository\randomProject\Game\actions\DragBlockGroupAction.lua	/^function DragBlockGroupAction:update(dt)$/;"	function	line:16
-DragBlockGroupAction:draw	C:\Repository\randomProject\Game\actions\DragBlockGroupAction.lua	/^function DragBlockGroupAction:draw()$/;"	function	line:33
-DragBlockGroupAction:_updateMouse	C:\Repository\randomProject\Game\actions\DragBlockGroupAction.lua	/^function DragBlockGroupAction:_updateMouse()$/;"	function	line:36
-DragBlockGroupAction:_update_activeBlockGroup	C:\Repository\randomProject\Game\actions\DragBlockGroupAction.lua	/^function DragBlockGroupAction:_update_activeBlockGroup()$/;"	function	line:43
-DragBlockGroupAction:_rotateBlockGroup	C:\Repository\randomProject\Game\actions\DragBlockGroupAction.lua	/^function DragBlockGroupAction:_rotateBlockGroup(dt)$/;"	function	line:58
-DragBlockGroupAction:_getBlockGroupUnderCursor	C:\Repository\randomProject\Game\actions\DragBlockGroupAction.lua	/^function DragBlockGroupAction:_getBlockGroupUnderCursor()$/;"	function	line:68
-DragBlockGroupAction:_isHoldingBlockGroup	C:\Repository\randomProject\Game\actions\DragBlockGroupAction.lua	/^function DragBlockGroupAction:_isHoldingBlockGroup()$/;"	function	line:75
-DragBlockGroupAction:_grapBlockGroup	C:\Repository\randomProject\Game\actions\DragBlockGroupAction.lua	/^function DragBlockGroupAction:_grapBlockGroup(blockGroup)$/;"	function	line:79
-DragBlockGroupAction:_releaseBlockGroup	C:\Repository\randomProject\Game\actions\DragBlockGroupAction.lua	/^function DragBlockGroupAction:_releaseBlockGroup()$/;"	function	line:89
+BlockGroup:initialize	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:initialize(t)$/;"	function	line:3
+BlockGroup:setInnerJoints	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:setInnerJoints()$/;"	function	line:48
+BlockGroup:releaseInnerJoints	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:releaseInnerJoints()$/;"	function	line:56
+BlockGroup:setSensor	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:setSensor(isSensor)$/;"	function	line:63
+BlockGroup:update	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:update(dt)$/;"	function	line:69
+BlockGroup:rotateRight	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:rotateRight()$/;"	function	line:73
+BlockGroup:rotateLeft	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:rotateLeft()$/;"	function	line:81
+BlockGroup:setPosition	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:setPosition(v)$/;"	function	line:89
+BlockGroup:getPositionVec	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:getPositionVec()$/;"	function	line:94
+BlockGroup:setBlockPositions	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:setBlockPositions()$/;"	function	line:98
+BlockGroup:updateBlocks	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:updateBlocks(dt)$/;"	function	line:105
+BlockGroup:isPlaceable	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:isPlaceable()$/;"	function	line:111
+BlockGroup:draw	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:draw()$/;"	function	line:120

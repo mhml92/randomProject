@@ -144,6 +144,15 @@ end
 
 function Game:draw()
 
+  self.cameraManager:attach()
+  for k,v in ipairs(self.blocks) do
+    v:draw()
+  end
+  --love.graphics.setCanvas(self.canvas.foreground)
+  self.actionManager:draw()
+  physicsWorld:draw(128)
+  self.cameraManager:detach()
+  --[[
   love.graphics.setCanvas(self.canvas.shadow)
   love.graphics.clear()
   love.graphics.setCanvas(self.canvas.foreground)
@@ -151,20 +160,13 @@ function Game:draw()
   love.graphics.setCanvas(self.canvas.selection)
   love.graphics.clear()
 
-  self.cameraManager:attach()
-  for k,v in ipairs(self.blocks) do
-    v:draw(dt)
-  end
-  love.graphics.setCanvas(self.canvas.foreground)
-  self.actionManager:draw()
-  physicsWorld:draw()
-  self.cameraManager:detach()
   love.graphics.setCanvas()
   love.graphics.setBlendMode("alpha")
   love.graphics.setColor(255, 255, 255)
   love.graphics.draw(self.canvas.shadow)
   love.graphics.draw(self.canvas.foreground)
   love.graphics.draw(self.canvas.selection)
+  ]]
 
 end
 

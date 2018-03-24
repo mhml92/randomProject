@@ -11,12 +11,18 @@ function Block:initialize(t)
       }
     })
 
+  self:_initCollider()
+
+end
+
+function Block:_initCollider()
   self.collider = physicsWorld:newRectangleCollider(
-    self.pos.x,
-    self.pos.y,
-    Global.BLOCK_SIZE,
-    Global.BLOCK_SIZE)
-  self:initCollider()
+    self.pos.x - (Global.BLOCK_SIZE - Global.COLLIDER_PADDING)/2,
+    self.pos.y - (Global.BLOCK_SIZE - Global.COLLIDER_PADDING)/2,
+    Global.BLOCK_SIZE - Global.COLLIDER_PADDING,
+    Global.BLOCK_SIZE - Global.COLLIDER_PADDING)
+
+  self.collider:setObject(self)
   self.collider:setSensor(false)
 end
 
@@ -30,32 +36,28 @@ function Block:setPosition(v)
 end
 
 function Block:update(dt)
+  self:_updatePosition(dt)
   --self:updateCollider()
-end
-
-function Block:checkForCollisions()
-  --[[
-  self.isCollidingWithOtherBlock = false
-  for shape, delta in pairs(HCollider:collisions(self.collider)) do
-    if shape.parentBlock.class.name == "Block" then
-      self.isCollidingWithOtherBlock = true
-    end
-  end
-  ]]
 end
 
 function Block:isPlaceable()
   return not self.isCollidingWithOtherBlock
 end
+function Block:_updatePosition(dt)
+  local x,y = self.collider:getPosition()
+  self.pos.x,self.pos.y = x,y
+end
 
 function Block:updateCollider()
   self.collider:setPosition(
-    self.pos.x,-- - (Global.BLOCK_SIZE-2)/2,
-    self.pos.y-- - (Global.BLOCK_SIZE-2)/2
+    self.pos.x,
+    self.pos.y
   )
 end
 
 function Block:draw()
+  love.graphics.setColor(self.color)
+  love.graphics.circle("fill", self.pos.x, self.pos.y, 2, 4)
   --[[
   love.graphics.setColor(self.color)
 

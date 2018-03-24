@@ -15,9 +15,6 @@ end
 
 function DragBlockGroupAction:update(dt)
   self:_updateMouse()
-  -- update collider
-
-
   if self:_isHoldingBlockGroup() then
     self:_update_activeBlockGroup(dt)
   else
@@ -32,6 +29,10 @@ end
 
 function DragBlockGroupAction:draw()
 end
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 function DragBlockGroupAction:_updateMouse()
   local pos = game.cameraManager:worldCoords(inputManager:getMousePosition())
@@ -81,13 +82,13 @@ function DragBlockGroupAction:_grapBlockGroup(blockGroup)
 
     game.cameraManager:shake({duration = 0.1, min = 0, max = 3})
     self._activeBlockGroup = blockGroup
-    self._activeBlockGroup:disableDraw()
     self._activeBlockGroup:setSensor(true)
+    self._activeBlockGroup:releaseInnerJoints()
   end
 end
 
 function DragBlockGroupAction:_releaseBlockGroup()
-  self._activeBlockGroup:endableDraw()
+  self._activeBlockGroup:setInnerJoints()
   self._activeBlockGroup:setSensor(false)
   self._activeBlockGroup = nil
 

@@ -26,30 +26,38 @@ function BlockGroup:initialize(t)
     }
   )
 
-
   -- correct relativePositions with respect to rotation center
   for k,v in ipairs(self.relativePositions) do
     self.relativePositions[k] = v - self.rotationCenter
   end
 
   -- set block positions
-  local blockSize = Global.BLOCK_SIZE
   for k,v in ipairs(self.blocks) do
-    local relPos = blockSize * (self.relativePositions[k] + self.rotationCenter)
+    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k] + self.rotationCenter)
     v:setPosition(self.pos + relPos)
   end
 
-  self.joints = {}
-  for i = 2, #self.blocks do
-    local b1,b2 = self.blocks[i-1],self.blocks[i]
-    table.insert(self.joints,physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, b1.pos.x, b1.pos.y, false))
-  end
-  print(#self.joints)
+  self:setInnerJoints()
 
   for k,v in ipairs(self.blocks) do
     v.collider:setObject(self)
     v:setColor(self.color)
   end
+end
+
+function BlockGroup:setInnerJoints()
+  self.joints = {}
+  for i = 2, #self.blocks do
+    local b1,b2 = self.blocks[i-1],self.blocks[i]
+    table.insert(self.joints,physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, b1.pos.x, b1.pos.y, true))
+  end
+end
+
+function BlockGroup:releaseInnerJoints()
+  for k,v in ipairs(self.joints) do
+    physicsWorld:removeJoint(v)
+  end
+  self.joints = nil
 end
 
 function BlockGroup:setSensor(isSensor)
@@ -63,14 +71,16 @@ function BlockGroup:update(dt)
 end
 
 function BlockGroup:rotateRight()
-  local angle = self.blocks[1].collider:getAngle()
-  self.blocks[1].collider:setAngle(angle + math.pi/2)
-  --for _,v in ipairs(self.relativePositions) do
-  --  v:rotateInplace(math.pi/2)
-  --end
+  --local angle = self.blocks[1].collider:getAngle()
+  --self.blocks[1].collider:setAngle(angle + math.pi/2)
+  for _,v in ipairs(self.relativePositions) do
+    v:rotateInplace(math.pi/2)
+  end
 end
 
 function BlockGroup:rotateLeft()
+  --local angle = self.blocks[1].collider:getAngle()
+  --self.blocks[1].collider:setAngle(angle - math.pi/2)
   for _,v in ipairs(self.relativePositions) do
     v:rotateInplace(-math.pi/2)
   end
@@ -86,15 +96,15 @@ function BlockGroup:getPositionVec()
 end
 
 function BlockGroup:setBlockPositions()
-  self.blocks[1]:setPosition(self.pos)
+  for k,v in ipairs(self.blocks) do
+    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k] + self.rotationCenter)
+    v:setPosition(self.pos + relPos)
+  end
 end
 
 function BlockGroup:updateBlocks(dt)
   for k,v in ipairs(self.blocks) do
     v:update(dt)
-  end
-  for k,v in ipairs(self.blocks) do
-    v:checkForCollisions()
   end
 end
 
@@ -108,11 +118,8 @@ function BlockGroup:isPlaceable()
 end
 
 function BlockGroup:draw()
-  if self.drawActive then
-    for k,v in ipairs(self.blocks) do
-      game.canvas.foreground:renderTo( function() v:draw() end)
-      --game.canvas.shadow:renderTo(function() v:drawShadowLayer() end)
-    end
+  for k,v in ipairs(self.blocks) do
+    v:draw()
   end
 end
 
