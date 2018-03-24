@@ -10,6 +10,8 @@ function love.load()
   inputManager = InputManager:new()
   physicsWorld = Windfield.newWorld(0,0,true)
   physicsWorld:setQueryDebugDrawing(true)
+
+  --physicsWorld:addCollisionClass('Block')
   game = Game:new()
   game:load()
 end

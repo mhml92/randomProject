@@ -22,6 +22,7 @@ function Block:_initCollider()
     Global.BLOCK_SIZE - Global.COLLIDER_PADDING,
     Global.BLOCK_SIZE - Global.COLLIDER_PADDING)
 
+  --self.collider:setCollisionClass('Block')
   self.collider:setObject(self)
   self.collider:setSensor(false)
 end
@@ -41,7 +42,9 @@ function Block:update(dt)
 end
 
 function Block:isPlaceable()
-  return not self.isCollidingWithOtherBlock
+  print((self.collider:stay()))
+  print((self.collider:enter()))
+  return true --self.collider:stay()
 end
 function Block:_updatePosition(dt)
   local x,y = self.collider:getPosition()
