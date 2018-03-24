@@ -8,11 +8,14 @@ Game      = require "Game/game"
 function love.load()
   math.randomseed(os.time())
   inputManager = InputManager:new()
+  physicsWorld = Windfield.newWorld(0,0,true)
+  physicsWorld:setQueryDebugDrawing(true)
   game = Game:new()
   game:load()
 end
 
 function love.update(dt)
+  physicsWorld:update(dt)
   game:update(dt)
   inputManager:reset()
 end

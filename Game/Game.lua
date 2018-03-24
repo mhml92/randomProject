@@ -12,10 +12,10 @@ CameraManager     = require "Game/CameraManager"
 Game = Class("Game", Entity)
 
 function Game:initialize(t)
+
   Entity.initialize(self,{
       args = t,
       defaults = {
-        physicsWorld = Windfield.newWorld(0,0,true),
         timer = Timer:new(),
         actionManager = ActionManager:new(),
         cameraManager = CameraManager:new(),
@@ -125,7 +125,6 @@ function Game:load()
 end
 
 function Game:update(dt)
-  self.physicsWorld:update(dt)
   self.timer:update(dt)
   if inputManager:keyPressed("escape") then
     love.event.quit()
@@ -158,7 +157,7 @@ function Game:draw()
   end
   love.graphics.setCanvas(self.canvas.foreground)
   self.actionManager:draw()
-  self.physicsWorld:draw()
+  physicsWorld:draw()
   self.cameraManager:detach()
   love.graphics.setCanvas()
   love.graphics.setBlendMode("alpha")

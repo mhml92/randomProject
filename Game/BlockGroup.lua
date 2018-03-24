@@ -32,18 +32,30 @@ function BlockGroup:initialize(t)
   for k,v in ipairs(self.relativePositions) do
     self.relativePositions[k] = v - self.rotationCenter
   end
-  self:setBlockPositions()
+
+  -- set block positions
+  local blockSize = Global.BLOCK_SIZE
+  for k,v in ipairs(self.blocks) do
+    local relPos = blockSize * (self.relativePositions[k] + self.rotationCenter)
+    v:setPosition(self.pos + relPos)
+  end
 
   self.joints = {}
   for i = 2, #self.blocks do
     local b1,b2 = self.blocks[i-1],self.blocks[i]
-    table.insert(self.joints,game.physicsWorld:addJoint('WeldJoint', b1.physics, b2.physics, b1.pos.x, b1.pos.y, false))
+    table.insert(self.joints,physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, b1.pos.x, b1.pos.y, false))
   end
   print(#self.joints)
 
   for k,v in ipairs(self.blocks) do
-    v.parent = self
+    v.collider:setObject(self)
     v:setColor(self.color)
+  end
+end
+
+function BlockGroup:setSensor(isSensor)
+  for k,v in ipairs(self.blocks) do
+    v.collider:setSensor(isSensor)
   end
 end
 
@@ -52,9 +64,11 @@ function BlockGroup:update(dt)
 end
 
 function BlockGroup:rotateRight()
-  for _,v in ipairs(self.relativePositions) do
-    v:rotateInplace(math.pi/2)
-  end
+  local angle = self.blocks[1].collider:getAngle()
+  self.blocks[1].collider:setAngle(angle + math.pi/2)
+  --for _,v in ipairs(self.relativePositions) do
+  --  v:rotateInplace(math.pi/2)
+  --end
 end
 
 function BlockGroup:rotateLeft()
@@ -73,11 +87,7 @@ function BlockGroup:getPositionVec()
 end
 
 function BlockGroup:setBlockPositions()
-  local blockSize = Global.BLOCK_SIZE
-  for k,v in ipairs(self.blocks) do
-    local relPos = blockSize * (self.relativePositions[k] + self.rotationCenter)
-    v:setPosition(self.pos + relPos)
-  end
+  self.blocks[1]:setPosition(self.pos)
 end
 
 function BlockGroup:updateBlocks(dt)

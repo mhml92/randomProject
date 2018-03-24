@@ -4,7 +4,6 @@ function DragBlockGroupAction:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
-        collider = HCollider:circle(0,0,0.5),
         mouseDelta = Vec(0,0),
         mousePos = Vec(0,0),
         activeBlockGroup = nil,
@@ -24,7 +23,6 @@ end
 function DragBlockGroupAction:update(dt)
   self:updateMouse()
   -- update collider
-  self.collider:moveTo(self.mousePos.x,self.mousePos.y)
 
 
   if self:isHoldingBlockGroup() then
@@ -65,8 +63,8 @@ function DragBlockGroupAction:rotateBlockGroup(dt)
 end
 
 function DragBlockGroupAction:getBlockGroupUnderCursor()
-  for shape, delta in pairs(HCollider:collisions(self.collider)) do
-    return shape.parentBlock.parent
+  for _, collider in ipairs(physicsWorld:queryCircleArea(self.mousePos.x, self.mousePos.y,Global.BLOCK_SIZE)) do
+    return collider:getObject()
   end
   return nil
 end
@@ -77,15 +75,17 @@ end
 
 function DragBlockGroupAction:grapBlockGroup(blockGroup)
   if blockGroup then
-    print("hallo")
+
     game.cameraManager:shake({duration = 0.1, min = 0, max = 3})
     self.activeBlockGroup = blockGroup
     self.activeBlockGroup:disableDraw()
+    self.activeBlockGroup:setSensor(true)
   end
 end
 
 function DragBlockGroupAction:releaseBlockGroup()
   self.activeBlockGroup:endableDraw()
+  self.activeBlockGroup:setSensor(false)
   self.activeBlockGroup = nil
 
   game.cameraManager:shake({duration = 0.1, min = 0, max = 3})
@@ -109,9 +109,8 @@ function DragBlockGroupAction:draw()
   else
     game.canvas.selection:renderTo(function()
       love.graphics.setColor(255, 0, 0)
-      love.graphics.circle("fill", self.mousePos.x, self.mousePos.y, 5, 16)
+      --love.graphics.circle("fill", self.mousePos.x, self.mousePos.y, 5, 16)
       love.graphics.setColor(255, 255, 255)
-      self.collider:draw()
     end)
   end
 end

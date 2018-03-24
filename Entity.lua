@@ -16,7 +16,9 @@ function Entity:setActive(isActive)
 end
 
 function Entity:initCollider()
-  self.collider.parentBlock = self
+  if self.collider then
+    self.collider:setObject(self)
+  end
 end
 
 
