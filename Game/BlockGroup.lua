@@ -5,7 +5,6 @@ function BlockGroup:initialize(t)
       args = t,
       defaults = {
         pos = Vec(0,0),
-        drawActive = true,
         color = Util.randomColor(),
         blocks = {
           Block:new(),
@@ -115,37 +114,6 @@ function BlockGroup:draw()
       --game.canvas.shadow:renderTo(function() v:drawShadowLayer() end)
     end
   end
-end
-
-function BlockGroup:drawForeground()
-  if self.drawActive then
-    for k,v in ipairs(self.blocks) do
-      v:draw()
-    end
-  end
-end
-function BlockGroup:drawShadowLayer()
-  if self.drawActive then
-    for k,v in ipairs(self.blocks) do
-      v:drawShadowLayer()
-    end
-  end
-end
-
-function BlockGroup:drawSilhouette()
-  if self.drawActive then
-    for k,v in ipairs(self.blocks) do
-      v:drawSilhouette()
-    end
-  end
-end
-
-function BlockGroup:disableDraw()
-  self.drawActive = false
-end
-
-function BlockGroup:endableDraw()
-  self.drawActive = true
 end
 
 return BlockGroup

@@ -15,13 +15,6 @@ function Entity:setActive(isActive)
   self.__isActive = isActive
 end
 
-function Entity:initCollider()
-  if self.collider then
-    self.collider:setObject(self)
-  end
-end
-
-
 function Entity:setDefaults(t)
   for k,v in pairs(t) do
     if self[k] == nil then
