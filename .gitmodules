@@ -9,4 +9,4 @@
 	url = https://github.com/kikito/middleclass.git
 [submodule "windfield"]
 	path = windfield
-	url = https://github.com/SSYGEN/windfield.git
+	url = https://github.com/mhml92/windfield.git
