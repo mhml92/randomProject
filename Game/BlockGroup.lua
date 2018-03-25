@@ -49,7 +49,8 @@ function BlockGroup:setInnerJoints()
   self.joints = {}
   for i = 2, #self.blocks do
     local b1,b2 = self.blocks[i-1],self.blocks[i]
-    table.insert(self.joints,physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, b1.pos.x, b1.pos.y, true))
+    local anchor_point = ((b2.pos - b1.pos)/2) + b1.pos
+    table.insert(self.joints,physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, true))
   end
 end
 
@@ -58,6 +59,12 @@ function BlockGroup:releaseInnerJoints()
     physicsWorld:removeJoint(v)
   end
   self.joints = nil
+end
+
+function BlockGroup:resetBlockOrientation()
+  for k,v in ipairs(self.blocks) do
+    v.collider:setAngle(0)
+  end
 end
 
 function BlockGroup:setSensor(isSensor)
@@ -71,16 +78,12 @@ function BlockGroup:update(dt)
 end
 
 function BlockGroup:rotateRight()
-  --local angle = self.blocks[1].collider:getAngle()
-  --self.blocks[1].collider:setAngle(angle + math.pi/2)
   for _,v in ipairs(self.relativePositions) do
     v:rotateInplace(math.pi/2)
   end
 end
 
 function BlockGroup:rotateLeft()
-  --local angle = self.blocks[1].collider:getAngle()
-  --self.blocks[1].collider:setAngle(angle - math.pi/2)
   for _,v in ipairs(self.relativePositions) do
     v:rotateInplace(-math.pi/2)
   end

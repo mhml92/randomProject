@@ -47,7 +47,6 @@ end
 
 function Block:update(dt)
   self:_updatePosition(dt)
-  --self:updateCollider()
 end
 
 function Block:getPositionVec()
@@ -76,30 +75,7 @@ end
 
 function Block:draw()
   love.graphics.setColor(self.color)
-  love.graphics.circle("fill", self.pos.x, self.pos.y, Global.BLOCK_SIZE/2, 16)
-  --[[
-  love.graphics.setColor(self.color)
-
-  -- debug
-  love.graphics.setColor(Global.BLOCK_LINE_COLOR)
-  love.graphics.setLineWidth(2)
-  love.graphics.circle("fill", self.pos.x, self.pos.y, 2, 4)
-  love.graphics.rectangle("line", self.pos.x-(self.width/2), self.pos.y-(self.height/2), self.width, self.height)
-  ]]
+  love.graphics.circle("fill", self.pos.x, self.pos.y, Global.BLOCK_SIZE/3, 16)
 end
-
-function Block:drawShadowLayer()
-  --[[
-  love.graphics.setColor(Global.SHADOW_COLOR)
-  love.graphics.rectangle("fill", self.pos.x-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.pos.y-(Global.BLOCK_SIZE/2)+Global.SHADOW_DISTANCE, self.width, self.height)
-  ]]
-end
-
-function Block:drawSilhouette()
-  --[[
-  love.graphics.rectangle("fill", self.pos.x-(Global.BLOCK_SIZE/2), self.pos.y-(Global.BLOCK_SIZE/2), self.width, self.height)
-  ]]
-end
-
 
 return Block

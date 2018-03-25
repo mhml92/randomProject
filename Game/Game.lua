@@ -19,11 +19,6 @@ function Game:initialize(t)
         timer = Timer:new(),
         actionManager = ActionManager:new(),
         cameraManager = CameraManager:new(),
-        canvas = {
-          shadow = love.graphics.newCanvas(),
-          foreground = love.graphics.newCanvas(),
-          selection = love.graphics.newCanvas(),
-        }
       }
     }
   )
@@ -116,7 +111,7 @@ function Game:load()
       rotationCenter = Vec(-0.5,-0.5),
       relativePositions = {
         Vec(0,-1),
-        Vec(0,0),
+        Vec(0, 0),
         Vec(-1,-1),
         Vec(-1,0)
       }
@@ -128,6 +123,10 @@ function Game:update(dt)
   self.timer:update(dt)
   if inputManager:keyPressed("escape") then
     love.event.quit()
+  end
+
+  if inputManager:keyReleased("n") then
+    table.insert(self.blocks,blockGroupFactory.getRandom())
   end
   self.actionManager:update(dt)
   self:updateActiveBlocks(dt)
@@ -143,31 +142,16 @@ function Game:updateActiveBlocks(dt)
 end
 
 function Game:draw()
-
   self.cameraManager:attach()
   for k,v in ipairs(self.blocks) do
     v:draw()
   end
-  --love.graphics.setCanvas(self.canvas.foreground)
   self.actionManager:draw()
-  physicsWorld:draw(128)
+  physicsWorld:draw()
   self.cameraManager:detach()
-  --[[
-  love.graphics.setCanvas(self.canvas.shadow)
-  love.graphics.clear()
-  love.graphics.setCanvas(self.canvas.foreground)
-  love.graphics.clear()
-  love.graphics.setCanvas(self.canvas.selection)
-  love.graphics.clear()
+end
 
-  love.graphics.setCanvas()
-  love.graphics.setBlendMode("alpha")
-  love.graphics.setColor(255, 255, 255)
-  love.graphics.draw(self.canvas.shadow)
-  love.graphics.draw(self.canvas.foreground)
-  love.graphics.draw(self.canvas.selection)
-  ]]
-
+function Game:_getRandomTetromino()
 end
 
 function Game:keypressed( key, scancode, isrepeat )
