@@ -14,6 +14,7 @@ function DragBlockGroupAction:initialize(t)
 end
 
 function DragBlockGroupAction:update(dt)
+
   self:_updateMouse()
   if self:_isHoldingBlockGroup() then
     self:_update_activeBlockGroup(dt)
@@ -66,10 +67,18 @@ function DragBlockGroupAction:_rotateBlockGroup(dt)
 end
 
 function DragBlockGroupAction:_getBlockGroupUnderCursor()
+  --- this is stupid....
+  local max_dist = Global.BLOCK_SIZE
+  result = nil
   for _, collider in ipairs(physicsWorld:queryCircleArea(self._mousePos.x, self._mousePos.y,Global.BLOCK_SIZE)) do
-    return collider:getObject()
+    local dist = self._mousePos:dist(collider:getObject():getPositionVec())
+    if dist < max_dist then
+      print(dist)
+      result = collider:getObject():getParent()
+      max_dist = dist
+    end
   end
-  return nil
+  return result
 end
 
 function DragBlockGroupAction:_isHoldingBlockGroup()

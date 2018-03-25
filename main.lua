@@ -1,9 +1,9 @@
-Util      = require "Util"
 Windfield = require "windfield/windfield"
 Class     = require "middleclass/middleclass"
 Entity    = require "Entity"
 I         = require "inspect/inspect"
 Game      = require "Game/game"
+Util      = require "Util"
 
 function love.load()
   math.randomseed(os.time())

@@ -40,7 +40,7 @@ function BlockGroup:initialize(t)
   self:setInnerJoints()
 
   for k,v in ipairs(self.blocks) do
-    v.collider:setObject(self)
+    v:setParent(self)
     v:setColor(self.color)
   end
 end

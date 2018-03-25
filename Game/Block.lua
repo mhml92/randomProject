@@ -5,6 +5,7 @@ function Block:initialize(t)
       args = t,
       defaults = {
         pos = Vec(0,0),
+        parent = nil,
         width = Global.BLOCK_SIZE,
         height = Global.BLOCK_SIZE,
         color = Util.randomColor(),
@@ -25,7 +26,14 @@ function Block:_initCollider()
   self.collider:setCollisionClass(Global.COLLISION_CLASS_BLOCK)
   self.collider:setObject(self)
   self.collider:setSensor(false)
+end
 
+function Block:setParent(p)
+  self.parent = p
+end
+
+function Block:getParent()
+  return self.parent
 end
 
 function Block:setColor(color)
@@ -40,6 +48,11 @@ end
 function Block:update(dt)
   self:_updatePosition(dt)
   --self:updateCollider()
+end
+
+function Block:getPositionVec()
+  local x,y = self.collider:getPosition()
+  return Vec(x,y)
 end
 
 function Block:isPlaceable()
@@ -63,7 +76,7 @@ end
 
 function Block:draw()
   love.graphics.setColor(self.color)
-  love.graphics.circle("fill", self.pos.x, self.pos.y, 2, 4)
+  love.graphics.circle("fill", self.pos.x, self.pos.y, Global.BLOCK_SIZE/2, 16)
   --[[
   love.graphics.setColor(self.color)
 
