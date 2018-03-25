@@ -45,7 +45,6 @@ function DragBlockGroupAction:_update_activeBlockGroup()
   self:_rotateBlockGroup(dt)
 
   local isPlaceable = self._activeBlockGroup:isPlaceable()
-
   if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
     self:_releaseBlockGroup()
   else
@@ -79,11 +78,11 @@ end
 
 function DragBlockGroupAction:_grapBlockGroup(blockGroup)
   if blockGroup then
-
-    game.cameraManager:shake({duration = 0.1, min = 0, max = 3})
     self._activeBlockGroup = blockGroup
     self._activeBlockGroup:setSensor(true)
     self._activeBlockGroup:releaseInnerJoints()
+
+    game.cameraManager:shake({duration = 0.1, min = 0, max = 3})
   end
 end
 

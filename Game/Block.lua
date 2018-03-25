@@ -43,10 +43,10 @@ function Block:update(dt)
 end
 
 function Block:isPlaceable()
-  print(I(self.collider:stay(Global.COLLISION_CLASS_BLOCK)))
-  --print((self.collider:exit(Global.COLLISION_CLASS_BLOCK)))
-  --print(I(self.collider:getStayCollisionData(Global.COLLISION_CLASS_BLOCK)))
-  return true --self.collider:stay()
+  local x,y = self.collider:getPosition()
+  x = x - Global.BLOCK_SIZE/2
+  y = y - Global.BLOCK_SIZE/2
+  return #physicsWorld:queryRectangleArea(x,y, Global.BLOCK_SIZE, Global.BLOCK_SIZE, {Global.COLLISION_CLASS_BLOCK}) == 0
 end
 
 function Block:_updatePosition(dt)
