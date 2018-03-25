@@ -22,9 +22,10 @@ function Block:_initCollider()
     Global.BLOCK_SIZE - Global.COLLIDER_PADDING,
     Global.BLOCK_SIZE - Global.COLLIDER_PADDING)
 
-  --self.collider:setCollisionClass('Block')
+  self.collider:setCollisionClass(Global.COLLISION_CLASS_BLOCK)
   self.collider:setObject(self)
   self.collider:setSensor(false)
+
 end
 
 function Block:setColor(color)
@@ -42,10 +43,12 @@ function Block:update(dt)
 end
 
 function Block:isPlaceable()
-  print((self.collider:stay()))
-  print((self.collider:enter()))
+  print(I(self.collider:stay(Global.COLLISION_CLASS_BLOCK)))
+  --print((self.collider:exit(Global.COLLISION_CLASS_BLOCK)))
+  --print(I(self.collider:getStayCollisionData(Global.COLLISION_CLASS_BLOCK)))
   return true --self.collider:stay()
 end
+
 function Block:_updatePosition(dt)
   local x,y = self.collider:getPosition()
   self.pos.x,self.pos.y = x,y

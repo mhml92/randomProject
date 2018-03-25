@@ -11,7 +11,8 @@ function love.load()
   physicsWorld = Windfield.newWorld(0,0,true)
   physicsWorld:setQueryDebugDrawing(true)
 
-  --physicsWorld:addCollisionClass('Block')
+  physicsWorld:addCollisionClass(Global.COLLISION_CLASS_BLOCK)
+
   game = Game:new()
   game:load()
 end
