@@ -8,7 +8,7 @@ function Block:initialize(t)
         parent = nil,
         width = Global.BLOCK_SIZE,
         height = Global.BLOCK_SIZE,
-        color = Util.randomColor(),
+        color = Util.randomColor(64),
       }
     })
 
@@ -76,6 +76,8 @@ end
 function Block:draw()
   love.graphics.setColor(self.color)
   love.graphics.circle("fill", self.pos.x, self.pos.y, Global.BLOCK_SIZE/3, 16)
+  love.graphics.setColor(255,255,255)
+  love.graphics.circle("fill", self.pos.x, self.pos.y, 2, 4)
 end
 
 return Block

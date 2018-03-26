@@ -89,7 +89,7 @@ function DragBlockGroupAction:_grapBlockGroup(blockGroup)
   if blockGroup then
     self._activeBlockGroup = blockGroup
     self._activeBlockGroup:setSensor(true)
-    self._activeBlockGroup:releaseInnerJoints()
+    self._activeBlockGroup:releaseJoints()
     self._activeBlockGroup:resetBlockOrientation()
 
     game.cameraManager:shake({duration = 0.1, min = 0, max = 3})
@@ -97,7 +97,7 @@ function DragBlockGroupAction:_grapBlockGroup(blockGroup)
 end
 
 function DragBlockGroupAction:_releaseBlockGroup()
-  self._activeBlockGroup:setInnerJoints()
+  self._activeBlockGroup:setJoints()
   self._activeBlockGroup:setSensor(false)
   self._activeBlockGroup = nil
 

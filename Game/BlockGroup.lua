@@ -5,7 +5,7 @@ function BlockGroup:initialize(t)
       args = t,
       defaults = {
         pos = Vec(0,0),
-        color = Util.randomColor(),
+        color = Util.randomColor(64),
         blocks = {
           Block:new(),
           Block:new(),
@@ -37,28 +37,64 @@ function BlockGroup:initialize(t)
     v:setPosition(self.pos + relPos)
   end
 
-  self:setInnerJoints()
 
   for k,v in ipairs(self.blocks) do
     v:setParent(self)
     v:setColor(self.color)
   end
+
+  self:setJoints()
 end
 
-function BlockGroup:setInnerJoints()
-  self.joints = {}
+function BlockGroup:setJoints()
+  -- inner joints
   for i = 2, #self.blocks do
     local b1,b2 = self.blocks[i-1],self.blocks[i]
     local anchor_point = ((b2.pos - b1.pos)/2) + b1.pos
-    table.insert(self.joints,physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, true))
+    physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, true)
+  end
+
+  -- outer joints
+  self:_setNeighborJoints()
+end
+
+function BlockGroup:_setNeighborJoints()
+  for k,v in ipairs(self.blocks) do
+
+    -- calculate neighbors from own position
+    local x,y = v.collider:getPosition()
+    x = x - Global.BLOCK_SIZE/2
+    y = y - Global.BLOCK_SIZE/2
+
+    local neighbors = {
+      {x = x, y = y - Global.BLOCK_SIZE},
+      {x = x, y = y + Global.BLOCK_SIZE},
+      {x = x - Global.BLOCK_SIZE, y = y},
+      {x = x + Global.BLOCK_SIZE, y = y}
+    }
+
+    local blockGroupId = self.id
+    for _,pos in ipairs(neighbors) do
+
+      for __,neighbor_block in ipairs(Util.queryBlocksAt(pos.x,pos.y)) do
+        local n = neighbor_block:getObject()
+        if not (blockGroupId == n:getParent().id) then
+          local b1,b2 = v, n
+          local anchor_point = ((b2.pos - b1.pos)/2) + b1.pos
+          physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, true)
+        end
+      end
+    end
+
   end
 end
 
-function BlockGroup:releaseInnerJoints()
-  for k,v in ipairs(self.joints) do
-    physicsWorld:removeJoint(v)
+function BlockGroup:releaseJoints()
+  for k,v in ipairs(self.blocks) do
+    for _,j in ipairs(v.collider:getJointList()) do
+      physicsWorld:removeJoint(j)
+    end
   end
-  self.joints = nil
 end
 
 function BlockGroup:resetBlockOrientation()
