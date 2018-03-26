@@ -17,8 +17,8 @@ function Game:initialize(t)
       args = t,
       defaults = {
         timer = Timer:new(),
-        actionManager = ActionManager:new(),
         cameraManager = CameraManager:new(),
+        actionManager = ActionManager:new(),
       }
     }
   )
@@ -125,15 +125,12 @@ function Game:update(dt)
     love.event.quit()
   end
 
-  if inputManager:keyReleased("n") then
-    table.insert(self.blocks,blockGroupFactory.getRandom())
-  end
+  self.cameraManager:update(dt)
   self.actionManager:update(dt)
   self:updateActiveBlocks(dt)
 end
 
 function Game:updateActiveBlocks(dt)
-  self.cameraManager:update(dt)
   for k,v in ipairs(self.blocks) do
     if v:isActive() then
       v:update(dt)

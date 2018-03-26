@@ -75,7 +75,6 @@ function BlockGroup:_setNeighborJoints()
 
     local blockGroupId = self.id
     for _,pos in ipairs(neighbors) do
-
       for __,neighbor_block in ipairs(Util.queryBlocksAt(pos.x,pos.y)) do
         local n = neighbor_block:getObject()
         if not (blockGroupId == n:getParent().id) then
