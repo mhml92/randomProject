@@ -44,6 +44,7 @@ function BlockGroup:initialize(t)
   end
 
   self:setJoints()
+
 end
 
 function BlockGroup:setJoints()
@@ -113,14 +114,17 @@ function BlockGroup:update(dt)
 end
 
 function BlockGroup:rotateRight()
-  for _,v in ipairs(self.relativePositions) do
-    v:rotateInplace(math.pi/2)
-  end
+  self:rotate(math.pi/2)
 end
 
 function BlockGroup:rotateLeft()
-  for _,v in ipairs(self.relativePositions) do
-    v:rotateInplace(-math.pi/2)
+  self:rotate(-math.pi/2)
+end
+
+function BlockGroup:rotate(rad)
+  for k,v in ipairs(self.relativePositions) do
+    v:rotateInplace( rad )
+    self.blocks[k].collider:setAngle(self.blocks[k].collider:getAngle() + rad)
   end
 end
 

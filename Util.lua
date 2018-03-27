@@ -13,16 +13,31 @@ local function getId()
   return Global.STATIC_OBJECT_ID
 end
 
-local function toGridCoords(pos)
-  return Vec(
-  Util.round(pos.x/Global.BLOCK_SIZE),
-  Util.round(pos.y/Global.BLOCK_SIZE)
-) * Global.BLOCK_SIZE
+local function round(x) return math.floor(x+0.5) end
+
+local function toGridCoords(pos,origoBlockGroup)
+
+  -- origo
+  local origo = Vec(0,0)
+  if origoBlockGroup then
+    local x,y = origoBlockGroup.blocks[1].collider:getPosition()
+    origo = Vec(x,y)
+  end
+
+  -- offset
+  local offset = origo/Global.BLOCK_SIZE
+  offset.x = offset.x - math.floor(offset.x)
+  offset.y = offset.y - math.floor(offset.y)
+  offset = offset*Global.BLOCK_SIZE
+  
+  return (Vec(
+    Util.round(pos.x/Global.BLOCK_SIZE),
+    Util.round(pos.y/Global.BLOCK_SIZE)
+  ) * Global.BLOCK_SIZE)+offset
 end
 
 local function isTable(t) return type(t) == 'table' end
 
-local function round(x) return math.floor(x+0.5) end
 
 -- (x,y) top left of block
 local function queryBlocksAt(x,y)

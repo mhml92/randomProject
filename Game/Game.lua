@@ -40,7 +40,7 @@ function Game:load()
         Vec(1,0),
         Vec(0,1)
       }
-    }),
+    })--[[,
     -- Z
     BlockGroup:new({
       pos = Vec(
@@ -115,7 +115,7 @@ function Game:load()
         Vec(-1,-1),
         Vec(-1,0)
       }
-    })
+    })]]
   }
 end
 

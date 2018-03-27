@@ -50,8 +50,13 @@ function DragBlockGroupAction:_update_activeBlockGroup()
     self:_releaseBlockGroup()
   else
     local blockGroupPos = self._mousePos + self._offset
-    blockGroupPos = Util.toGridCoords(blockGroupPos)
+    blockGroupPos = Util.toGridCoords(blockGroupPos, game.blocks[1])
+
     self._activeBlockGroup:setPosition(blockGroupPos)
+    self._activeBlockGroup:rotate(
+      game.blocks[1].blocks[1].collider:getAngle()-
+      self._activeBlockGroup.blocks[1].collider:getAngle()
+    )
   end
 end
 
@@ -73,7 +78,6 @@ function DragBlockGroupAction:_getBlockGroupUnderCursor()
   for _, collider in ipairs(physicsWorld:queryCircleArea(self._mousePos.x, self._mousePos.y,Global.BLOCK_SIZE)) do
     local dist = self._mousePos:dist(collider:getObject():getPositionVec())
     if dist < max_dist then
-      print(dist)
       result = collider:getObject():getParent()
       max_dist = dist
     end
