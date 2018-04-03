@@ -54,7 +54,7 @@ function DragBlockGroupAction:_update_activeBlockGroup()
 
     self._activeBlockGroup:setPosition(blockGroupPos)
     self._activeBlockGroup:rotate(
-      game.blocks[1].blocks[1].collider:getAngle()-
+      game.blocks[1].blocks[1].collider:getAngle()-  <-- this is problem
       self._activeBlockGroup.blocks[1].collider:getAngle()
     )
   end
@@ -94,7 +94,6 @@ function DragBlockGroupAction:_grapBlockGroup(blockGroup)
     self._activeBlockGroup = blockGroup
     self._activeBlockGroup:setSensor(true)
     self._activeBlockGroup:releaseJoints()
-    self._activeBlockGroup:resetBlockOrientation()
 
     game.cameraManager:shake({duration = 0.1, min = 0, max = 3})
   end

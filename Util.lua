@@ -29,12 +29,17 @@ local function toGridCoords(pos,origoBlockGroup)
 
   local directLine = pos - origo
 
-  local horizontal = Vec(1,0)
+
+  local horizontal = Vec(1000,0)
   horizontal:rotateInplace(rotation)
 
+  if Global.DEBUG_DRAW then
+    table.insert(debugDraw,{type = "line", a = origo:clone(), b = origo + horizontal:clone(),color = {0,255,0}})
+  end
+
   local xVec = directLine:projectOn(horizontal)
-  print(xVec:len())
   local yVec = directLine - xVec
+
 
   local xLen = xVec:len()
   local yLen = yVec:len()
@@ -42,8 +47,13 @@ local function toGridCoords(pos,origoBlockGroup)
   xLen = Util.round(xLen/Global.BLOCK_SIZE)
   yLen = Util.round(yLen/Global.BLOCK_SIZE)
 
-  xVec = xVec:normalized()*Global.BLOCK_SIZE * xLen
-  yVec = yVec:normalized()*Global.BLOCK_SIZE * yLen
+  xVec = xVec:normalized() * (Global.BLOCK_SIZE * xLen)
+  yVec = yVec:normalized() * (Global.BLOCK_SIZE * yLen)
+
+  if Global.DEBUG_DRAW then
+    table.insert(debugDraw,{type = "line", a = origo:clone(), b = origo + xVec:clone(),color = {0,0,255}})
+    table.insert(debugDraw,{type = "line", a = origo + xVec, b = origo + xVec + yVec, color = {255,0,255}})
+  end
 
   return origo + xVec + yVec
 end
@@ -53,11 +63,10 @@ local function isTable(t) return type(t) == 'table' end
 
 -- (x,y) top left of block
 local function queryBlocksAt(x,y)
-  return physicsWorld:queryRectangleArea(
+  return physicsWorld:queryCircleArea(
     x,
     y,
-    Global.BLOCK_SIZE,
-    Global.BLOCK_SIZE,
+    Global.BLOCK_SIZE/2,
     {Global.COLLISION_CLASS_BLOCK})
 end
 
@@ -79,11 +88,25 @@ function findIntersect(l1p1x,l1p1y, l1p2x,l1p2y, l2p1x,l2p1y, l2p2x,l2p2y, seg1,
 	return x,y
 end
 
+local function debugDraw(list)
+  for k,v in ipairs(list) do
+    love.graphics.setColor(v.color)
+    if v.type == "line" then
+      love.graphics.line(
+        v.a.x,
+        v.a.y,
+        v.b.x,
+        v.b.y)
+    end
+  end
+end
+
 return {
   getId = getId,
   queryBlocksAt = queryBlocksAt,
   toGridCoords = toGridCoords,
   randomColor = randomColor,
   round = round,
-  isTable = isTable
+  isTable = isTable,
+  debugDraw = debugDraw
 }

@@ -11,6 +11,7 @@ CameraManager     = require "Game/CameraManager"
 
 Game = Class("Game", Entity)
 
+debugDraw = {}
 function Game:initialize(t)
 
   Entity.initialize(self,{
@@ -120,6 +121,7 @@ function Game:load()
 end
 
 function Game:update(dt)
+  debugDraw = {}
   self.timer:update(dt)
   if inputManager:keyPressed("escape") then
     love.event.quit()
@@ -145,10 +147,8 @@ function Game:draw()
   end
   self.actionManager:draw()
   physicsWorld:draw()
+  Util.debugDraw(debugDraw)
   self.cameraManager:detach()
-end
-
-function Game:_getRandomTetromino()
 end
 
 function Game:keypressed( key, scancode, isrepeat )

@@ -56,9 +56,7 @@ end
 
 function Block:isPlaceable()
   local x,y = self.collider:getPosition()
-  x = x - Global.BLOCK_SIZE/2
-  y = y - Global.BLOCK_SIZE/2
-  return #physicsWorld:queryRectangleArea(x,y, Global.BLOCK_SIZE, Global.BLOCK_SIZE, {Global.COLLISION_CLASS_BLOCK}) == 0
+  return #Util.queryBlocksAt(x,y) == 0
 end
 
 function Block:_updatePosition(dt)

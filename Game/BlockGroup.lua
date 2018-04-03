@@ -64,8 +64,6 @@ function BlockGroup:_setNeighborJoints()
 
     -- calculate neighbors from own position
     local x,y = v.collider:getPosition()
-    x = x - Global.BLOCK_SIZE/2
-    y = y - Global.BLOCK_SIZE/2
 
     local neighbors = {
       {x = x, y = y - Global.BLOCK_SIZE},
@@ -97,12 +95,6 @@ function BlockGroup:releaseJoints()
   end
 end
 
-function BlockGroup:resetBlockOrientation()
-  for k,v in ipairs(self.blocks) do
-    v.collider:setAngle(0)
-  end
-end
-
 function BlockGroup:setSensor(isSensor)
   for k,v in ipairs(self.blocks) do
     v.collider:setSensor(isSensor)
@@ -124,7 +116,7 @@ end
 function BlockGroup:rotate(rad)
   for k,v in ipairs(self.relativePositions) do
     v:rotateInplace( rad )
-    self.blocks[k].collider:setAngle(self.blocks[k].collider:getAngle()+rad)
+    self.blocks[k].collider:setAngle((self.blocks[k].collider:getAngle()+rad) % math.pi*2)
   end
 end
 

@@ -1,4 +1,5 @@
 return {
+  DEBUG_DRAW = true,
   STATIC_OBJECT_ID = 0,
   BLOCK_SIZE = 32,
   BLOCK_LINE_COLOR = {255,255,255,80},
