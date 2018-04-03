@@ -124,7 +124,7 @@ end
 function BlockGroup:rotate(rad)
   for k,v in ipairs(self.relativePositions) do
     v:rotateInplace( rad )
-    self.blocks[k].collider:setAngle(self.blocks[k].collider:getAngle() + rad)
+    self.blocks[k].collider:setAngle(self.blocks[k].collider:getAngle()+rad)
   end
 end
 
