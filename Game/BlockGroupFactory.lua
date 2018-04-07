@@ -22,7 +22,7 @@ local function getZ()
   })
 end
 
-local function getI()
+local function getO()
   return BlockGroup:new({
     pos = Vec(0,0),
     rotationCenter = Vec(-0.5,-0.5),
@@ -72,7 +72,7 @@ local function getJ()
   })
 end
 
-local function getI()
+local function getO()
   return BlockGroup:new({
     pos = Vec(0,0),
     rotationCenter = Vec(-0.5,-0.5),
@@ -85,8 +85,22 @@ local function getI()
   })
 end
 
+local function getI()
+  return BlockGroup:new({
+    pos = Vec(0,0),
+    rotationCenter = Vec(-0.5,-0.5),
+    relativePositions = {
+      Vec(0,-2),
+      Vec(0,-1),
+      Vec(0,0),
+      Vec(0,1)
+    }
+  })
+end
+
 local function getRandom()
-  local p = math.random(1, 6)
+  local p = math.random(1, 7)
+  print(p)
   if p == 1 then
     return getT()
   elseif p == 2 then
@@ -96,9 +110,11 @@ local function getRandom()
   elseif p == 4 then
     return getJ()
   elseif p == 5 then
-    return getI()
+    return getO()
   elseif p == 6 then
     return getS()
+  elseif p == 7 then
+    return getI()
   end
 end
 
@@ -108,6 +124,6 @@ return {
   getZ = getZ,
   getL = getL,
   getJ = getJ,
-  getI = getI,
+  getO = getO,
   getS = getS
 }

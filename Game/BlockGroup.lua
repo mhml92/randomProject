@@ -26,6 +26,11 @@ function BlockGroup:initialize(t)
     }
   )
 
+  self.originalRelativePositions = {}
+  for k,v in ipairs(self.relativePositions) do
+    table.insert(self.originalRelativePositions, v:clone())
+  end
+
   -- correct relativePositions with respect to rotation center
   for k,v in ipairs(self.relativePositions) do
     self.relativePositions[k] = v - self.rotationCenter
@@ -115,7 +120,7 @@ end
 
 function BlockGroup:rotate(rad)
   for k,v in ipairs(self.relativePositions) do
-    v:rotateInplace( rad )
+    self.relativePositions[k]:rotateInplace( rad )
     self.blocks[k].collider:setAngle(self.blocks[k].collider:getAngle()+rad)
   end
 end
@@ -130,13 +135,19 @@ function BlockGroup:getPositionVec()
 end
 
 function BlockGroup:setBlockPositions()
+  local rt = self.rotationCenter:clone()
+  rt:rotateInplace(self.blocks[1].collider:getAngle())
   for k,v in ipairs(self.blocks) do
-    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k] + self.rotationCenter)
+    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k] + rt)--self.rotationCenter)
     v:setPosition(self.pos + relPos)
   end
 end
 
 function BlockGroup:updateBlocks(dt)
+  local rot = self.blocks[1].collider:getAngle()
+  for k,v in ipairs(self.relativePositions) do
+    self.relativePositions[k] = self.originalRelativePositions[k]:rotated(rot)
+  end
   for k,v in ipairs(self.blocks) do
     v:update(dt)
   end

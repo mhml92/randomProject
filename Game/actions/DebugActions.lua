@@ -29,7 +29,7 @@ function DebugActions:update(dt)
   if inputManager:mouseReleased(2) then
     local colliders = physicsWorld:queryCircleArea(self.mouseWorldPos.x, self.mouseWorldPos.y, 100)
     for _, collider in ipairs(colliders) do
-      collider:applyLinearImpulse(50, 50)
+      collider:applyAngularImpulse(100)
     end
   end
 
