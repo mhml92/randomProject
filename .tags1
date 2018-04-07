@@ -4,16 +4,11 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-BlockGroup:initialize	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:initialize(t)$/;"	function	line:3
-BlockGroup:setInnerJoints	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:setInnerJoints()$/;"	function	line:48
-BlockGroup:releaseInnerJoints	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:releaseInnerJoints()$/;"	function	line:56
-BlockGroup:setSensor	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:setSensor(isSensor)$/;"	function	line:63
-BlockGroup:update	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:update(dt)$/;"	function	line:69
-BlockGroup:rotateRight	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:rotateRight()$/;"	function	line:73
-BlockGroup:rotateLeft	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:rotateLeft()$/;"	function	line:81
-BlockGroup:setPosition	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:setPosition(v)$/;"	function	line:89
-BlockGroup:getPositionVec	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:getPositionVec()$/;"	function	line:94
-BlockGroup:setBlockPositions	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:setBlockPositions()$/;"	function	line:98
-BlockGroup:updateBlocks	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:updateBlocks(dt)$/;"	function	line:105
-BlockGroup:isPlaceable	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:isPlaceable()$/;"	function	line:111
-BlockGroup:draw	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroup.lua	/^function BlockGroup:draw()$/;"	function	line:120
+getT	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroupFactory.lua	/^local function getT()$/;"	function	line:1
+getZ	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroupFactory.lua	/^local function getZ()$/;"	function	line:13
+getI	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroupFactory.lua	/^local function getI()$/;"	function	line:25
+getS	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroupFactory.lua	/^local function getS()$/;"	function	line:38
+getL	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroupFactory.lua	/^local function getL()$/;"	function	line:51
+getJ	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroupFactory.lua	/^local function getJ()$/;"	function	line:63
+getI	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroupFactory.lua	/^local function getI()$/;"	function	line:75
+getRandom	/Users/Mathilde/Documents/love2d/tetris/Game/BlockGroupFactory.lua	/^local function getRandom()$/;"	function	line:88

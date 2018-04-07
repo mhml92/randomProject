@@ -5,6 +5,7 @@ function Entity:initialize(t)
   self:setDefaults(t.defaults)
 
   self.__isActive = true
+  self.id = Util.getId()
 end
 
 function Entity:isActive()

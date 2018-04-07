@@ -11,19 +11,15 @@ CameraManager     = require "Game/CameraManager"
 
 Game = Class("Game", Entity)
 
+debugDraw = {}
 function Game:initialize(t)
 
   Entity.initialize(self,{
       args = t,
       defaults = {
         timer = Timer:new(),
-        actionManager = ActionManager:new(),
         cameraManager = CameraManager:new(),
-        canvas = {
-          shadow = love.graphics.newCanvas(),
-          foreground = love.graphics.newCanvas(),
-          selection = love.graphics.newCanvas(),
-        }
+        actionManager = ActionManager:new(),
       }
     }
   )
@@ -45,7 +41,7 @@ function Game:load()
         Vec(1,0),
         Vec(0,1)
       }
-    }),
+    })--[[,
     -- Z
     BlockGroup:new({
       pos = Vec(
@@ -116,25 +112,27 @@ function Game:load()
       rotationCenter = Vec(-0.5,-0.5),
       relativePositions = {
         Vec(0,-1),
-        Vec(0,0),
+        Vec(0, 0),
         Vec(-1,-1),
         Vec(-1,0)
       }
-    })
+    })]]
   }
 end
 
 function Game:update(dt)
+  debugDraw = {}
   self.timer:update(dt)
   if inputManager:keyPressed("escape") then
     love.event.quit()
   end
+
+  self.cameraManager:update(dt)
   self.actionManager:update(dt)
   self:updateActiveBlocks(dt)
 end
 
 function Game:updateActiveBlocks(dt)
-  self.cameraManager:update(dt)
   for k,v in ipairs(self.blocks) do
     if v:isActive() then
       v:update(dt)
@@ -143,31 +141,14 @@ function Game:updateActiveBlocks(dt)
 end
 
 function Game:draw()
-
   self.cameraManager:attach()
   for k,v in ipairs(self.blocks) do
     v:draw()
   end
-  --love.graphics.setCanvas(self.canvas.foreground)
   self.actionManager:draw()
-  physicsWorld:draw(128)
+  physicsWorld:draw()
+  Util.debugDraw(debugDraw)
   self.cameraManager:detach()
-  --[[
-  love.graphics.setCanvas(self.canvas.shadow)
-  love.graphics.clear()
-  love.graphics.setCanvas(self.canvas.foreground)
-  love.graphics.clear()
-  love.graphics.setCanvas(self.canvas.selection)
-  love.graphics.clear()
-
-  love.graphics.setCanvas()
-  love.graphics.setBlendMode("alpha")
-  love.graphics.setColor(255, 255, 255)
-  love.graphics.draw(self.canvas.shadow)
-  love.graphics.draw(self.canvas.foreground)
-  love.graphics.draw(self.canvas.selection)
-  ]]
-
 end
 
 function Game:keypressed( key, scancode, isrepeat )
