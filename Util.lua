@@ -101,7 +101,12 @@ local function debugDraw(list)
   end
 end
 
+local function radToVec(rad)
+  return Vec(math.cos(rad),math.sin(rad))
+end
+
 return {
+  radToVec = radToVec,
   getId = getId,
   queryBlocksAt = queryBlocksAt,
   toGridCoords = toGridCoords,

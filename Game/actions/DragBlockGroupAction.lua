@@ -53,10 +53,11 @@ function DragBlockGroupAction:_update_activeBlockGroup()
     blockGroupPos = Util.toGridCoords(blockGroupPos, game.blocks[1])
 
     self._activeBlockGroup:setPosition(blockGroupPos)
-    self._activeBlockGroup:rotate(
-      game.blocks[1].blocks[1].collider:getAngle()-  <-- this is problem
-      self._activeBlockGroup.blocks[1].collider:getAngle()
-    )
+
+    local base = Util.radToVec(game.blocks[1].blocks[1].collider:getAngle())
+    local active = Util.radToVec(self._activeBlockGroup.blocks[1].collider:getAngle())
+    --self._activeBlockGroup:rotate(active:angleTo(base))
+    self._activeBlockGroup:rotate(base:angleTo(active))
   end
 end
 
