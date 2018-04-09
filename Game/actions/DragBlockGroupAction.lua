@@ -49,12 +49,11 @@ function DragBlockGroupAction:_update_activeBlockGroup()
   else
 
     self:_rotateBlockGroup(dt)
-    local base = Util.radToVec(game.blocks[1]:getAngle())
-    local active = Util.radToVec(
-      self._activeBlockGroup:getAngle() - Util.round(self._activeBlockGroup:getAngle()/math.pi/2) <--- waaat
-    )
-    print((base:angleTo(active)))
-    self._activeBlockGroup:rotate(base:angleTo(active))
+    --local base = Util.radToVec(game.blocks[1]:getAngle())
+    --local active = Util.radToVec(self._activeBlockGroup:getAngle())
+    print(game.blocks[1]:getAngle() % (2 * math.pi)) <-- HERE!!!
+  --  local diff =  (Util.round(base:angleTo(active) / math.pi/2) * math.pi/2) - self._activeBlockGroup:getAngle()
+    self._activeBlockGroup:rotate((game.blocks[1]:getAngle() % (2 * math.pi)) - self._activeBlockGroup:getAngle())
 
     local blockGroupPos = self._mousePos + self._offset
     blockGroupPos = Util.toGridCoords(blockGroupPos, game.blocks[1])
