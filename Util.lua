@@ -91,11 +91,7 @@ local function debugDraw(list)
   for k,v in ipairs(list) do
     love.graphics.setColor(v.color)
     if v.type == "line" then
-      love.graphics.line(
-        v.a.x,
-        v.a.y,
-        v.b.x,
-        v.b.y)
+      love.graphics.line(v.a.x, v.a.y, v.b.x, v.b.y)
     end
   end
 end
@@ -110,7 +106,7 @@ local function weldBlocks(b1, b2, selfCollide)
 end
 
 return {
-  weldBlocks = weldBlocks, 
+  weldBlocks = weldBlocks,
   radToVec = radToVec,
   getId = getId,
   queryBlocksAt = queryBlocksAt,

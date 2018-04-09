@@ -4,7 +4,6 @@ function BlockGroup:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
-        pos = Vec(0,0),
         color = Util.randomColor(64),
         blocks = {
           Block:new(),
@@ -39,7 +38,7 @@ function BlockGroup:initialize(t)
   -- set block positions
   for k,v in ipairs(self.blocks) do
     local relPos = Global.BLOCK_SIZE * (self.relativePositions[k] + self.rotationCenter)
-    v:setPosition(self.pos + relPos)
+    v:setPosition(relPos)
   end
 
 
@@ -53,9 +52,10 @@ function BlockGroup:initialize(t)
 end
 
 function BlockGroup:setJoints()
-  -- inner joints
-  for i = 2, #self.blocks do
-    Util.weldBlocks(self.blocks[i-1],self.blocks[i],true)
+  for i = 1, #self.blocks do
+    for j = i + 1, #self.blocks do
+      Util.weldBlocks(self.blocks[i],self.blocks[j],true)
+    end
   end
 
   -- outer joints
@@ -66,8 +66,7 @@ function BlockGroup:_setNeighborJoints()
   for k,v in ipairs(self.blocks) do
 
     -- calculate neighbors from own position
-    local _pos = v:getPositionVec()
-    local x,y = _pos.x, _pos.y
+    local x,y = v:getPositionVec():unpack()
     local neighbors = {
       {x = x                    , y = y - Global.BLOCK_SIZE },
       {x = x                    , y = y + Global.BLOCK_SIZE },
@@ -84,7 +83,6 @@ function BlockGroup:_setNeighborJoints()
         end
       end
     end
-
   end
 end
 
@@ -103,7 +101,7 @@ function BlockGroup:setSensor(isSensor)
 end
 
 function BlockGroup:update(dt)
-  self:updateBlocks(dt)
+  --self:updateBlocks(dt)
 end
 
 function BlockGroup:rotateRight()
@@ -115,15 +113,18 @@ function BlockGroup:rotateLeft()
 end
 
 function BlockGroup:rotate(rad)
-  for k,v in ipairs(self.relativePositions) do
-    --self.relativePositions[k]:rotateInplace( rad )
-    self.blocks[k]:setAngle(self:getAngle()+rad)
+  for k,v in ipairs(self.blocks) do
+    v:setAngle(self:getAngle() + rad )
   end
 end
 
-function BlockGroup:setPosition(v)
-  self.pos = v:clone()
-  self:setBlockPositions()
+function BlockGroup:setPosition(pos)
+  local rt = self.rotationCenter:clone()
+  rt:rotateInplace(self:getAngle())
+  for k,v in ipairs(self.blocks) do
+    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k])
+    v:setPosition(pos + relPos)
+  end
 end
 
 function BlockGroup:getAngle()
@@ -135,12 +136,6 @@ function BlockGroup:getPositionVec()
 end
 
 function BlockGroup:setBlockPositions()
-  local rt = self.rotationCenter:clone()
-  rt:rotateInplace(self:getAngle())
-  for k,v in ipairs(self.blocks) do
-    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k])
-    v:setPosition(self.pos + relPos)
-  end
 end
 
 function BlockGroup:updateBlocks(dt)

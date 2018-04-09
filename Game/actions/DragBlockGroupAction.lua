@@ -47,16 +47,20 @@ function DragBlockGroupAction:_update_activeBlockGroup()
   if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
     self:_releaseBlockGroup()
   else
+
+    self:_rotateBlockGroup(dt)
+    local base = Util.radToVec(game.blocks[1]:getAngle())
+    local active = Util.radToVec(
+      self._activeBlockGroup:getAngle() - Util.round(self._activeBlockGroup:getAngle()/math.pi/2) <--- waaat
+    )
+    print((base:angleTo(active)))
+    self._activeBlockGroup:rotate(base:angleTo(active))
+
     local blockGroupPos = self._mousePos + self._offset
     blockGroupPos = Util.toGridCoords(blockGroupPos, game.blocks[1])
 
     self._activeBlockGroup:setPosition(blockGroupPos)
-
-    self:_rotateBlockGroup(dt)
-    local base = Util.radToVec(game.blocks[1].blocks[1].collider:getAngle())
-    local active = Util.radToVec(self._activeBlockGroup.blocks[1].collider:getAngle())
-    self._activeBlockGroup:rotate(base:angleTo(active))
-
+    self._activeBlockGroup:updateBlocks()
   end
 
 end
