@@ -36,17 +36,28 @@ function Block:getParent()
   return self.parent
 end
 
+function Block:getPositionVec()
+  local x,y = self.collider:getPosition()
+  return Vec(x,y)
+end
+
+function Block:getAngle()
+  return self.collider:getAngle()
+end
+
 function Block:setColor(color)
   self.color = color
 end
 
 function Block:setPosition(v)
-  self.pos = v
-  self:updateCollider()
+  self.collider:setPosition(v.x, v.y)
+end
+
+function Block:setAngle(rad)
+  self.collider:setAngle(rad)
 end
 
 function Block:update(dt)
-  self:_updatePosition(dt)
 end
 
 function Block:getPositionVec()
@@ -59,23 +70,14 @@ function Block:isPlaceable()
   return #Util.queryBlocksAt(x,y) == 0
 end
 
-function Block:_updatePosition(dt)
-  local x,y = self.collider:getPosition()
-  self.pos.x,self.pos.y = x,y
-end
-
-function Block:updateCollider()
-  self.collider:setPosition(
-    self.pos.x,
-    self.pos.y
-  )
-end
-
 function Block:draw()
+  local pos = {}
+  pos.x,pos.y = self.collider:getPosition()
+
   love.graphics.setColor(self.color)
-  love.graphics.circle("fill", self.pos.x, self.pos.y, Global.BLOCK_SIZE/3, 16)
+  love.graphics.circle("fill", pos.x, pos.y, Global.BLOCK_SIZE/3, 16)
   love.graphics.setColor(255,255,255)
-  love.graphics.circle("fill", self.pos.x, self.pos.y, 2, 4)
+  love.graphics.circle("fill", pos.x, pos.y, 2, 4)
 end
 
 return Block

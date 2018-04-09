@@ -21,9 +21,8 @@ local function toGridCoords(pos,origoBlockGroup)
   local origo = Vec(0,0)
   local rotation = 0
   if origoBlockGroup then
-    local x,y = origoBlockGroup.blocks[1].collider:getPosition()
-    origo = Vec(x,y)
-    rotation = origoBlockGroup.blocks[1].collider:getAngle()
+    origo = origoBlockGroup:getPositionVec()
+    rotation = origoBlockGroup:getAngle()
   end
 
 
@@ -105,7 +104,13 @@ local function radToVec(rad)
   return Vec(math.cos(rad),math.sin(rad))
 end
 
+local function weldBlocks(b1, b2, selfCollide)
+  local anchor_point = ((b2:getPositionVec() - b1:getPositionVec())/2) + b1:getPositionVec()
+  physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, selfCollide)
+end
+
 return {
+  weldBlocks = weldBlocks, 
   radToVec = radToVec,
   getId = getId,
   queryBlocksAt = queryBlocksAt,

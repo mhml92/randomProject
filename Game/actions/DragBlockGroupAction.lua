@@ -43,7 +43,6 @@ end
 
 
 function DragBlockGroupAction:_update_activeBlockGroup()
-
   local isPlaceable = self._activeBlockGroup:isPlaceable()
   if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
     self:_releaseBlockGroup()

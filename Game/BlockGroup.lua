@@ -17,8 +17,8 @@ function BlockGroup:initialize(t)
         -- default is 'T' tetromino
         rotationCenter = Vec(0,0),
         relativePositions = {
-          Vec(-1,0),
           Vec(0,0),
+          Vec(-1,0),
           Vec(1,0),
           Vec(0,1)
         }
@@ -55,9 +55,7 @@ end
 function BlockGroup:setJoints()
   -- inner joints
   for i = 2, #self.blocks do
-    local b1,b2 = self.blocks[i-1],self.blocks[i]
-    local anchor_point = ((b2.pos - b1.pos)/2) + b1.pos
-    physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, true)
+    Util.weldBlocks(self.blocks[i-1],self.blocks[i],true)
   end
 
   -- outer joints
@@ -68,13 +66,13 @@ function BlockGroup:_setNeighborJoints()
   for k,v in ipairs(self.blocks) do
 
     -- calculate neighbors from own position
-    local x,y = v.collider:getPosition()
-
+    local _pos = v:getPositionVec()
+    local x,y = _pos.x, _pos.y
     local neighbors = {
-      {x = x, y = y - Global.BLOCK_SIZE},
-      {x = x, y = y + Global.BLOCK_SIZE},
-      {x = x - Global.BLOCK_SIZE, y = y},
-      {x = x + Global.BLOCK_SIZE, y = y}
+      {x = x                    , y = y - Global.BLOCK_SIZE },
+      {x = x                    , y = y + Global.BLOCK_SIZE },
+      {x = x - Global.BLOCK_SIZE, y = y                     },
+      {x = x + Global.BLOCK_SIZE, y = y                     }
     }
 
     local blockGroupId = self.id
@@ -82,9 +80,7 @@ function BlockGroup:_setNeighborJoints()
       for __,neighbor_block in ipairs(Util.queryBlocksAt(pos.x,pos.y)) do
         local n = neighbor_block:getObject()
         if not (blockGroupId == n:getParent().id) then
-          local b1,b2 = v, n
-          local anchor_point = ((b2.pos - b1.pos)/2) + b1.pos
-          physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, true)
+          Util.weldBlocks(v,n,true)
         end
       end
     end
@@ -120,8 +116,8 @@ end
 
 function BlockGroup:rotate(rad)
   for k,v in ipairs(self.relativePositions) do
-    self.relativePositions[k]:rotateInplace( rad )
-    self.blocks[k].collider:setAngle(self.blocks[k].collider:getAngle()+rad)
+    --self.relativePositions[k]:rotateInplace( rad )
+    self.blocks[k]:setAngle(self:getAngle()+rad)
   end
 end
 
@@ -130,24 +126,29 @@ function BlockGroup:setPosition(v)
   self:setBlockPositions()
 end
 
+function BlockGroup:getAngle()
+  return self.blocks[1]:getAngle()
+end
+
 function BlockGroup:getPositionVec()
-  return self.pos:clone()
+  return self.blocks[1]:getPositionVec()
 end
 
 function BlockGroup:setBlockPositions()
   local rt = self.rotationCenter:clone()
-  rt:rotateInplace(self.blocks[1].collider:getAngle())
+  rt:rotateInplace(self:getAngle())
   for k,v in ipairs(self.blocks) do
-    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k] + rt)--self.rotationCenter)
+    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k])
     v:setPosition(self.pos + relPos)
   end
 end
 
 function BlockGroup:updateBlocks(dt)
-  local rot = self.blocks[1].collider:getAngle()
+  local rot = self:getAngle()
   for k,v in ipairs(self.relativePositions) do
     self.relativePositions[k] = self.originalRelativePositions[k]:rotated(rot)
   end
+
   for k,v in ipairs(self.blocks) do
     v:update(dt)
   end
@@ -163,6 +164,11 @@ function BlockGroup:isPlaceable()
 end
 
 function BlockGroup:draw()
+  -- draw 'CenterBlock'
+  love.graphics.setColor(0,255,0)
+  local cx,cy = self.blocks[1].collider:getPosition()
+  love.graphics.circle("line", cx, cy, Global.BLOCK_SIZE/4, 15)
+
   for k,v in ipairs(self.blocks) do
     v:draw()
   end

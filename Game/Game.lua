@@ -31,17 +31,8 @@ end
 function Game:load()
   self.blocks = {
     -- T
-    BlockGroup:new({
-      pos = Vec(
-        3 * Global.BLOCK_SIZE,
-        3 * Global.BLOCK_SIZE),
-      relativePositions = {
-        Vec(-1,0),
-        Vec(0,0),
-        Vec(1,0),
-        Vec(0,1)
-      }
-    })--[[,
+    blockGroupFactory.getT()
+    --[[,
     -- Z
     BlockGroup:new({
       pos = Vec(
