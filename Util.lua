@@ -65,27 +65,10 @@ local function queryBlocksAt(x,y)
   return physicsWorld:queryCircleArea(
     x,
     y,
-    Global.BLOCK_SIZE/3,
+    Global.BLOCK_SIZE/2,
     {Global.COLLISION_CLASS_BLOCK})
 end
 
--- Checks if two lines intersect (or line segments if seg is true)
--- Lines are given as four numbers (two coordinates)
-function findIntersect(l1p1x,l1p1y, l1p2x,l1p2y, l2p1x,l2p1y, l2p2x,l2p2y, seg1, seg2)
-	local a1,b1,a2,b2 = l1p2y-l1p1y, l1p1x-l1p2x, l2p2y-l2p1y, l2p1x-l2p2x
-	local c1,c2 = a1*l1p1x+b1*l1p1y, a2*l2p1x+b2*l2p1y
-	local det,x,y = a1*b2 - a2*b1
-	if det==0 then return false, "The lines are parallel." end
-	x,y = (b2*c1-b1*c2)/det, (a1*c2-a2*c1)/det
-	if seg1 or seg2 then
-		local min,max = math.min, math.max
-		if seg1 and not (min(l1p1x,l1p2x) <= x and x <= max(l1p1x,l1p2x) and min(l1p1y,l1p2y) <= y and y <= max(l1p1y,l1p2y)) or
-		   seg2 and not (min(l2p1x,l2p2x) <= x and x <= max(l2p1x,l2p2x) and min(l2p1y,l2p2y) <= y and y <= max(l2p1y,l2p2y)) then
-			return false, "The lines don't intersect."
-		end
-	end
-	return x,y
-end
 
 local function debugDraw(list)
   for k,v in ipairs(list) do
@@ -100,9 +83,16 @@ local function radToVec(rad)
   return Vec(math.cos(rad),math.sin(rad))
 end
 
-local function weldBlocks(b1, b2, selfCollide) 
-  local anchor_point = ( (b2:getPositionVec() - b1:getPositionVec() )/2) + b1:getPositionVec()
-  physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, selfCollide)
+-- this is really stupid, but WeldJoint dont work :(
+local function weldBlocks(b1, b2, collideConnected)
+  local half = (b2:getPositionVec() - b1:getPositionVec())/2
+  local quarter = (half/2):perpendicular()
+  local a1,a2 = b1:getPositionVec()+ quarter + half, b1:getPositionVec() - quarter + half
+  physicsWorld:addJoint('RevoluteJoint', b1.collider, b2.collider, a1.x, a1.y, collideConnected)
+  physicsWorld:addJoint('RevoluteJoint', b1.collider, b2.collider, a2.x, a2.y, collideConnected)
+  
+  -- WHY WILL THIS NOT WORK!!!!
+  --physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, collideConnected)
 end
 
 return {

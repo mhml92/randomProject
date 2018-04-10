@@ -14,10 +14,6 @@ function BlockGroup:initialize(t)
       }
     }
   )
-  --correct relativePositions with respect to rotation center
-  for k,v in ipairs(self.relativePositions) do
-    self.relativePositions[k] = v + self.rotationCenter
-  end
 
   -- set block positions
   for k,v in ipairs(self.blocks) do
@@ -36,15 +32,16 @@ function BlockGroup:initialize(t)
 end
 
 function BlockGroup:setJoints()
+  --[[
   for i = 1, #self.blocks do
     for j = i + 1, #self.blocks do
       Util.weldBlocks(self.blocks[i],self.blocks[j],true)
     end
   end
-
-  --for i = 2, #self.blocks do
-  --  Util.weldBlocks(self.blocks[i-1],self.blocks[i],true)
-  --end
+  ]]
+  for i = 2, #self.blocks do
+    Util.weldBlocks(self.blocks[i-1],self.blocks[i],true)
+  end
 
 
   -- outer joints
