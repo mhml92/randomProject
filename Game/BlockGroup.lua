@@ -52,11 +52,16 @@ function BlockGroup:initialize(t)
 end
 
 function BlockGroup:setJoints()
-  for i = 1, #self.blocks do
-    for j = i + 1, #self.blocks do
-      Util.weldBlocks(self.blocks[i],self.blocks[j],true)
-    end
+  --for i = 1, #self.blocks do
+  --  for j = i + 1, #self.blocks do
+  --    Util.weldBlocks(self.blocks[i],self.blocks[j],true)
+  --  end
+  --end
+
+  for i = 2, #self.blocks do
+    Util.weldBlocks(self.blocks[i-1],self.blocks[i],true)
   end
+
 
   -- outer joints
   self:_setNeighborJoints()
@@ -68,17 +73,17 @@ function BlockGroup:_setNeighborJoints()
     -- calculate neighbors from own position
     local x,y = v:getPositionVec():unpack()
     local neighbors = {
-      {x = x                    , y = y - Global.BLOCK_SIZE },
-      {x = x                    , y = y + Global.BLOCK_SIZE },
-      {x = x - Global.BLOCK_SIZE, y = y                     },
-      {x = x + Global.BLOCK_SIZE, y = y                     }
+      Vec(0                       , 0 - Global.BLOCK_SIZE/2 ):rotateInplace(v:getAngle())+Vec(x,y),
+      Vec(0                       , 0 + Global.BLOCK_SIZE/2 ):rotateInplace(v:getAngle())+Vec(x,y),
+      Vec(0 - Global.BLOCK_SIZE/2 , 0                       ):rotateInplace(v:getAngle())+Vec(x,y),
+      Vec(0 + Global.BLOCK_SIZE/2 , 0                       ):rotateInplace(v:getAngle())+Vec(x,y)
     }
 
     local blockGroupId = self.id
     for _,pos in ipairs(neighbors) do
       for __,neighbor_block in ipairs(Util.queryBlocksAt(pos.x,pos.y)) do
         local n = neighbor_block:getObject()
-        if not (blockGroupId == n:getParent().id) then
+        if (blockGroupId ~= n:getParent().id) then
           Util.weldBlocks(v,n,true)
         end
       end

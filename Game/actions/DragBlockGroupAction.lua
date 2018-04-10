@@ -43,26 +43,27 @@ end
 
 
 function DragBlockGroupAction:_update_activeBlockGroup()
+  
+  self:_rotateBlockGroup(dt)
+  local base = Util.radToVec(game.blocks[1]:getAngle())
+  local active = Util.radToVec(self._activeBlockGroup:getAngle())
+  local deltaRad = base:angleTo(active)
+  local deltaRadPI2 = deltaRad/(math.pi/2)
+  diff3 = (deltaRadPI2*math.pi/2)- (Util.round(deltaRadPI2)*math.pi/2)
+  print(diff3)
+  --  local dff =  (Util.round(base:angleTo(active) / math.pi/2) * math.pi/2) - self._activeBlockGroup:getAngle()
+  --self._activeBlockGroup:rotate((game.blocks[1]:getAngle() % (2 * math.pi)) - self._activeBlockGroup:getAngle())
+  self._activeBlockGroup:rotate(diff3)
+
+  local blockGroupPos = self._mousePos + self._offset
+  blockGroupPos = Util.toGridCoords(blockGroupPos, game.blocks[1])
+
+  self._activeBlockGroup:setPosition(blockGroupPos)
+  self._activeBlockGroup:updateBlocks()
+
   local isPlaceable = self._activeBlockGroup:isPlaceable()
   if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
     self:_releaseBlockGroup()
-  else
-
-    self:_rotateBlockGroup(dt)
-    local base = Util.radToVec(game.blocks[1]:getAngle())
-    local active = Util.radToVec(self._activeBlockGroup:getAngle())
-
-    local diff = base:angleTo(active)
-    print(diff)
-    <--
-  --  local dff =  (Util.round(base:angleTo(active) / math.pi/2) * math.pi/2) - self._activeBlockGroup:getAngle()
-    self._activeBlockGroup:rotate((game.blocks[1]:getAngle() % (2 * math.pi)) - self._activeBlockGroup:getAngle())
-
-    local blockGroupPos = self._mousePos + self._offset
-    blockGroupPos = Util.toGridCoords(blockGroupPos, game.blocks[1])
-
-    self._activeBlockGroup:setPosition(blockGroupPos)
-    self._activeBlockGroup:updateBlocks()
   end
 
 end
@@ -107,8 +108,8 @@ function DragBlockGroupAction:_grapBlockGroup(blockGroup)
 end
 
 function DragBlockGroupAction:_releaseBlockGroup()
-  self._activeBlockGroup:setJoints()
   self._activeBlockGroup:setSensor(false)
+  self._activeBlockGroup:setJoints()
   self._activeBlockGroup = nil
 
   game.cameraManager:shake({duration = 0.1, min = 0, max = 3})
