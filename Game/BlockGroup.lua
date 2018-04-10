@@ -11,33 +11,17 @@ function BlockGroup:initialize(t)
           Block:new(),
           Block:new()
         },
-        -- Relative positions in block units from rotation center 0,0 + 'rotationCenter'
-        -- https://tetris.wiki/SRS
-        -- default is 'T' tetromino
-        rotationCenter = Vec(0,0),
-        relativePositions = {
-          Vec(0,0),
-          Vec(-1,0),
-          Vec(1,0),
-          Vec(0,1)
-        }
       }
     }
   )
-
-  self.originalRelativePositions = {}
+  --correct relativePositions with respect to rotation center
   for k,v in ipairs(self.relativePositions) do
-    table.insert(self.originalRelativePositions, v:clone())
-  end
-
-  -- correct relativePositions with respect to rotation center
-  for k,v in ipairs(self.relativePositions) do
-    self.relativePositions[k] = v - self.rotationCenter
+    self.relativePositions[k] = v + self.rotationCenter
   end
 
   -- set block positions
   for k,v in ipairs(self.blocks) do
-    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k] + self.rotationCenter)
+    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k])
     v:setPosition(relPos)
   end
 
@@ -52,15 +36,15 @@ function BlockGroup:initialize(t)
 end
 
 function BlockGroup:setJoints()
-  --for i = 1, #self.blocks do
-  --  for j = i + 1, #self.blocks do
-  --    Util.weldBlocks(self.blocks[i],self.blocks[j],true)
-  --  end
-  --end
-
-  for i = 2, #self.blocks do
-    Util.weldBlocks(self.blocks[i-1],self.blocks[i],true)
+  for i = 1, #self.blocks do
+    for j = i + 1, #self.blocks do
+      Util.weldBlocks(self.blocks[i],self.blocks[j],true)
+    end
   end
+
+  --for i = 2, #self.blocks do
+  --  Util.weldBlocks(self.blocks[i-1],self.blocks[i],true)
+  --end
 
 
   -- outer joints
@@ -106,7 +90,7 @@ function BlockGroup:setSensor(isSensor)
 end
 
 function BlockGroup:update(dt)
-  --self:updateBlocks(dt)
+  self:updateBlocks(dt)
 end
 
 function BlockGroup:rotateRight()
@@ -123,11 +107,14 @@ function BlockGroup:rotate(rad)
   end
 end
 
-function BlockGroup:setPosition(pos)
-  local rt = self.rotationCenter:clone()
-  rt:rotateInplace(self:getAngle())
+function BlockGroup:setPosition(pos, rotation)
+
+  if rotation ~= nil then
+    self:rotate(rotation)
+  end
+
   for k,v in ipairs(self.blocks) do
-    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k])
+    local relPos = Global.BLOCK_SIZE * self.relativePositions[k]:rotated(self:getAngle())
     v:setPosition(pos + relPos)
   end
 end
@@ -144,11 +131,6 @@ function BlockGroup:setBlockPositions()
 end
 
 function BlockGroup:updateBlocks(dt)
-  local rot = self:getAngle()
-  for k,v in ipairs(self.relativePositions) do
-    self.relativePositions[k] = self.originalRelativePositions[k]:rotated(rot)
-  end
-
   for k,v in ipairs(self.blocks) do
     v:update(dt)
   end

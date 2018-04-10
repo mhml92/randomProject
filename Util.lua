@@ -100,8 +100,8 @@ local function radToVec(rad)
   return Vec(math.cos(rad),math.sin(rad))
 end
 
-local function weldBlocks(b1, b2, selfCollide) <<-- here i think?
-  local anchor_point = ((b2:getPositionVec() - b1:getPositionVec())/2) + b1:getPositionVec()
+local function weldBlocks(b1, b2, selfCollide) 
+  local anchor_point = ( (b2:getPositionVec() - b1:getPositionVec() )/2) + b1:getPositionVec()
   physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, selfCollide)
 end
 
