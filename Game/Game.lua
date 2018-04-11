@@ -8,6 +8,7 @@ blockGroupFactory = require "Game/blockGroupFactory"
 Inputmanager      = require "Game/InputManager"
 ActionManager     = require "Game/ActionManager"
 CameraManager     = require "Game/CameraManager"
+ResourceManager   = require "Game/ResourceManager"
 
 Game = Class("Game", Entity)
 
@@ -20,6 +21,7 @@ function Game:initialize(t)
         timer = Timer:new(),
         cameraManager = CameraManager:new(),
         actionManager = ActionManager:new(),
+        resourceManager = ResourceManager:new()
       }
     }
   )
@@ -29,86 +31,7 @@ function Game:initialize(t)
 end
 
 function Game:load()
-  self.blocks = {
-    -- T
-    blockGroupFactory.getT()
-    --[[,
-    -- Z
-    BlockGroup:new({
-      pos = Vec(
-        7 * Global.BLOCK_SIZE,
-        3 * Global.BLOCK_SIZE),
-      relativePositions = {
-        Vec(-1,-1),
-        Vec(0,-1),
-        Vec(0,0),
-        Vec(1,0)
-      }
-    }),
-      -- I
-      BlockGroup:new({
-      pos = Vec(
-        11 * Global.BLOCK_SIZE,
-        3 * Global.BLOCK_SIZE),
-        rotationCenter = Vec(-0.5,-0.5),
-        relativePositions = {
-          Vec(0,-2),
-          Vec(0,-1),
-          Vec(0,0),
-          Vec(0,1)
-        }
-      }),
-    -- S
-    BlockGroup:new({
-      pos = Vec(
-        3 * Global.BLOCK_SIZE,
-        7 * Global.BLOCK_SIZE),
-      rotationCenter = Vec(-0.5,-0.5),
-      relativePositions = {
-        Vec(1,-1),
-        Vec(0,-1),
-        Vec(0,0),
-        Vec(-1,0)
-      }
-    }),
-    -- L
-    BlockGroup:new({
-      pos = Vec(
-        7 * Global.BLOCK_SIZE,
-        7 * Global.BLOCK_SIZE),
-      relativePositions = {
-        Vec(0,-1),
-        Vec(0,0),
-        Vec(0,1),
-        Vec(1,1)
-      }
-    }),
-    -- J
-    BlockGroup:new({
-      pos = Vec(
-        11 * Global.BLOCK_SIZE,
-        7 * Global.BLOCK_SIZE),
-      relativePositions = {
-        Vec(0,-1),
-        Vec(0,0),
-        Vec(0,1),
-        Vec(-1,1)
-      }
-    }),
-    -- I
-    BlockGroup:new({
-      pos = Vec(
-        14 * Global.BLOCK_SIZE,
-        7 * Global.BLOCK_SIZE),
-      rotationCenter = Vec(-0.5,-0.5),
-      relativePositions = {
-        Vec(0,-1),
-        Vec(0, 0),
-        Vec(-1,-1),
-        Vec(-1,0)
-      }
-    })]]
-  }
+  self.blocks = { blockGroupFactory.getT() }
 end
 
 function Game:update(dt)
@@ -137,7 +60,7 @@ function Game:draw()
     v:draw()
   end
   self.actionManager:draw()
-  physicsWorld:draw()
+  --physicsWorld:draw()
   Util.debugDraw(debugDraw)
   self.cameraManager:detach()
 end

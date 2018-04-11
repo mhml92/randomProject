@@ -7,9 +7,10 @@ Util      = require "Util"
 
 function love.load()
   math.randomseed(os.time())
+  love.graphics.setDefaultFilter( "nearest", "nearest" )
   inputManager = InputManager:new()
   physicsWorld = Windfield.newWorld(0,0,true)
-  physicsWorld:setQueryDebugDrawing(true)
+  --physicsWorld:setQueryDebugDrawing(true)
 
   physicsWorld:addCollisionClass(Global.COLLISION_CLASS_BLOCK)
 

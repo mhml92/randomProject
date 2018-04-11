@@ -34,6 +34,15 @@ function DebugActions:update(dt)
     end
   end
 
+  if inputManager:keyReleased(Global.ZOOM_IN) then
+    print("hallo")
+    game.cameraManager:zoomTo(2)
+  end
+
+  if inputManager:keyReleased(Global.ZOOM_OUT) then
+    game.cameraManager:zoomTo(1)
+  end
+
 end
 
 function DebugActions:draw()

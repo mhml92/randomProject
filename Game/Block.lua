@@ -8,12 +8,12 @@ function Block:initialize(t)
         parent = nil,
         width = Global.BLOCK_SIZE,
         height = Global.BLOCK_SIZE,
-        color = Util.randomColor(64),
+        color = Util.randomColor(),
       }
     })
 
   self:_initCollider()
-  self.image = love.graphics.newImage("assets/block.png")
+  self.image = game.resourceManager:getImg("Game/assets/block.png")
 
 end
 
@@ -76,10 +76,10 @@ function Block:draw()
   pos.x,pos.y = self.collider:getPosition()
 
   love.graphics.setColor(self.color)
-  love.graphics.circle("fill", pos.x, pos.y, Global.BLOCK_SIZE/3, 16)
-  love.graphics.setColor(255,255,255)
-  love.graphics.circle("fill", pos.x, pos.y, 2, 4)
-  love.graphics.draw( self.image, pos.x-Global.BLOCK_SIZE/2, pos.y-Global.BLOCK_SIZE/2, self:getAngle())
+  love.graphics.draw( self.image, pos.x, pos.y, self:getAngle(),1,1,Global.BLOCK_SIZE/2,Global.BLOCK_SIZE/2)
+  --love.graphics.circle("fill", pos.x, pos.y, Global.BLOCK_SIZE/3, 16)
+  --love.graphics.setColor(255,255,255)
+  --love.graphics.circle("fill", pos.x, pos.y, 2, 4)
 end
 
 return Block

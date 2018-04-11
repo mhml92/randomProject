@@ -32,7 +32,7 @@ local function toGridCoords(pos,origoBlockGroup)
   local horizontal = Vec(1000,0)
   horizontal:rotateInplace(rotation)
 
-  if Global.DEBUG_DRAW then
+  if Global.DEBUG_MODE then
     table.insert(debugDraw,{type = "line", a = origo:clone(), b = origo + horizontal:clone(),color = {0,255,0}})
   end
 
@@ -49,7 +49,7 @@ local function toGridCoords(pos,origoBlockGroup)
   xVec = xVec:normalized() * (Global.BLOCK_SIZE * xLen)
   yVec = yVec:normalized() * (Global.BLOCK_SIZE * yLen)
 
-  if Global.DEBUG_DRAW then
+  if Global.DEBUG_MODE then
     table.insert(debugDraw,{type = "line", a = origo:clone(), b = origo + xVec:clone(),color = {0,0,255}})
     table.insert(debugDraw,{type = "line", a = origo + xVec, b = origo + xVec + yVec, color = {255,0,255}})
   end

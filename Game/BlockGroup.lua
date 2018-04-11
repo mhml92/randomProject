@@ -4,7 +4,7 @@ function BlockGroup:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
-        color = Util.randomColor(64),
+        color = Util.randomColor(),
         position = Vec(0,0),
         blocks = {
           Block:new(),
@@ -25,7 +25,6 @@ function BlockGroup:initialize(t)
 end
 
 function BlockGroup:setJoints()
-  --[[
   local pairs = {}
   for i = 1, #self.blocks do
     for j = i + 1, #self.blocks do
@@ -39,11 +38,12 @@ function BlockGroup:setJoints()
       end
     end
   end
-  ]]
 
+  --[[
   for i = 2, #self.blocks do
     Util.weldBlocks(self.blocks[i-1],self.blocks[i],true)
   end
+  ]]
 
 
   -- outer joints
