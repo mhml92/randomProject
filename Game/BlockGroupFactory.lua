@@ -2,9 +2,10 @@
 -- 'Center block' has relative position 0,0
 -- rotation center is 'Center block' + rotationOffset
 -- Block position IS rotation center
-local function getT()
+local function getT(pos)
   return BlockGroup:new({
     rotationCenter = Vec(0,0),
+    position = pos,
     relativePositions = {
       Vec(0,0),
       Vec(1,0),
@@ -14,9 +15,10 @@ local function getT()
   })
 end
 
-local function getZ()
+local function getZ(pos)
   return BlockGroup:new({
     rotationCenter = Vec(0,0),
+    position = pos,
     relativePositions = {
       Vec(0,0),
       Vec(-1,-1),
@@ -26,9 +28,10 @@ local function getZ()
   })
 end
 
-local function getS()
+local function getS(pos)
   return BlockGroup:new({
     rotationCenter = Vec(0,0),
+    position = pos,
     relativePositions = {
       Vec(0,0),
       Vec(1,-1),
@@ -38,9 +41,10 @@ local function getS()
   })
 end
 
-local function getL()
+local function getL(pos)
   return BlockGroup:new({
     rotationCenter = Vec(0,0),
+    position = pos,
     relativePositions = {
       Vec(0,0),
       Vec(0,-1),
@@ -50,9 +54,10 @@ local function getL()
   })
 end
 
-local function getJ()
+local function getJ(pos)
   return BlockGroup:new({
     rotationCenter = Vec(0,0),
+    position = pos,
     relativePositions = {
       Vec(0,0),
       Vec(0,-1),
@@ -62,9 +67,10 @@ local function getJ()
   })
 end
 
-local function getO()
+local function getO(pos)
   return BlockGroup:new({
     rotationCenter = Vec(-0.5,-0.5),
+    position = pos,
     relativePositions = {
       Vec(0,0),
       Vec(0,-1),
@@ -74,9 +80,10 @@ local function getO()
   })
 end
 
-local function getI()
+local function getI(pos)
   return BlockGroup:new({
     rotationCenter = Vec(-0.5,-0.5),
+    position = pos,
     relativePositions = {
       Vec(0,0),
       Vec(0,1),
@@ -86,23 +93,22 @@ local function getI()
   })
 end
 
-local function getRandom()
+local function getRandom(pos)
   local p = math.random(1, 7)
-  print(p)
   if p == 1 then
-    return getT()
+    return getT(pos)
   elseif p == 2 then
-    return getZ()
+    return getZ(pos)
   elseif p == 3 then
-    return getL()
+    return getL(pos)
   elseif p == 4 then
-    return getJ()
+    return getJ(pos)
   elseif p == 5 then
-    return getO()
+    return getO(pos)
   elseif p == 6 then
-    return getS()
+    return getS(pos)
   elseif p == 7 then
-    return getI()
+    return getI(pos)
   end
 end
 

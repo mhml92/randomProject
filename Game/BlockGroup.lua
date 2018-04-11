@@ -5,6 +5,7 @@ function BlockGroup:initialize(t)
       args = t,
       defaults = {
         color = Util.randomColor(64),
+        position = Vec(0,0),
         blocks = {
           Block:new(),
           Block:new(),
@@ -14,31 +15,32 @@ function BlockGroup:initialize(t)
       }
     }
   )
-
-  -- set block positions
-  for k,v in ipairs(self.blocks) do
-    local relPos = Global.BLOCK_SIZE * (self.relativePositions[k])
-    v:setPosition(relPos)
-  end
-
+  self:setPosition(self.position)
 
   for k,v in ipairs(self.blocks) do
     v:setParent(self)
     v:setColor(self.color)
   end
-
   self:setJoints()
-
 end
 
 function BlockGroup:setJoints()
   --[[
+  local pairs = {}
   for i = 1, #self.blocks do
     for j = i + 1, #self.blocks do
-      Util.weldBlocks(self.blocks[i],self.blocks[j],true)
+      local b1,b2 = self.blocks[i],self.blocks[j]
+      if b1:getPositionVec():dist(b2:getPositionVec()) <= Global.BLOCK_SIZE+1 then
+        local pair_id = math.min(b1.id,b2.id) .. math.max(b1.id,b2.id)
+        if not pairs[pair_id] then
+          Util.weldBlocks(self.blocks[i],self.blocks[j],true)
+          pairs[pair_id] = true
+        end
+      end
     end
   end
   ]]
+
   for i = 2, #self.blocks do
     Util.weldBlocks(self.blocks[i-1],self.blocks[i],true)
   end
@@ -51,18 +53,20 @@ end
 function BlockGroup:_setNeighborJoints()
   for k,v in ipairs(self.blocks) do
 
-    -- calculate neighbors from own position
+    -- relativly costly -- optimize with vector-light
+    -- calculate neighborPos from own position
     local x,y = v:getPositionVec():unpack()
-    local neighbors = {
-      Vec(0                       , 0 - Global.BLOCK_SIZE/2 ):rotateInplace(v:getAngle())+Vec(x,y),
-      Vec(0                       , 0 + Global.BLOCK_SIZE/2 ):rotateInplace(v:getAngle())+Vec(x,y),
-      Vec(0 - Global.BLOCK_SIZE/2 , 0                       ):rotateInplace(v:getAngle())+Vec(x,y),
-      Vec(0 + Global.BLOCK_SIZE/2 , 0                       ):rotateInplace(v:getAngle())+Vec(x,y)
+    local neighborPos = {
+      Vec(0, -Global.BLOCK_SIZE/2 ):rotateInplace(v:getAngle())+Vec(x,y),
+      Vec(0,  Global.BLOCK_SIZE/2 ):rotateInplace(v:getAngle())+Vec(x,y),
+      Vec( -Global.BLOCK_SIZE/2, 0):rotateInplace(v:getAngle())+Vec(x,y),
+      Vec(  Global.BLOCK_SIZE/2, 0):rotateInplace(v:getAngle())+Vec(x,y)
     }
 
     local blockGroupId = self.id
-    for _,pos in ipairs(neighbors) do
-      for __,neighbor_block in ipairs(Util.queryBlocksAt(pos.x,pos.y)) do
+    for _,pos in ipairs(neighborPos) do
+      local neighbours = Util.queryBlocksAt(pos.x,pos.y)
+      for __,neighbor_block in ipairs(neighbours) do
         local n = neighbor_block:getObject()
         if (blockGroupId ~= n:getParent().id) then
           Util.weldBlocks(v,n,true)
@@ -105,7 +109,6 @@ function BlockGroup:rotate(rad)
 end
 
 function BlockGroup:setPosition(pos, rotation)
-
   if rotation ~= nil then
     self:rotate(rotation)
   end

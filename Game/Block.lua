@@ -13,6 +13,7 @@ function Block:initialize(t)
     })
 
   self:_initCollider()
+  self.image = love.graphics.newImage("assets/block.png")
 
 end
 
@@ -78,6 +79,7 @@ function Block:draw()
   love.graphics.circle("fill", pos.x, pos.y, Global.BLOCK_SIZE/3, 16)
   love.graphics.setColor(255,255,255)
   love.graphics.circle("fill", pos.x, pos.y, 2, 4)
+  love.graphics.draw( self.image, pos.x-Global.BLOCK_SIZE/2, pos.y-Global.BLOCK_SIZE/2, self:getAngle())
 end
 
 return Block

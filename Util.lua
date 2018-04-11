@@ -65,7 +65,7 @@ local function queryBlocksAt(x,y)
   return physicsWorld:queryCircleArea(
     x,
     y,
-    Global.BLOCK_SIZE/2,
+    Global.BLOCK_SIZE/2.5,
     {Global.COLLISION_CLASS_BLOCK})
 end
 
@@ -86,13 +86,15 @@ end
 -- this is really stupid, but WeldJoint dont work :(
 local function weldBlocks(b1, b2, collideConnected)
   local half = (b2:getPositionVec() - b1:getPositionVec())/2
-  local quarter = (half/2):perpendicular()
+  local quarter = half:normalized():perpendicular()*Global.BLOCK_SIZE/4
   local a1,a2 = b1:getPositionVec()+ quarter + half, b1:getPositionVec() - quarter + half
   physicsWorld:addJoint('RevoluteJoint', b1.collider, b2.collider, a1.x, a1.y, collideConnected)
   physicsWorld:addJoint('RevoluteJoint', b1.collider, b2.collider, a2.x, a2.y, collideConnected)
-  
+  --[[
   -- WHY WILL THIS NOT WORK!!!!
-  --physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, collideConnected)
+  anchor_point should be between b1 and b2
+  physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, collideConnected)
+]]
 end
 
 return {
