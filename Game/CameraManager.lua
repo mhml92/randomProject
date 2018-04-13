@@ -8,6 +8,7 @@ function CameraManager:initialize(t)
     defaults = {
       camera = HumpCamera(0,0),
       pos = Vec(0,0),
+      _zoom = 1,
     }
   })
   self.camera:lookAt(self.pos.x,self.pos.y)
@@ -22,7 +23,15 @@ function CameraManager:worldCoords(v)
 end
 
 function CameraManager:zoomTo(zoom)
-  self.camera:zoomTo(zoom)
+
+  if zoom > 0 then
+    self._zoom = zoom
+    self.camera:zoomTo(self._zoom)
+  end
+end
+
+function CameraManager:zoom(zoom)
+  self:zoomTo(self._zoom + zoom)
 end
 
 function CameraManager:move(v)

@@ -10,7 +10,7 @@ function love.load()
   love.graphics.setDefaultFilter( "nearest", "nearest" )
   inputManager = InputManager:new()
   physicsWorld = Windfield.newWorld(0,0,true)
-  --physicsWorld:setQueryDebugDrawing(true)
+  physicsWorld:setQueryDebugDrawing(Global.DEBUG_MODE)
 
   physicsWorld:addCollisionClass(Global.COLLISION_CLASS_BLOCK)
 

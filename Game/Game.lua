@@ -60,7 +60,7 @@ function Game:draw()
     v:draw()
   end
   self.actionManager:draw()
-  --physicsWorld:draw()
+  if Global.DEBUG_MODE then physicsWorld:draw() end
   Util.debugDraw(debugDraw)
   self.cameraManager:detach()
 end

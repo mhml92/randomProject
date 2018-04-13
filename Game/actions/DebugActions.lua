@@ -35,12 +35,11 @@ function DebugActions:update(dt)
   end
 
   if inputManager:keyReleased(Global.ZOOM_IN) then
-    print("hallo")
-    game.cameraManager:zoomTo(2)
+    game.cameraManager:zoom(1)
   end
 
   if inputManager:keyReleased(Global.ZOOM_OUT) then
-    game.cameraManager:zoomTo(1)
+    game.cameraManager:zoom(-1)
   end
 
 end
