@@ -23,7 +23,7 @@ function DebugActions:update(dt)
   self:updateMouse()
 
   if inputManager:keyReleased("n") then
-    local blockGroup = blockGroupFactory.getRandom(self.mouseWorldPos)
+    local blockGroup = blockGroupFactory.getRandomBlockGroup(self.mouseWorldPos)
     table.insert(game.blocks,blockGroup)
   end
 

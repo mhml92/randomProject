@@ -65,7 +65,7 @@ local function queryBlocksAt(x,y)
   return physicsWorld:queryCircleArea(
     x,
     y,
-    Global.BLOCK_SIZE/2.5,
+    Global.BLOCK_SIZE/2,
     {Global.COLLISION_CLASS_BLOCK})
 end
 

@@ -12,9 +12,9 @@ function Block:initialize(t)
       }
     })
 
-  self:_initCollider()
-  self.image = game.resourceManager:getImg("Game/assets/block.png")
+  self.image = game.resourceManager:getImg("Game/assets/niels.png")
 
+  self:_initCollider()
 end
 
 function Block:_initCollider()
@@ -61,25 +61,16 @@ end
 function Block:update(dt)
 end
 
-function Block:getPositionVec()
-  local x,y = self.collider:getPosition()
-  return Vec(x,y)
-end
-
 function Block:isPlaceable()
   local x,y = self.collider:getPosition()
   return #Util.queryBlocksAt(x,y) == 0
 end
 
 function Block:draw()
-  local pos = {}
-  pos.x,pos.y = self.collider:getPosition()
+  pos = self:getPositionVec()
 
   love.graphics.setColor(self.color)
   love.graphics.draw( self.image, pos.x, pos.y, self:getAngle(),1,1,Global.BLOCK_SIZE/2,Global.BLOCK_SIZE/2)
-  --love.graphics.circle("fill", pos.x, pos.y, Global.BLOCK_SIZE/3, 16)
-  --love.graphics.setColor(255,255,255)
-  --love.graphics.circle("fill", pos.x, pos.y, 2, 4)
 end
 
 return Block

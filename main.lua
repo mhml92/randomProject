@@ -6,6 +6,7 @@ Game      = require "Game/game"
 Util      = require "Util"
 
 function love.load()
+  love.graphics.setBackgroundColor(Global.BACKGROUD_COLOR)
   math.randomseed(os.time())
   love.graphics.setDefaultFilter( "nearest", "nearest" )
   inputManager = InputManager:new()

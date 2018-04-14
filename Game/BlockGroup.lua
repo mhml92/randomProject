@@ -39,14 +39,6 @@ function BlockGroup:setJoints()
     end
   end
 
-  --[[
-  for i = 2, #self.blocks do
-    Util.weldBlocks(self.blocks[i-1],self.blocks[i],true)
-  end
-  ]]
-
-
-  -- outer joints
   self:_setNeighborJoints()
 end
 
@@ -146,14 +138,16 @@ function BlockGroup:isPlaceable()
 end
 
 function BlockGroup:draw()
-  -- draw 'CenterBlock'
-  love.graphics.setColor(0,255,0)
-  local cx,cy = self.blocks[1].collider:getPosition()
-  love.graphics.circle("line", cx, cy, Global.BLOCK_SIZE/4, 15)
-
   for k,v in ipairs(self.blocks) do
     v:draw()
   end
+  if Global.DEBUG_MODE then
+    -- draw 'CenterBlock'
+    love.graphics.setColor(0,255,0)
+    local cx,cy = self.blocks[1].collider:getPosition()
+    love.graphics.circle("line", cx, cy, Global.BLOCK_SIZE/4, 15)
+  end
+
 end
 
 return BlockGroup

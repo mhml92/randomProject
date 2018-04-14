@@ -93,27 +93,29 @@ local function getI(pos)
   })
 end
 
-local function getRandom(pos)
+local function getRandomBlockGroup(pos)
   local p = math.random(1, 7)
+  local blockGroup = nil
   if p == 1 then
-    return getT(pos)
+    blockGroup = getT(pos)
   elseif p == 2 then
-    return getZ(pos)
+    blockGroup = getZ(pos)
   elseif p == 3 then
-    return getL(pos)
+    blockGroup = getL(pos)
   elseif p == 4 then
-    return getJ(pos)
+    blockGroup = getJ(pos)
   elseif p == 5 then
-    return getO(pos)
+    blockGroup = getO(pos)
   elseif p == 6 then
-    return getS(pos)
+    blockGroup = getS(pos)
   elseif p == 7 then
-    return getI(pos)
+    blockGroup = getI(pos)
   end
+  return blockGroup
 end
 
 return {
-  getRandom = getRandom,
+  getRandomBlockGroup = getRandomBlockGroup,
   getT = getT,
   getZ = getZ,
   getL = getL,
