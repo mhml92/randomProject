@@ -96,6 +96,7 @@ end
 local function getRandomBlockGroup(pos)
   local p = math.random(1, 7)
   local blockGroup = nil
+
   if p == 1 then
     blockGroup = getT(pos)
   elseif p == 2 then
@@ -111,6 +112,15 @@ local function getRandomBlockGroup(pos)
   elseif p == 7 then
     blockGroup = getI(pos)
   end
+
+
+  blockGroup:setBlockTypes({
+    BlockType:new(),
+    BlockType:new(),
+    BlockType:new(),
+    BlockType:new()
+  })
+
   return blockGroup
 end
 

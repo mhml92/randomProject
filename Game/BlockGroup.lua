@@ -12,6 +12,7 @@ function BlockGroup:initialize(t)
           Block:new(),
           Block:new()
         },
+        blockType = nil
       }
     }
   )
@@ -40,6 +41,13 @@ function BlockGroup:setJoints()
   end
 
   self:_setNeighborJoints()
+end
+
+-- list of blockTypes to apply to BlockGroup blocks
+function BlockGroup:setBlockTypes(blockTypes)
+  for k,v in ipairs(blockTypes) do
+    self.blocks[k]:setBlockType(v)
+  end
 end
 
 function BlockGroup:_setNeighborJoints()

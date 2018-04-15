@@ -3,6 +3,7 @@ Timer             = require "hump/timer"
 
 Global            = require "Game/Global"
 Block             = require "Game/Block"
+BlockType         = require "Game/BlockType"
 BlockGroup        = require "Game/BlockGroup"
 blockGroupFactory = require "Game/blockGroupFactory"
 Inputmanager      = require "Game/InputManager"
@@ -31,7 +32,7 @@ function Game:initialize(t)
 end
 
 function Game:load()
-  self.blocks = { blockGroupFactory.getT() }
+  self.blocks = { blockGroupFactory.getRandomBlockGroup() }
 end
 
 function Game:update(dt)

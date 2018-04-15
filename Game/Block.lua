@@ -1,3 +1,4 @@
+
 local Block = Class("Block", Entity)
 
 function Block:initialize(t)
@@ -6,13 +7,13 @@ function Block:initialize(t)
       defaults = {
         pos = Vec(0,0),
         parent = nil,
+        blockType = nil,
         width = Global.BLOCK_SIZE,
         height = Global.BLOCK_SIZE,
         color = Util.randomColor(),
       }
     })
 
-  self.image = game.resourceManager:getImg("Game/assets/niels.png")
 
   self:_initCollider()
 end
@@ -31,6 +32,11 @@ end
 
 function Block:setParent(p)
   self.parent = p
+end
+
+function Block:setBlockType(blockType)
+  blockType:setParent(self)
+  self.blockType = blockType
 end
 
 function Block:getParent()
@@ -59,6 +65,7 @@ function Block:setAngle(rad)
 end
 
 function Block:update(dt)
+  self.blockType:update(dt)
 end
 
 function Block:isPlaceable()
@@ -67,10 +74,7 @@ function Block:isPlaceable()
 end
 
 function Block:draw()
-  pos = self:getPositionVec()
-
-  love.graphics.setColor(self.color)
-  love.graphics.draw( self.image, pos.x, pos.y, self:getAngle(),1,1,Global.BLOCK_SIZE/2,Global.BLOCK_SIZE/2)
+  self.blockType:draw()
 end
 
 return Block

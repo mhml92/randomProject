@@ -42,6 +42,11 @@ function DebugActions:update(dt)
     game.cameraManager:zoom(-1)
   end
 
+  if inputManager:keyReleased(Global.TOGGLE_DEBUG_MODE) then
+    Global.DEBUG_MODE = not Global.DEBUG_MODE
+    physicsWorld:setQueryDebugDrawing(Global.DEBUG_MODE)
+  end
+
 end
 
 function DebugActions:draw()
