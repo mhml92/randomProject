@@ -14,7 +14,6 @@ return {
   ZOOM_IN = "2",
   ZOOM_OUT = "1",
   TOGGLE_DEBUG_MODE = "d",
-  ACCELERATE = "space",
 
   -- COLLISION CLASSES
   COLLISION_CLASS_BLOCK = "BLOCK"

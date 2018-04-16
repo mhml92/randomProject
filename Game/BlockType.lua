@@ -5,6 +5,7 @@ function BlockType:initialize(t)
       args = t,
       defaults = {
         parent = nil,
+        activationKey = "space",
       }
     })
 
@@ -16,9 +17,9 @@ function BlockType:setParent(p)
 end
 
 function BlockType:update(dt)
-  if inputManager:keyDown(Global.ACCELERATE) then
+  if self.activationKey and inputManager:keyDown(self.activationKey) then
     local rot = self.parent:getAngle()
-    self.parent.collider:applyForce(10*math.cos(rot),10*math.sin(rot))
+    self.parent.collider:applyForce(100*math.cos(rot),100*math.sin(rot))
   end
 end
 
@@ -32,7 +33,16 @@ function BlockType:draw()
 
   if Global.DEBUG_MODE then
     love.graphics.setColor(255,255,255)
-    love.graphics.line(pos.x, pos.y, pos.x+(math.cos(rot)*Global.BLOCK_SIZE/2), pos.y+(math.sin(rot)*Global.BLOCK_SIZE/2))
+    local tmp = Vec(math.cos(rot)*Global.BLOCK_SIZE/2, math.sin(rot)*Global.BLOCK_SIZE/2)
+    local tip = (pos + tmp)-(tmp/2)
+    local r_corner = (pos + tmp:rotated(math.pi/2)/2)-(tmp/2)
+    local l_corner = (pos + tmp:rotated(-math.pi/2)/2)-(tmp/2)
+    local vertices = {
+      r_corner.x,r_corner.y,
+      l_corner.x,l_corner.y,
+      tip.x,tip.y
+    }
+    love.graphics.polygon("fill",vertices)
   end
 end
 

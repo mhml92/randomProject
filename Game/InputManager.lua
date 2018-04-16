@@ -47,6 +47,10 @@ end
 function InputManager:mouseReleased(button)
   return self._mouseReleased[button]
 end
+
+function InputManager:pressedKeys()
+  return self._keyPressed
+end
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
 function InputManager:keypressed( key, scancode, isrepeat )
