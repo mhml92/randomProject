@@ -6,12 +6,18 @@ function BlockGroup:initialize(t)
       defaults = {
         color = Util.randomColor(),
         position = Vec(0,0),
-        blocks = {
-          Block:new(),
-          Block:new(),
-          Block:new(),
-          Block:new()
+        relativePositions = {
+          Vec(0,0),
+          Vec(1,0),
+          Vec(0,1),
+          Vec(-1,0),
         },
+      blocks = {
+        Block:new(),
+        Block:new(),
+        Block:new(),
+        Block:new()
+      },
         blockType = nil
       }
     }
@@ -22,10 +28,22 @@ function BlockGroup:initialize(t)
     v:setParent(self)
     v:setColor(self.color)
   end
-  self:setJoints()
+  self:_setInnerJoints()
 end
 
 function BlockGroup:setJoints()
+  self:_setInnerJoints()
+  self:_setNeighborJoints()
+end
+
+-- list of blockTypes to apply to BlockGroup blocks
+function BlockGroup:setBlockTypes(blockTypes)
+  for k,v in ipairs(blockTypes) do
+    self.blocks[k]:setBlockType(v)
+  end
+end
+
+function BlockGroup:_setInnerJoints()
   local pairs = {}
   for i = 1, #self.blocks do
     for j = i + 1, #self.blocks do
@@ -38,15 +56,6 @@ function BlockGroup:setJoints()
         end
       end
     end
-  end
-
-  self:_setNeighborJoints()
-end
-
--- list of blockTypes to apply to BlockGroup blocks
-function BlockGroup:setBlockTypes(blockTypes)
-  for k,v in ipairs(blockTypes) do
-    self.blocks[k]:setBlockType(v)
   end
 end
 
@@ -103,20 +112,36 @@ function BlockGroup:rotateLeft()
 end
 
 function BlockGroup:rotate(rad)
-  for k,v in ipairs(self.blocks) do
-    v:setAngle(self:getAngle() + rad )
-  end
+  self:setPosition(self:getPositionVec(),rad)
+  --for k,v in ipairs(self.blocks) do
+  --  v:setAngle(self:getAngle() + rad )
+  --end
 end
 
 function BlockGroup:setPosition(pos, rotation)
+  local sensorState = self:isSensor()
+  self:setSensor(true)
+  self:releaseJoints()
+
   if rotation ~= nil then
-    self:rotate(rotation)
+    --self:rotate(rotation)
+    local rad = self:getAngle() + rotation
+    for k,v in ipairs(self.blocks) do
+      v:setAngle( rad )
+    end
   end
 
   for k,v in ipairs(self.blocks) do
     local relPos = Global.BLOCK_SIZE * self.relativePositions[k]:rotated(self:getAngle())
     v:setPosition(pos + relPos)
   end
+  
+  self:setSensor(sensorState)
+  self:_setInnerJoints()
+end
+
+function BlockGroup:isSensor()
+  return self.blocks[1].collider:isSensor()
 end
 
 function BlockGroup:getAngle()

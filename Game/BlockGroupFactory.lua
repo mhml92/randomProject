@@ -113,12 +113,13 @@ local function getRandomBlockGroup(pos)
     blockGroup = getI(pos)
   end
 
+  blockGroup:rotate(math.random(1, 4) * math.pi/2)
 
   blockGroup:setBlockTypes({
-    BlockType:new(),
-    BlockType:new(),
-    BlockType:new(),
-    BlockType:new()
+    PropulsionBlock:new(),
+    PropulsionBlock:new(),
+    PropulsionBlock:new(),
+    PropulsionBlock:new()
   })
 
   return blockGroup

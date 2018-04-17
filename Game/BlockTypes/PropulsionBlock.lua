@@ -1,29 +1,24 @@
-local BlockType = Class("BlockType", Entity)
+local PropulsionBlock = Class("PropulsionBlock", BlockType)
 
-function BlockType:initialize(t)
-  Entity.initialize(self,{
+function PropulsionBlock:initialize(t)
+  BlockType.initialize(self,{
       args = t,
       defaults = {
-        parent = nil,
-        activationKey = "space",
       }
     })
 
-  self.image = game.resourceManager:getImg("Game/assets/niels.png")
+    self.activationKey = "space"
+    self.image = game.resourceManager:getImg("Game/assets/niels.png")
 end
 
-function BlockType:setParent(p)
-  self.parent = p
-end
-
-function BlockType:update(dt)
+function PropulsionBlock:update(dt)
   if self.activationKey and inputManager:keyDown(self.activationKey) then
     local rot = self.parent:getAngle()
     self.parent.collider:applyForce(100*math.cos(rot),100*math.sin(rot))
   end
 end
 
-function BlockType:draw()
+function PropulsionBlock:draw()
   local pos = self.parent:getPositionVec()
   local rot = self.parent:getAngle()
 
@@ -46,4 +41,4 @@ function BlockType:draw()
   end
 end
 
-return BlockType
+return PropulsionBlock

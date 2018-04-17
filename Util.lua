@@ -91,10 +91,10 @@ local function weldBlocks(b1, b2, collideConnected)
   physicsWorld:addJoint('RevoluteJoint', b1.collider, b2.collider, a1.x, a1.y, collideConnected)
   physicsWorld:addJoint('RevoluteJoint', b1.collider, b2.collider, a2.x, a2.y, collideConnected)
   --[[
-  -- WHY WILL THIS NOT WORK!!!!
-  anchor_point should be between b1 and b2
+  -- WHY WILL THIS NOT WORK!!!! I DO NOT UNDERSTAND
+  local anchor_point = ((b2:getPositionVec() - b1:getPositionVec())/2) + b1:getPositionVec()
   physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, collideConnected)
-]]
+  ]]
 end
 
 return {
