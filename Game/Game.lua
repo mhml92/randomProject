@@ -5,6 +5,7 @@ Global            = require "Game/Global"
 Block             = require "Game/Block"
 BlockType         = require "Game/BlockTypes/BlockType"
 PropulsionBlock   = require "Game/BlockTypes/PropulsionBlock"
+ControlBlock      = require "Game/BlockTypes/ControlBlock"
 BlockGroup        = require "Game/BlockGroup"
 blockGroupFactory = require "Game/blockGroupFactory"
 Inputmanager      = require "Game/InputManager"
@@ -33,7 +34,7 @@ function Game:initialize(t)
 end
 
 function Game:load()
-  self.blocks = { blockGroupFactory.getRandomBlockGroup() }
+  self.blocks = { blockGroupFactory.getRandomControlBlockGroup() }
 end
 
 function Game:update(dt)

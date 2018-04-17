@@ -93,7 +93,7 @@ local function getI(pos)
   })
 end
 
-local function getRandomBlockGroup(pos)
+local function randomBlockGroup(pos)
   local p = math.random(1, 7)
   local blockGroup = nil
 
@@ -112,8 +112,24 @@ local function getRandomBlockGroup(pos)
   elseif p == 7 then
     blockGroup = getI(pos)
   end
-
   blockGroup:rotate(math.random(1, 4) * math.pi/2)
+  return blockGroup
+end
+
+local function getRandomControlBlockGroup(pos)
+  local blockGroup = randomBlockGroup(pos)
+
+  blockGroup:setBlockTypes({
+    ControlBlock:new(),
+    ControlBlock:new(),
+    ControlBlock:new(),
+    ControlBlock:new()
+  })
+  return blockGroup
+end
+
+local function getRandomBlockGroup(pos)
+  local blockGroup = randomBlockGroup(pos)
 
   blockGroup:setBlockTypes({
     PropulsionBlock:new(),
@@ -126,6 +142,7 @@ local function getRandomBlockGroup(pos)
 end
 
 return {
+  getRandomControlBlockGroup = getRandomControlBlockGroup,
   getRandomBlockGroup = getRandomBlockGroup,
   getT = getT,
   getZ = getZ,
