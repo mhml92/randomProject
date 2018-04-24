@@ -15,13 +15,12 @@ function ControlBlock:applyAngularForce(force)
 end
 
 function ControlBlock:update(dt)
-  local force = 500
   if inputManager:keyDown("right") then
-    self:applyAngularForce(force)
+    self:applyAngularForce(Global.BLOCKTYPE_CONTROLBLOCK_FORCE)
   end
 
   if inputManager:keyDown("left") then
-    self:applyAngularForce(-force)
+    self:applyAngularForce(-Global.BLOCKTYPE_CONTROLBLOCK_FORCE)
   end
 end
 

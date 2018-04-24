@@ -14,7 +14,7 @@ end
 function PropulsionBlock:update(dt)
   if self.activationKey and inputManager:keyDown(self.activationKey) then
     local rot = self.parent:getAngle()
-    self.parent.collider:applyForce(100*math.cos(rot),100*math.sin(rot))
+    self.parent.collider:applyForce(Global.BLOCKTYPE_PROPULSIONBLOCK_FORCE*math.cos(rot),Global.BLOCKTYPE_PROPULSIONBLOCK_FORCE*math.sin(rot))
   end
 end
 

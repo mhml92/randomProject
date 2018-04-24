@@ -78,7 +78,7 @@ function BlockGroup:_setNeighborJoints()
       for __,neighbor_block in ipairs(neighbours) do
         local n = neighbor_block:getObject()
         if (blockGroupId ~= n:getParent().id) then
-          Util.weldBlocks(v,n,true)
+          Util.weldBlocks(v,n,false)
         end
       end
     end
