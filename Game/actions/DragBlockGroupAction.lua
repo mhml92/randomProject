@@ -45,6 +45,7 @@ end
 function DragBlockGroupAction:_update_activeBlockGroup()
 
   self:_rotateBlockGroup(dt)
+
   local base = Util.radToVec(game.blocks[1]:getAngle())
   local active = Util.radToVec(self._activeBlockGroup:getAngle())
   local deltaRad = base:angleTo(active)

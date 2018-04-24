@@ -8,7 +8,7 @@ function PropulsionBlock:initialize(t)
     })
 
     self.activationKey = "space"
-    self.image = game.resourceManager:getImg("Game/assets/niels.png")
+    self.image = game.resourceManager:getImg("Game/assets/niels_block.png")
 end
 
 function PropulsionBlock:update(dt)

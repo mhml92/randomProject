@@ -7,7 +7,7 @@ function ControlBlock:initialize(t)
       }
     })
 
-    self.image = game.resourceManager:getImg("Game/assets/niels.png")
+    self.image = game.resourceManager:getImg("Game/assets/niels_block.png")
 end
 
 function ControlBlock:applyAngularForce(force)

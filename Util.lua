@@ -85,16 +85,17 @@ end
 
 -- this is really stupid, but WeldJoint dont work :(
 local function weldBlocks(b1, b2, collideConnected)
+  --[[
   local half = (b2:getPositionVec() - b1:getPositionVec())/2
   local quarter = half:normalized():perpendicular()*Global.BLOCK_SIZE/4
   local a1,a2 = b1:getPositionVec()+ quarter + half, b1:getPositionVec() - quarter + half
   physicsWorld:addJoint('RevoluteJoint', b1.collider, b2.collider, a1.x, a1.y, collideConnected)
   physicsWorld:addJoint('RevoluteJoint', b1.collider, b2.collider, a2.x, a2.y, collideConnected)
-  --[[
-  -- WHY WILL THIS NOT WORK!!!! I DO NOT UNDERSTAND
-  local anchor_point = ((b2:getPositionVec() - b1:getPositionVec())/2) + b1:getPositionVec()
-  physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, collideConnected)
   ]]
+  -- WHY WILL THIS NOT WORK!!!! I DO NOT UNDERSTAND
+  -- HA HA!!! there was a bug in love!!! https://bitbucket.org/rude/love/issues/1258/change-default-reference-angle-for-weld
+  local anchor_point = ((b2:getPositionVec() - b1:getPositionVec())/2) + b1:getPositionVec()
+  physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, anchor_point.x, anchor_point.y, collideConnected,b2:getAngle()-b1:getAngle())
 end
 
 return {
