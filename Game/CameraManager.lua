@@ -23,7 +23,6 @@ function CameraManager:worldCoords(v)
 end
 
 function CameraManager:zoomTo(zoom)
-
   if zoom > 0 then
     self._zoom = zoom
     self.camera:zoomTo(self._zoom)
@@ -35,7 +34,7 @@ function CameraManager:zoom(zoom)
 end
 
 function CameraManager:move(v)
-  self.pos = self.pos + v
+  self.pos = self.pos + v/self._zoom
   self.camera:lookAt(self.pos.x,self.pos.y)
 end
 

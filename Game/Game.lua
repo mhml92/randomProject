@@ -1,3 +1,4 @@
+EditGrid          = require 'editgrid/editgrid'
 Vec               = require "hump/vector"
 Timer             = require "hump/timer"
 
@@ -58,6 +59,7 @@ function Game:updateActiveBlocks(dt)
 end
 
 function Game:draw()
+  EditGrid.draw(self.cameraManager.camera)
   self.cameraManager:attach()
   for k,v in ipairs(self.blocks) do
     v:draw()
