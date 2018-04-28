@@ -24,6 +24,10 @@ function InputManager:getMousePosition()
   return Vec(mx,my)
 end
 
+function InputManager:getPressedKeys()
+  return self._keyPressed
+end
+
 function InputManager:keyDown(key)
   return love.keyboard.isDown(key)
 end

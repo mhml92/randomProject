@@ -25,12 +25,20 @@ end
 function CameraManager:zoomTo(zoom)
   if zoom > 0 then
     self._zoom = zoom
+    print(self._zoom)
     self.camera:zoomTo(self._zoom)
   end
 end
 
 function CameraManager:zoom(zoom)
   self:zoomTo(self._zoom + zoom)
+end
+
+function CameraManager:zoomOut()
+  self:zoomTo(self._zoom/2)
+end
+function CameraManager:zoomIn()
+  self:zoomTo(self._zoom*2)
 end
 
 function CameraManager:move(v)

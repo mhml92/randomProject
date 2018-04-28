@@ -10,6 +10,7 @@ ControlBlock      = require "Game/BlockTypes/ControlBlock"
 BlockGroup        = require "Game/BlockGroup"
 blockGroupFactory = require "Game/blockGroupFactory"
 Inputmanager      = require "Game/InputManager"
+ControlManager    = require "Game/ControlManager"
 ActionManager     = require "Game/ActionManager"
 CameraManager     = require "Game/CameraManager"
 ResourceManager   = require "Game/ResourceManager"
@@ -25,7 +26,8 @@ function Game:initialize(t)
         timer = Timer:new(),
         cameraManager = CameraManager:new(),
         actionManager = ActionManager:new(),
-        resourceManager = ResourceManager:new()
+        resourceManager = ResourceManager:new(),
+        controlManager = ControlManager:new(),
       }
     }
   )
@@ -47,6 +49,7 @@ function Game:update(dt)
 
   self.cameraManager:update(dt)
   self.actionManager:update(dt)
+  self.controlManager:update(dt)
   self:updateActiveBlocks(dt)
 end
 

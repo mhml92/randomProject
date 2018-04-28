@@ -25,9 +25,7 @@ local function toGridCoords(pos,origoBlockGroup)
     rotation = origoBlockGroup:getAngle()
   end
 
-
   local directLine = pos - origo
-
 
   local horizontal = Vec(1000,0)
   horizontal:rotateInplace(rotation)
@@ -95,7 +93,17 @@ local function weldBlocks(b1, b2, collideConnected)
   -- WHY WILL THIS NOT WORK!!!! I DO NOT UNDERSTAND
   -- HA HA!!! there was a bug in love!!! https://bitbucket.org/rude/love/issues/1258/change-default-reference-angle-for-weld
   local anchor_point = ((b2:getPositionVec() - b1:getPositionVec())/2) + b1:getPositionVec()
-  physicsWorld:addJoint('WeldJoint', b1.collider, b2.collider, anchor_point.x, anchor_point.y, anchor_point.x, anchor_point.y, collideConnected,b2:getAngle()-b1:getAngle())
+  physicsWorld:addJoint(
+    'WeldJoint',
+    b1.collider,
+    b2.collider,
+    anchor_point.x,
+    anchor_point.y,
+    anchor_point.x,
+    anchor_point.y,
+    collideConnected,
+    b2:getAngle()-b1:getAngle()
+  )
 end
 
 return {

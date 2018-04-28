@@ -28,6 +28,7 @@ function Block:_initCollider()
   self.collider:setCollisionClass(Global.COLLISION_CLASS_BLOCK)
   self.collider:setObject(self)
   self.collider:setSensor(false)
+  self.collider:setLinearDamping(Global.BLOCK_LINEARDAMPING)
 end
 
 function Block:setParent(p)

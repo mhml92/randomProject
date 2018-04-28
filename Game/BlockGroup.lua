@@ -51,7 +51,7 @@ function BlockGroup:_setInnerJoints()
       if b1:getPositionVec():dist(b2:getPositionVec()) <= Global.BLOCK_SIZE+1 then
         local pair_id = math.min(b1.id,b2.id) .. math.max(b1.id,b2.id)
         if not pairs[pair_id] then
-          Util.weldBlocks(self.blocks[i],self.blocks[j],false)
+          Util.weldBlocks(self.blocks[i],self.blocks[j],true)
           pairs[pair_id] = true
         end
       end
@@ -78,7 +78,7 @@ function BlockGroup:_setNeighborJoints()
       for __,neighbor_block in ipairs(neighbours) do
         local n = neighbor_block:getObject()
         if (blockGroupId ~= n:getParent().id) then
-          Util.weldBlocks(v,n,false)
+          Util.weldBlocks(v,n,true)
         end
       end
     end
@@ -121,7 +121,7 @@ end
 function BlockGroup:setPosition(pos, rotation)
   local sensorState = self:isSensor()
   self:setSensor(true)
-  self:releaseJoints()
+  --self:releaseJoints()
 
   if rotation ~= nil then
     --self:rotate(rotation)
@@ -138,7 +138,7 @@ function BlockGroup:setPosition(pos, rotation)
   end
 
   self:setSensor(sensorState)
-  self:_setInnerJoints()
+  --self:_setInnerJoints()
 end
 
 function BlockGroup:isSensor()

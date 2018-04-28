@@ -27,19 +27,16 @@ function DebugActions:update(dt)
     table.insert(game.blocks,blockGroup)
   end
 
-  if inputManager:mouseReleased(2) then
-    local colliders = physicsWorld:queryCircleArea(self.mouseWorldPos.x, self.mouseWorldPos.y, 100)
-    for _, collider in ipairs(colliders) do
-      collider:applyAngularImpulse(100)
-    end
-  end
-
   if inputManager:keyReleased(Global.ZOOM_IN) then
-    game.cameraManager:zoom(1)
+    game.cameraManager:zoomIn()
   end
 
   if inputManager:keyReleased(Global.ZOOM_OUT) then
-    game.cameraManager:zoom(-1)
+    game.cameraManager:zoomOut()
+  end
+
+  if inputManager:keyReleased(Global.ZOOM_RESET) then
+    game.cameraManager:zoomTo(1)
   end
 
   if inputManager:keyReleased(Global.TOGGLE_DEBUG_MODE) then
