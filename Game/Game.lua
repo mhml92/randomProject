@@ -9,8 +9,6 @@ PropulsionBlock   = require "Game/BlockTypes/PropulsionBlock"
 ControlBlock      = require "Game/BlockTypes/ControlBlock"
 BlockGroup        = require "Game/BlockGroup"
 blockGroupFactory = require "Game/blockGroupFactory"
-Inputmanager      = require "Game/InputManager"
-ControlManager    = require "Game/ControlManager"
 ActionManager     = require "Game/ActionManager"
 CameraManager     = require "Game/CameraManager"
 ResourceManager   = require "Game/ResourceManager"
@@ -27,7 +25,6 @@ function Game:initialize(t)
         cameraManager = CameraManager:new(),
         actionManager = ActionManager:new(),
         resourceManager = ResourceManager:new(),
-        controlManager = ControlManager:new(),
       }
     }
   )
@@ -41,17 +38,18 @@ function Game:load()
 end
 
 function Game:update(dt)
+
   debugDraw = {}
   self.timer:update(dt)
-  if inputManager:keyPressed("escape") then
+  if inputManager:pressed("end_game") then
     love.event.quit()
   end
 
   self.cameraManager:update(dt)
   self.actionManager:update(dt)
-  self.controlManager:update(dt)
   self:updateActiveBlocks(dt)
 end
+
 
 function Game:updateActiveBlocks(dt)
   for k,v in ipairs(self.blocks) do
@@ -71,21 +69,6 @@ function Game:draw()
   if Global.DEBUG_MODE then physicsWorld:draw() end
   Util.debugDraw(debugDraw)
   self.cameraManager:detach()
-end
-
-function Game:keypressed( key, scancode, isrepeat )
-  inputManager:keypressed(key,scancode,isrepeat)
-end
-
-function Game:keyreleased(key,scancode)
-  inputManager:keyreleased(key,scancode)
-end
-
-function Game:mousepressed(x, y, button, isTouch)
-  inputManager:mousepressed(x,y,button,isTouch)
-end
-function Game:mousereleased(x, y, button, isTouch)
-  inputManager:mousereleased(x,y,button,isTouch)
 end
 
 return Game

@@ -1,79 +1,52 @@
+local baton = require("baton/baton")
+
 InputManager = Class("InputManager",Entity)
 
 function InputManager:initialize(t)
   Entity.initialize(self,{
       args = t,
       defaults = {
-        _keyPressed = {},
-        _keyReleased = {},
-        _mousePressed = {},
-        _mouseReleased = {}
+        _baton = baton.new({
+          controls = Global.CONTROLS
+        }),
+        _mouseDelta = Vec(0,0),
+        _mousePos = Vec(0,0),
       }
     })
 end
 
-function InputManager:reset()
-  self._keyPressed = {}
-  self._keyReleased = {}
-  self._mousePressed = {}
-  self._mouseReleased = {}
-end
-
 function InputManager:getMousePosition()
+  return self._mousePos:clone()
+end
+
+function InputManager:getDeltaMouse()
+  return self._mouseDelta:clone()
+end
+
+function InputManager:_updateMouse()
   local mx,my = love.mouse.getPosition()
-  return Vec(mx,my)
+
+  local newPos = Vec(mx,my)
+  self._mouseDelta = newPos - self._mousePos
+  self._mousePos = newPos
 end
 
-function InputManager:getPressedKeys()
-  return self._keyPressed
+function InputManager:update(dt)
+  self._baton:update()
+  self:_updateMouse()
 end
 
-function InputManager:keyDown(key)
-  return love.keyboard.isDown(key)
+function InputManager:down(key)
+  return self._baton:down(key)
 end
 
-function InputManager:keyPressed(key)
-  return self._keyPressed[key]
+function InputManager:pressed(key)
+  return self._baton:pressed(key)
 end
 
-function InputManager:keyReleased(key)
-  return self._keyReleased[key]
+function InputManager:released(key)
+  return self._baton:released(key)
 end
 
-function InputManager:mouseDown(button)
-  return love.mouse.isDown(button)
-end
-
-function InputManager:mousePressed(button)
-  return self._mousePressed[button]
-end
-
-function InputManager:mouseReleased(button)
-  return self._mouseReleased[button]
-end
-
-function InputManager:pressedKeys()
-  return self._keyPressed
-end
------------------------------------------------------------------------
------------------------------------------------------------------------
-function InputManager:keypressed( key, scancode, isrepeat )
-  print("keypressed",key,scancode,isrepeat)
-  self._keyPressed[scancode] = true
-end
-
-function InputManager:keyreleased(key,scancode)
-  print("keyreleased",key,scancode)
-  self._keyReleased[scancode] = true
-end
-
-function InputManager:mousepressed(x, y, button, isTouch)
-  print("mousepressed",x,y,button,isTouch)
-  self._mousePressed[button] = true
-end
-function InputManager:mousereleased(x, y, button, isTouch)
-  print("mousereleased",x,y,button,isTouch)
-  self._mouseReleased[button] = true
-end
 
 return InputManager

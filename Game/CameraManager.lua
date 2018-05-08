@@ -35,10 +35,10 @@ function CameraManager:zoom(zoom)
 end
 
 function CameraManager:zoomOut()
-  self:zoomTo(self._zoom/2)
+  self:zoomTo(self._zoom/Global.CAMERA_ZOOM_FACTOR)
 end
 function CameraManager:zoomIn()
-  self:zoomTo(self._zoom*2)
+  self:zoomTo(self._zoom*Global.CAMERA_ZOOM_FACTOR)
 end
 
 function CameraManager:move(v)

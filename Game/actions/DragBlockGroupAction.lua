@@ -19,10 +19,10 @@ function DragBlockGroupAction:update(dt)
   if self:_isHoldingBlockGroup() then
     self:_update_activeBlockGroup(dt)
   else
-    if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) then
+    if inputManager:released("blockGroup_drag") then
       self:_grapBlockGroup(self:_getBlockGroupUnderCursor())
       if self._activeBlockGroup then
-        self._offset = self._activeBlockGroup:getPositionVec() - self._mousePos --+ (self._mousePos - Util.toGridCoords(self._mousePos))
+        self._offset = self._activeBlockGroup:getPositionVec() - self._mousePos
       end
     end
   end
@@ -57,7 +57,7 @@ function DragBlockGroupAction:_update_activeBlockGroup()
   self._activeBlockGroup:setPosition(blockGroupPos,rotation)
 
   local isPlaceable = self._activeBlockGroup:isPlaceable()
-  if inputManager:mouseReleased(Global.DRAG_BLOCKGROUP) and isPlaceable then
+  if inputManager:released("blockGroup_drag") and isPlaceable then
     self:_releaseBlockGroup()
   end
 
@@ -65,11 +65,11 @@ end
 
 
 function DragBlockGroupAction:_rotateBlockGroup(dt)
-  if inputManager:keyReleased(Global.ROTATE_BLOCKGROUP_RIGHT) then
+  if inputManager:released("blockGroup_rotate_right") then
       self._activeBlockGroup:rotateRight()
   end
 
-  if inputManager:keyReleased(Global.ROTATE_BLOCKGROUP_LEFT) then
+  if inputManager:released("blockGroup_rotate_left") then
       self._activeBlockGroup:rotateLeft()
   end
 end

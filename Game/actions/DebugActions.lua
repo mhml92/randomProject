@@ -22,24 +22,24 @@ end
 function DebugActions:update(dt)
   self:updateMouse()
 
-  if inputManager:keyReleased("n") then
+  if inputManager:released("new_block") then
     local blockGroup = blockGroupFactory.getRandomBlockGroup(self.mouseWorldPos)
     table.insert(game.blocks,blockGroup)
   end
 
-  if inputManager:keyReleased(Global.ZOOM_IN) then
+  if inputManager:released("zoom_in") then
     game.cameraManager:zoomIn()
   end
 
-  if inputManager:keyReleased(Global.ZOOM_OUT) then
+  if inputManager:released("zoom_out") then
     game.cameraManager:zoomOut()
   end
 
-  if inputManager:keyReleased(Global.ZOOM_RESET) then
+  if inputManager:released("zoom_reset") then
     game.cameraManager:zoomTo(1)
   end
 
-  if inputManager:keyReleased(Global.TOGGLE_DEBUG_MODE) then
+  if inputManager:released("debug_toggle") then
     Global.DEBUG_MODE = not Global.DEBUG_MODE
     physicsWorld:setQueryDebugDrawing(Global.DEBUG_MODE)
   end

@@ -12,7 +12,7 @@ function PropulsionBlock:initialize(t)
 end
 
 function PropulsionBlock:update(dt)
-  if self.activationKey and inputManager:keyDown(self.activationKey) then
+  if self.activationKey and inputManager:down("debug_activation_key") then
     self:activate()
   end
 end

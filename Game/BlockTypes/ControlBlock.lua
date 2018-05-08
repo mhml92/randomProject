@@ -10,15 +10,7 @@ function ControlBlock:initialize(t)
 end
 
 function ControlBlock:update(dt)
-  --[[
-  if inputManager:keyDown("right") then
-    self:turnRight()
-  end
-
-  if inputManager:keyDown("left") then
-    self:turnLeft()
-  end
-  ]]
+  
 end
 
 function ControlBlock:draw()
@@ -28,6 +20,7 @@ function ControlBlock:draw()
   love.graphics.setColor(self.parent.color)
   love.graphics.draw( self.image, pos.x, pos.y, rot, 1, 1, Global.BLOCK_SIZE/2, Global.BLOCK_SIZE/2 )
 end
+
 
 function ControlBlock:turnRight()
   self:applyAngularForce(Global.BLOCKTYPE_CONTROLBLOCK_FORCE)

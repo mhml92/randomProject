@@ -19,7 +19,7 @@ end
 
 function DragCameraAction:update(dt)
   self:updateMouse()
-  if inputManager:mouseDown(Global.DRAG_CAMERA) then
+  if inputManager:down("camera_drag") then
     game.cameraManager:move(-self.mouseDelta)
   end
 end

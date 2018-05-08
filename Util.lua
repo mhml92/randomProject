@@ -106,7 +106,17 @@ local function weldBlocks(b1, b2, collideConnected)
   )
 end
 
+local function shuffle(tbl)
+  size = #tbl
+  for i = size, 1, -1 do
+    local rand = math.random(size)
+    tbl[i], tbl[rand] = tbl[rand], tbl[i]
+  end
+  return tbl
+end
+
 return {
+  shuffle = shuffle,
   weldBlocks = weldBlocks,
   radToVec = radToVec,
   getId = getId,
