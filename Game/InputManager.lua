@@ -48,5 +48,4 @@ function InputManager:released(key)
   return self._baton:released(key)
 end
 
-
 return InputManager

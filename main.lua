@@ -4,7 +4,7 @@ Entity        = require "Entity"
 I             = require "inspect/inspect"
 Game          = require "Game/game"
 Util          = require "Util"
-Inputmanager      = require "Game/InputManager"
+Inputmanager  = require "Game/InputManager"
 
 
 function love.load()
