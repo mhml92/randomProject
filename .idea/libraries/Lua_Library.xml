@@ -1,9 +1,8 @@
 <component name="libraryTable">
-  <library name="Lua Library" type="Lua">
+  <library name="Lua Library">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../love-IDEA-plugin-master/love_0102" />
+      <root url="file://$USER_HOME$/love-IDEA-plugin-master/love_0102" />
     </CLASSES>
-    <JAVADOC />
     <SOURCES />
   </library>
 </component>

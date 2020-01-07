@@ -43,7 +43,7 @@ end
 
 
 function DragBlockGroupAction:_update_activeBlockGroup()
-
+  inputManager:addControl("test", {"sc:k"})
   self:_rotateBlockGroup(dt)
 
   local base = Util.radToVec(game.blocks[1]:getAngle())

@@ -48,4 +48,8 @@ function InputManager:released(key)
   return self._baton:released(key)
 end
 
+function InputManager:addControl(name, sources)
+  self._baton:addControl(name, sources)
+end
+
 return InputManager

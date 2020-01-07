@@ -7,12 +7,11 @@ function PropulsionBlock:initialize(t)
       }
     })
 
-    self.activationKey = "space"
     self.image = game.resourceManager:getImg("Game/assets/niels_block.png")
 end
 
 function PropulsionBlock:update(dt)
-  if self.activationKey and inputManager:down("debug_activation_key") then
+  if inputManager:down("debug_activation_key") or inputManager:down("test") then
     self:activate()
   end
 end

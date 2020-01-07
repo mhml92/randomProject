@@ -5,9 +5,17 @@
       <configuration SdkName="Kahlua" />
     </facet>
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/baton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Editgrid" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/windfield" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Game" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/HC" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inspect" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/hump" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/middleclass" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Lua Library" level="project" />
